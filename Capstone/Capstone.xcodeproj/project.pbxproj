@@ -7,99 +7,125 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		833442FA2194C4A100B643B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833442F92194C4A100B643B7 /* AppDelegate.swift */; };
-		833442FF2194C4A100B643B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833442FD2194C4A100B643B7 /* Main.storyboard */; };
-		833443012194C4A300B643B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833443002194C4A300B643B7 /* Assets.xcassets */; };
-		833443042194C4A300B643B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833443022194C4A300B643B7 /* LaunchScreen.storyboard */; };
-		8334430D2194CFC200B643B7 /* MailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8334430C2194CFC200B643B7 /* MailTableViewController.swift */; };
-		8334430F2195547000B643B7 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8334430E2195547000B643B7 /* MainTableViewController.swift */; };
-		835652A0219575430075E5D5 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8356529F219575430075E5D5 /* BaseTableViewController.swift */; };
-		835652A2219575730075E5D5 /* ResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835652A1219575730075E5D5 /* ResultsTableController.swift */; };
-		835652A4219575850075E5D5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835652A3219575850075E5D5 /* DetailViewController.swift */; };
-		835652A6219575970075E5D5 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835652A5219575970075E5D5 /* Product.swift */; };
-		835652A82195765B0075E5D5 /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 835652A72195765B0075E5D5 /* TableCell.xib */; };
+		402F838A10C2FDCF61057D93 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562D8AADDCA4C4D98F1D70F4 /* Pods_Capstone.framework */; };
+		83222DAD21A621A1005159B6 /* MailResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83222DAC21A621A1005159B6 /* MailResultTableViewController.swift */; };
+		83233D9321A3BE26008443C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233D9221A3BE26008443C2 /* AppDelegate.swift */; };
+		83233D9821A3BE26008443C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83233D9621A3BE26008443C2 /* Main.storyboard */; };
+		83233D9B21A3BE26008443C2 /* Capstone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 83233D9921A3BE26008443C2 /* Capstone.xcdatamodeld */; };
+		83233D9D21A3BE29008443C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83233D9C21A3BE29008443C2 /* Assets.xcassets */; };
+		83233DA021A3BE29008443C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83233D9E21A3BE29008443C2 /* LaunchScreen.storyboard */; };
+		83233DA921A3C064008443C2 /* MailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233DA821A3C064008443C2 /* MailTableViewController.swift */; };
+		83233DAB21A3D1C4008443C2 /* MailContentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233DAA21A3D1C4008443C2 /* MailContentTableViewController.swift */; };
+		83233DAD21A3D52A008443C2 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233DAC21A3D52A008443C2 /* Shared.swift */; };
+		83233DAF21A3DA61008443C2 /* Mails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233DAE21A3DA61008443C2 /* Mails.swift */; };
+		83E2142121A416F7005F8281 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E2142021A416F7005F8281 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		833442F62194C4A100B643B7 /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		833442F92194C4A100B643B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		833442FE2194C4A100B643B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		833443002194C4A300B643B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		833443032194C4A300B643B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		833443052194C4A300B643B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8334430C2194CFC200B643B7 /* MailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailTableViewController.swift; sourceTree = "<group>"; };
-		8334430E2195547000B643B7 /* MainTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
-		8356529F219575430075E5D5 /* BaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
-		835652A1219575730075E5D5 /* ResultsTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableController.swift; sourceTree = "<group>"; };
-		835652A3219575850075E5D5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		835652A5219575970075E5D5 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		835652A72195765B0075E5D5 /* TableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableCell.xib; sourceTree = "<group>"; };
+		1ADBCE389C5954CAC546B08D /* Pods-Capstone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Capstone/Pods-Capstone.debug.xcconfig"; sourceTree = "<group>"; };
+		3787C994E2F7A005094BD6C3 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Pods/Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
+		562D8AADDCA4C4D98F1D70F4 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		83222DAC21A621A1005159B6 /* MailResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailResultTableViewController.swift; sourceTree = "<group>"; };
+		83233D8F21A3BE26008443C2 /* Capstone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Capstone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		83233D9221A3BE26008443C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		83233D9721A3BE26008443C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		83233D9A21A3BE26008443C2 /* Capstone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Capstone.xcdatamodel; sourceTree = "<group>"; };
+		83233D9C21A3BE29008443C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		83233D9F21A3BE29008443C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		83233DA121A3BE29008443C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83233DA821A3C064008443C2 /* MailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailTableViewController.swift; path = Capstone/MailTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		83233DAA21A3D1C4008443C2 /* MailContentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailContentTableViewController.swift; path = Capstone/MailContentTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		83233DAC21A3D52A008443C2 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		83233DAE21A3DA61008443C2 /* Mails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mails.swift; sourceTree = "<group>"; };
+		83E2142021A416F7005F8281 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		833442F32194C4A100B643B7 /* Frameworks */ = {
+		83233D8C21A3BE26008443C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				402F838A10C2FDCF61057D93 /* Pods_Capstone.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		833442ED2194C4A100B643B7 = {
+		4DA4B81D5B796A46B5F147E4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				833442F82194C4A100B643B7 /* Capstone */,
-				833442F72194C4A100B643B7 /* Products */,
+				1ADBCE389C5954CAC546B08D /* Pods-Capstone.debug.xcconfig */,
+				3787C994E2F7A005094BD6C3 /* Pods-Capstone.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		60D5648AB045B5B6F386A922 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				562D8AADDCA4C4D98F1D70F4 /* Pods_Capstone.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		83233D8621A3BE26008443C2 = {
+			isa = PBXGroup;
+			children = (
+				83E2142021A416F7005F8281 /* Default-568h@2x.png */,
+				83233D9121A3BE26008443C2 /* Capstone */,
+				83233D9021A3BE26008443C2 /* Products */,
+				4DA4B81D5B796A46B5F147E4 /* Pods */,
+				60D5648AB045B5B6F386A922 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		833442F72194C4A100B643B7 /* Products */ = {
+		83233D9021A3BE26008443C2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				833442F62194C4A100B643B7 /* Capstone.app */,
+				83233D8F21A3BE26008443C2 /* Capstone.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		833442F82194C4A100B643B7 /* Capstone */ = {
+		83233D9121A3BE26008443C2 /* Capstone */ = {
 			isa = PBXGroup;
 			children = (
-				8334430C2194CFC200B643B7 /* MailTableViewController.swift */,
-				8334430E2195547000B643B7 /* MainTableViewController.swift */,
-				8356529F219575430075E5D5 /* BaseTableViewController.swift */,
-				835652A1219575730075E5D5 /* ResultsTableController.swift */,
-				835652A3219575850075E5D5 /* DetailViewController.swift */,
-				835652A5219575970075E5D5 /* Product.swift */,
-				8334430B2194C52200B643B7 /* Supporting Files */,
-				833443052194C4A300B643B7 /* Info.plist */,
+				83233D9221A3BE26008443C2 /* AppDelegate.swift */,
+				83233DA821A3C064008443C2 /* MailTableViewController.swift */,
+				83233DAA21A3D1C4008443C2 /* MailContentTableViewController.swift */,
+				83222DAC21A621A1005159B6 /* MailResultTableViewController.swift */,
+				83233DAC21A3D52A008443C2 /* Shared.swift */,
+				83233DAE21A3DA61008443C2 /* Mails.swift */,
+				83233DA121A3BE29008443C2 /* Info.plist */,
+				83233DA721A3BE74008443C2 /* Supporting Files  */,
 			);
 			path = Capstone;
 			sourceTree = "<group>";
 		};
-		8334430B2194C52200B643B7 /* Supporting Files */ = {
+		83233DA721A3BE74008443C2 /* Supporting Files  */ = {
 			isa = PBXGroup;
 			children = (
-				833442FD2194C4A100B643B7 /* Main.storyboard */,
-				833443022194C4A300B643B7 /* LaunchScreen.storyboard */,
-				835652A72195765B0075E5D5 /* TableCell.xib */,
-				833442F92194C4A100B643B7 /* AppDelegate.swift */,
-				833443002194C4A300B643B7 /* Assets.xcassets */,
+				83233D9621A3BE26008443C2 /* Main.storyboard */,
+				83233D9E21A3BE29008443C2 /* LaunchScreen.storyboard */,
+				83233D9C21A3BE29008443C2 /* Assets.xcassets */,
+				83233D9921A3BE26008443C2 /* Capstone.xcdatamodeld */,
 			);
-			path = "Supporting Files";
+			path = "Supporting Files ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		833442F52194C4A100B643B7 /* Capstone */ = {
+		83233D8E21A3BE26008443C2 /* Capstone */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 833443082194C4A300B643B7 /* Build configuration list for PBXNativeTarget "Capstone" */;
+			buildConfigurationList = 83233DA421A3BE29008443C2 /* Build configuration list for PBXNativeTarget "Capstone" */;
 			buildPhases = (
-				833442F22194C4A100B643B7 /* Sources */,
-				833442F32194C4A100B643B7 /* Frameworks */,
-				833442F42194C4A100B643B7 /* Resources */,
+				03A5EF4D73B954CACF7DFA55 /* [CP] Check Pods Manifest.lock */,
+				83233D8B21A3BE26008443C2 /* Sources */,
+				83233D8C21A3BE26008443C2 /* Frameworks */,
+				83233D8D21A3BE26008443C2 /* Resources */,
+				63D64198E7CA50631452146B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -107,25 +133,25 @@
 			);
 			name = Capstone;
 			productName = Capstone;
-			productReference = 833442F62194C4A100B643B7 /* Capstone.app */;
+			productReference = 83233D8F21A3BE26008443C2 /* Capstone.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		833442EE2194C4A100B643B7 /* Project object */ = {
+		83233D8721A3BE26008443C2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Christian John";
 				TargetAttributes = {
-					833442F52194C4A100B643B7 = {
+					83233D8E21A3BE26008443C2 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
-			buildConfigurationList = 833442F12194C4A100B643B7 /* Build configuration list for PBXProject "Capstone" */;
+			buildConfigurationList = 83233D8A21A3BE26008443C2 /* Build configuration list for PBXProject "Capstone" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -133,60 +159,107 @@
 				en,
 				Base,
 			);
-			mainGroup = 833442ED2194C4A100B643B7;
-			productRefGroup = 833442F72194C4A100B643B7 /* Products */;
+			mainGroup = 83233D8621A3BE26008443C2;
+			productRefGroup = 83233D9021A3BE26008443C2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				833442F52194C4A100B643B7 /* Capstone */,
+				83233D8E21A3BE26008443C2 /* Capstone */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		833442F42194C4A100B643B7 /* Resources */ = {
+		83233D8D21A3BE26008443C2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				833443042194C4A300B643B7 /* LaunchScreen.storyboard in Resources */,
-				833443012194C4A300B643B7 /* Assets.xcassets in Resources */,
-				835652A82195765B0075E5D5 /* TableCell.xib in Resources */,
-				833442FF2194C4A100B643B7 /* Main.storyboard in Resources */,
+				83233DA021A3BE29008443C2 /* LaunchScreen.storyboard in Resources */,
+				83E2142121A416F7005F8281 /* Default-568h@2x.png in Resources */,
+				83233D9D21A3BE29008443C2 /* Assets.xcassets in Resources */,
+				83233D9821A3BE26008443C2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		03A5EF4D73B954CACF7DFA55 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Capstone-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63D64198E7CA50631452146B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Capstone/Pods-Capstone-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Capstone/Pods-Capstone-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		833442F22194C4A100B643B7 /* Sources */ = {
+		83233D8B21A3BE26008443C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8334430D2194CFC200B643B7 /* MailTableViewController.swift in Sources */,
-				835652A2219575730075E5D5 /* ResultsTableController.swift in Sources */,
-				8334430F2195547000B643B7 /* MainTableViewController.swift in Sources */,
-				835652A4219575850075E5D5 /* DetailViewController.swift in Sources */,
-				835652A0219575430075E5D5 /* BaseTableViewController.swift in Sources */,
-				833442FA2194C4A100B643B7 /* AppDelegate.swift in Sources */,
-				835652A6219575970075E5D5 /* Product.swift in Sources */,
+				83233DAD21A3D52A008443C2 /* Shared.swift in Sources */,
+				83233D9B21A3BE26008443C2 /* Capstone.xcdatamodeld in Sources */,
+				83233DA921A3C064008443C2 /* MailTableViewController.swift in Sources */,
+				83233DAF21A3DA61008443C2 /* Mails.swift in Sources */,
+				83222DAD21A621A1005159B6 /* MailResultTableViewController.swift in Sources */,
+				83233DAB21A3D1C4008443C2 /* MailContentTableViewController.swift in Sources */,
+				83233D9321A3BE26008443C2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		833442FD2194C4A100B643B7 /* Main.storyboard */ = {
+		83233D9621A3BE26008443C2 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				833442FE2194C4A100B643B7 /* Base */,
+				83233D9721A3BE26008443C2 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		833443022194C4A300B643B7 /* LaunchScreen.storyboard */ = {
+		83233D9E21A3BE29008443C2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				833443032194C4A300B643B7 /* Base */,
+				83233D9F21A3BE29008443C2 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -194,7 +267,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		833443062194C4A300B643B7 /* Debug */ = {
+		83233DA221A3BE29008443C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -255,7 +328,7 @@
 			};
 			name = Debug;
 		};
-		833443072194C4A300B643B7 /* Release */ = {
+		83233DA321A3BE29008443C2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -310,8 +383,9 @@
 			};
 			name = Release;
 		};
-		833443092194C4A300B643B7 /* Debug */ = {
+		83233DA521A3BE29008443C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1ADBCE389C5954CAC546B08D /* Pods-Capstone.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -328,8 +402,9 @@
 			};
 			name = Debug;
 		};
-		8334430A2194C4A300B643B7 /* Release */ = {
+		83233DA621A3BE29008443C2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3787C994E2F7A005094BD6C3 /* Pods-Capstone.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -349,25 +424,38 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		833442F12194C4A100B643B7 /* Build configuration list for PBXProject "Capstone" */ = {
+		83233D8A21A3BE26008443C2 /* Build configuration list for PBXProject "Capstone" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				833443062194C4A300B643B7 /* Debug */,
-				833443072194C4A300B643B7 /* Release */,
+				83233DA221A3BE29008443C2 /* Debug */,
+				83233DA321A3BE29008443C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		833443082194C4A300B643B7 /* Build configuration list for PBXNativeTarget "Capstone" */ = {
+		83233DA421A3BE29008443C2 /* Build configuration list for PBXNativeTarget "Capstone" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				833443092194C4A300B643B7 /* Debug */,
-				8334430A2194C4A300B643B7 /* Release */,
+				83233DA521A3BE29008443C2 /* Debug */,
+				83233DA621A3BE29008443C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		83233D9921A3BE26008443C2 /* Capstone.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				83233D9A21A3BE26008443C2 /* Capstone.xcdatamodel */,
+			);
+			currentVersion = 83233D9A21A3BE26008443C2 /* Capstone.xcdatamodel */;
+			path = Capstone.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
-	rootObject = 833442EE2194C4A100B643B7 /* Project object */;
+	rootObject = 83233D8721A3BE26008443C2 /* Project object */;
 }
