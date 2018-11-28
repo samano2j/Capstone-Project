@@ -7,12 +7,45 @@
 //
 import Foundation
 
-class Email {
-    let from: String
-    let subject: String
-    let body: String
-    let date: Date
+class Email: NSObject, NSCoding {
+    private enum CoderKeys: String {
+        case fromKey
+        case subjectKey
+        case bodyKey
+        case dateKey
+    }
+    
+    // MARK: - Properties
+    
+    /** These properties need @objc to make them key value compliant when filtering using NSPredicate,
+     and so they are accessible and usable in Objective-C to interact with other frameworks.
+     */
+    @objc let from: String
+    @objc let subject: String
+    @objc let body: String
+    @objc let date: Date
     var unread = false
+    
+    // MARK: - NSCoding
+    /// This is called for UIStateRestoration
+    required init?(coder aDecoder: NSCoder) {
+        guard let decodedFrom = aDecoder.decodeObject(forKey: CoderKeys.fromKey.rawValue) as? String else {
+            fatalError("No 'from' exist for mail. In your app, handle this gracefully.")
+        }
+        guard let decordedSubject = aDecoder.decodeObject(forKey: CoderKeys.subjectKey.rawValue) as? String  else {
+            fatalError("No 'subject' exist for mail. In your app, handle this gracefully.")
+        }
+        guard let decordedBody = aDecoder.decodeObject(forKey: CoderKeys.bodyKey.rawValue) as? String  else {
+            fatalError("No 'body' exist for mail. In your app, handle this gracefully.")
+        }
+        guard let decordedDate = aDecoder.decodeObject(forKey: CoderKeys.dateKey.rawValue) as? Date  else {
+            fatalError("No 'date' exist for mail. In your app, handle this gracefully.")
+        }
+        from = decodedFrom
+        subject = decordedSubject
+        body = decordedBody
+        date = decordedDate
+    }
     
     init(from: String, subject: String, body: String, date: Date) {
         self.from = from
@@ -32,6 +65,13 @@ class Email {
             formatter.doesRelativeDateFormatting = true
             return formatter.string(from: date)
         }
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(from, forKey: CoderKeys.fromKey.rawValue)
+        aCoder.encode(subject, forKey: CoderKeys.subjectKey.rawValue)
+        aCoder.encode(body, forKey: CoderKeys.bodyKey.rawValue)
+        aCoder.encode(date, forKey: CoderKeys.dateKey.rawValue)
     }
 }
 
@@ -54,7 +94,4 @@ let mockEmails: [Email] = [
     Email(from: "GeekDesk", subject: "We have some exciting things happening at GeekDesk!", body: "Wouldn't everyone be so much happier if we all owned GeekDesks?", date: Calendar.now(addingDays: -8)),
     Email(from: "Haroon", subject: "IMPORTANT Information Session: Saskatchewan Immigrant Nominee Program and Federal Immigration Programs", body: "Dear Students,UR International is hosting an immigration information session about the Federal immigration programs and Saskatchewan Immigrant Nominee Program (SINP). You may qualify for Canadian Immigration.", date: Calendar.now(addingDays: -8)),
     Email(from: "Do not reply this email (via UR Courses)", subject: "This is your Turinitin Digital Receipt", body: "Dear Christian Anwanaodung, \nYou have successfully submitted the file Assignment4.pdf to the assignment Assignment 4 - Due: Monday, November 19 at 11:55 PM in the class CS 350 (Al-Ageili v1): Programming Language Concepts (Moodle PP) on 19-Nov-2018 09:10PM. Your submission id is 1042332663. Your full digital receipt can be viewed and printed from the print/download button in the Document Viewer.", date: Calendar.now(addingDays: -9))
-    
-    
 ]
-

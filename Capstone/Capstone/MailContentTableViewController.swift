@@ -12,6 +12,7 @@ import SwipeCellKit
 class MailContentTableViewController: UITableViewController {
     // MARK: - Variable Declarations
     var emails: [Email] = []
+    var filteredMail: [Email] = []
     
     var defaultSwipeOptions = SwipeOptions()
     var swipeRightEnabled = true
@@ -51,7 +52,7 @@ class MailContentTableViewController: UITableViewController {
     private var searchController: UISearchController!
     
     /// Secondary search results table view.
-    private var resultsTableController: MailResultTableViewController!
+//    private var resultsTableController: MailResultTableViewController!
     
     /// Restoration state for UISearchController
     private var restoredState = SearchControllerRestorableState()
@@ -62,10 +63,10 @@ class MailContentTableViewController: UITableViewController {
         super.viewDidLoad()
 
         ///////////////////////////////////stuffs for search/////////////////////////////////////////////
-        resultsTableController = MailResultTableViewController()
-        resultsTableController.tableView.delegate = self
+//        resultsTableController = MailResultTableViewController()
+//        resultsTableController.tableView.delegate = self
         
-        searchController = UISearchController(searchResultsController: resultsTableController)
+        searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.autocapitalizationType = .none
         
@@ -83,7 +84,8 @@ class MailContentTableViewController: UITableViewController {
         }
         
         searchController.delegate = self
-        searchController.dimsBackgroundDuringPresentation = true // The default is true. [was false]
+        searchController.obscuresBackgroundDuringPresentation = false
+        //searchController.dimsBackgroundDuringPresentation = true // The default is true. [was false]
         searchController.searchBar.delegate = self  // Monitor when the search button is tapped.
         
         /** Search presents a view controller by applying normal view controller presentation semantics.
@@ -123,12 +125,20 @@ class MailContentTableViewController: UITableViewController {
         }
     }
 
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (searchController.isActive && !searchBarIsEmpty()) {
+            return filteredMail.count
+        }
+        
         return emails.count
     }
     
@@ -137,7 +147,15 @@ class MailContentTableViewController: UITableViewController {
         cell.delegate = self
         cell.backgroundView = createSelectedBackgroundView()
         
-        let email = emails[indexPath.row]
+        
+        let email: Email
+        if (searchController.isActive && !searchBarIsEmpty()) {
+            email = filteredMail[indexPath.row]
+        }
+        else {
+            email = emails[indexPath.row]
+        }
+        
         cell.fromLabel.text = email.from
         cell.dateLabel.text = email.relativeDateString
         cell.subjectLabel.text = email.subject
@@ -286,11 +304,8 @@ extension MailContentTableViewController: UISearchResultsUpdating {
         
         let filteredResults = searchResults.filter { finalCompoundPredicate.evaluate(with: $0) }
         
-        // Apply the filtered results to the search results table.
-        if let resultsController = searchController.searchResultsController as? MailResultTableViewController {
-            resultsController.filteredMail = filteredResults
-            resultsController.tableView.reloadData()
-        }
+        filteredMail = filteredResults
+        tableView.reloadData()
     }
     
 }
