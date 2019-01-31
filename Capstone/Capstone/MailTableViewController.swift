@@ -10,6 +10,21 @@ import UIKit
 
 class MailTableViewController: UITableViewController {
     
+    func callback(data: String, error: String?) {
+        
+        if (error == nil) {
+            print(data)
+        }
+        else
+        {
+            print("Error -> \(String(describing: error))")
+        }
+    }
+    var MailBoxes = [String]()
+    var Messages : Message.result? = nil
+    let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
+    var results : Folder.result? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,10 +35,20 @@ class MailTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         tableView.allowsSelection = true
         definesPresentationContext = true
+        
+        if (email.Auth(User: "max", Password: "1234") == true )
+        {
+            results = email.GetFolders()
+            if (results != nil)
+            {
+                for mail in (results?.data)! {
+                    MailBoxes.append(mail.attributes.name)
+                }
+            }
+        }
     }
     
     // MARK: - Table view data source
-    var MailBoxes = ["Inbox", "Draft", "Sent", "Junk", "Trash", "Archive"]
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -38,6 +63,37 @@ class MailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MailBoxesCell", for: indexPath)
         cell.textLabel?.text = MailBoxes[indexPath.row]
+        switch cell.textLabel?.text {
+        case "Inbox":
+            if let image = UIImage.init(named: "Inbox") {
+                cell.imageView?.image = image
+            }
+        case "Drafts":
+            if let image = UIImage.init(named: "Drafts") {
+                cell.imageView?.image = image
+            }
+        case "Sent":
+            if let image = UIImage.init(named: "Sent") {
+                cell.imageView?.image = image
+            }
+        case "Junk":
+            if let image = UIImage.init(named: "Folder") {
+                cell.imageView?.image = image
+            }
+        case "Trash":
+            if let image = UIImage.init(named: "Trash-1") {
+                cell.imageView?.image = image
+            }
+        case "Archive":
+            if let image = UIImage.init(named: "Archive-1") {
+                cell.imageView?.image = image
+            }
+        default:
+            if let image = UIImage.init(named: "Folder") {
+                cell.imageView?.image = image
+            }
+        }
+
         return cell
     }
     
@@ -70,7 +126,15 @@ class MailTableViewController: UITableViewController {
                     let indexPath = tableView.indexPath(for: cell),
                     let seguedToMVC = segue.destination as? MailContentTableViewController {
                     seguedToMVC.titleStringViaSegue = MailBoxes[indexPath.row]
-                    print("\(MailBoxes[indexPath.row])")
+                    if (email.Auth(User: "max", Password: "1234") == true )
+                    {
+                        results = email.GetFolders()
+                        for mail in (results?.data)! {
+                            if MailBoxes[indexPath.row] == mail.attributes.name {
+                                seguedToMVC.folderID = mail.id
+                            }
+                        }
+                    }
                 }
             default: break
             }

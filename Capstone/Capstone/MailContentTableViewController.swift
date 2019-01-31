@@ -20,6 +20,11 @@ class MailContentTableViewController: UITableViewController {
     var buttonStyle: ButtonStyle = .circular
     
     var titleStringViaSegue: String!
+    var folderID: String!
+    
+    var Messages : Message.result? = nil
+    let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
+    var results : Folder.result? = nil
     
     // MARK: - Types
     
@@ -61,7 +66,10 @@ class MailContentTableViewController: UITableViewController {
     // MARK: - viewDIdLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        print(titleStringViaSegue)
+        print(folderID)
+        
         ///////////////////////////////////stuffs for search/////////////////////////////////////////////
 //        resultsTableController = MailResultTableViewController()
 //        resultsTableController.tableView.delegate = self
@@ -183,7 +191,19 @@ class MailContentTableViewController: UITableViewController {
     }
     
     func resetData() {
-        emails = mockEmails
+       emails = mockEmails
+        
+        if ( email.Auth(User: "max", Password: "1234") == true )
+        {
+            Messages = email.GetMessages(folder_id: folderID)
+            if (Messages != nil) {
+                for msg in (Messages?.data)! {
+                        let message = Email(from: msg.attributes.subject, subject: msg.attributes.subject, body: msg.attributes.body, date: Calendar.now(addingDays: 0))
+                        emails.append(message)
+                }
+            }
+        }
+        
         emails.forEach { $0.unread = false }
         tableView.reloadData()
     }

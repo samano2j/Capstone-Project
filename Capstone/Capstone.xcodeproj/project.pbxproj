@@ -18,6 +18,13 @@
 		83233DAB21A3D1C4008443C2 /* MailContentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233DAA21A3D1C4008443C2 /* MailContentTableViewController.swift */; };
 		83233DAD21A3D52A008443C2 /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233DAC21A3D52A008443C2 /* Shared.swift */; };
 		83233DAF21A3DA61008443C2 /* Mails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83233DAE21A3DA61008443C2 /* Mails.swift */; };
+		8348125E21FA63E0009A988A /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348125B21FA63DF009A988A /* Request.swift */; };
+		8348125F21FA63E0009A988A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348125C21FA63DF009A988A /* Message.swift */; };
+		8348126021FA63E0009A988A /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348125D21FA63DF009A988A /* Folder.swift */; };
+		8348126221FA6400009A988A /* eHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348126121FA6400009A988A /* eHealth.swift */; };
+		8348126521FB000A009A988A /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348126321FB0009009A988A /* LoginButton.swift */; };
+		8348126621FB000A009A988A /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348126421FB000A009A988A /* LoginTextField.swift */; };
+		8348127121FB0380009A988A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348127021FB0380009A988A /* LoginViewController.swift */; };
 		83E2142121A416F7005F8281 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E2142021A416F7005F8281 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +44,13 @@
 		83233DAA21A3D1C4008443C2 /* MailContentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailContentTableViewController.swift; path = Capstone/MailContentTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		83233DAC21A3D52A008443C2 /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
 		83233DAE21A3DA61008443C2 /* Mails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mails.swift; sourceTree = "<group>"; };
+		8348125B21FA63DF009A988A /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		8348125C21FA63DF009A988A /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		8348125D21FA63DF009A988A /* Folder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
+		8348126121FA6400009A988A /* eHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eHealth.swift; sourceTree = "<group>"; };
+		8348126321FB0009009A988A /* LoginButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		8348126421FB000A009A988A /* LoginTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
+		8348127021FB0380009A988A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		83E2142021A416F7005F8281 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,10 +107,16 @@
 			children = (
 				83233D9221A3BE26008443C2 /* AppDelegate.swift */,
 				83233DA821A3C064008443C2 /* MailTableViewController.swift */,
+				8348125D21FA63DF009A988A /* Folder.swift */,
+				8348125C21FA63DF009A988A /* Message.swift */,
+				8348125B21FA63DF009A988A /* Request.swift */,
+				8348126121FA6400009A988A /* eHealth.swift */,
 				83233DAA21A3D1C4008443C2 /* MailContentTableViewController.swift */,
 				83222DAC21A621A1005159B6 /* MailResultTableViewController.swift */,
 				83233DAC21A3D52A008443C2 /* Shared.swift */,
 				83233DAE21A3DA61008443C2 /* Mails.swift */,
+				8348127021FB0380009A988A /* LoginViewController.swift */,
+				8348126721FB0019009A988A /* Interface */,
 				83233DA121A3BE29008443C2 /* Info.plist */,
 				83233DA721A3BE74008443C2 /* Supporting Files  */,
 			);
@@ -112,6 +132,15 @@
 				83233D9921A3BE26008443C2 /* Capstone.xcdatamodeld */,
 			);
 			path = "Supporting Files ";
+			sourceTree = "<group>";
+		};
+		8348126721FB0019009A988A /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				8348126321FB0009009A988A /* LoginButton.swift */,
+				8348126421FB000A009A988A /* LoginTextField.swift */,
+			);
+			path = Interface;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,8 +264,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8348127121FB0380009A988A /* LoginViewController.swift in Sources */,
 				83233DAD21A3D52A008443C2 /* Shared.swift in Sources */,
+				8348126521FB000A009A988A /* LoginButton.swift in Sources */,
+				8348126021FA63E0009A988A /* Folder.swift in Sources */,
+				8348126621FB000A009A988A /* LoginTextField.swift in Sources */,
+				8348125E21FA63E0009A988A /* Request.swift in Sources */,
 				83233D9B21A3BE26008443C2 /* Capstone.xcdatamodeld in Sources */,
+				8348126221FA6400009A988A /* eHealth.swift in Sources */,
+				8348125F21FA63E0009A988A /* Message.swift in Sources */,
 				83233DA921A3C064008443C2 /* MailTableViewController.swift in Sources */,
 				83233DAF21A3DA61008443C2 /* Mails.swift in Sources */,
 				83222DAD21A621A1005159B6 /* MailResultTableViewController.swift in Sources */,
