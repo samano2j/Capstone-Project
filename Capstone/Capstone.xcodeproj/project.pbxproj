@@ -26,6 +26,7 @@
 		8348126621FB000A009A988A /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348126421FB000A009A988A /* LoginTextField.swift */; };
 		8348127121FB0380009A988A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348127021FB0380009A988A /* LoginViewController.swift */; };
 		83E2142121A416F7005F8281 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E2142021A416F7005F8281 /* Default-568h@2x.png */; };
+		83F704672203E799006F06F6 /* MailDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F704662203E799006F06F6 /* MailDetailsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		8348126421FB000A009A988A /* LoginTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		8348127021FB0380009A988A /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		83E2142021A416F7005F8281 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		83F704662203E799006F06F6 /* MailDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailDetailsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				83233DAC21A3D52A008443C2 /* Shared.swift */,
 				83233DAE21A3DA61008443C2 /* Mails.swift */,
 				8348127021FB0380009A988A /* LoginViewController.swift */,
+				83F704662203E799006F06F6 /* MailDetailsTableViewController.swift */,
 				8348126721FB0019009A988A /* Interface */,
 				83233DA121A3BE29008443C2 /* Info.plist */,
 				83233DA721A3BE74008443C2 /* Supporting Files  */,
@@ -268,6 +271,7 @@
 				83233DAD21A3D52A008443C2 /* Shared.swift in Sources */,
 				8348126521FB000A009A988A /* LoginButton.swift in Sources */,
 				8348126021FA63E0009A988A /* Folder.swift in Sources */,
+				83F704672203E799006F06F6 /* MailDetailsTableViewController.swift in Sources */,
 				8348126621FB000A009A988A /* LoginTextField.swift in Sources */,
 				8348125E21FA63E0009A988A /* Request.swift in Sources */,
 				83233D9B21A3BE26008443C2 /* Capstone.xcdatamodeld in Sources */,
