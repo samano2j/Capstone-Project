@@ -296,15 +296,15 @@
                         <sections>
                             <tableViewSection id="O4n-CX-boj">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MailDetails" rowHeight="80" id="ttB-da-Kj7" customClass="MailDetailsTableViewCell" customModule="Capstone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MailDetails" rowHeight="67" id="ttB-da-Kj7" customClass="MailDetailsTableViewCell" customModule="Capstone" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="ttB-da-Kj7" id="Q1f-Cy-mVd">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="79.666666666666671"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="66.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="d1T-PR-g34">
-                                                    <rect key="frame" x="20" y="10" width="366" height="55.666666666666657"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="d1T-PR-g34">
+                                                    <rect key="frame" x="20" y="10" width="366" height="48.666666666666657"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="brM-Zc-QEV">
                                                             <rect key="frame" x="0.0" y="0.0" width="366" height="29.333333333333332"/>
@@ -324,7 +324,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="EiI-4M-Tt2">
-                                                            <rect key="frame" x="0.0" y="36.333333333333336" width="97.333333333333329" height="19.333333333333336"/>
+                                                            <rect key="frame" x="0.0" y="29.333333333333336" width="97.333333333333329" height="19.333333333333336"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="To:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3c0-eq-Lh3">
                                                                     <rect key="frame" x="0.0" y="0.0" width="22" height="19.333333333333332"/>
@@ -357,20 +357,23 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MailDetails" rowHeight="80" id="pfh-Ex-9Yi" customClass="MailDetailsTableViewCell" customModule="Capstone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="80" width="414" height="80"/>
+                                        <rect key="frame" x="0.0" y="67" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="pfh-Ex-9Yi" id="M5a-bX-bni">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="79.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="bvD-ov-g9j">
-                                                    <rect key="frame" x="20" y="8" width="366" height="62.333333333333343"/>
+                                                    <rect key="frame" x="20" y="8" width="366" height="40.333333333333336"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="srD-oP-bbe">
-                                                            <rect key="frame" x="0.0" y="0.0" width="366" height="42.333333333333336"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="366" height="20.333333333333332"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="As Featured on CTV Your Morning. Black Friday Deals with 2X Cash Back at 150+ Stores" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14J-Bg-O2G">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="366" height="42.333333333333336"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14J-Bg-O2G">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="366" height="20.333333333333332"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="yPK-hs-1DZ"/>
+                                                                    </constraints>
                                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -378,7 +381,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Yesterday at 10:08 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZS-A8-dEp" userLabel="Date Label">
-                                                            <rect key="frame" x="0.0" y="44.333333333333336" width="154.66666666666666" height="18"/>
+                                                            <rect key="frame" x="0.0" y="22.333333333333332" width="154.66666666666666" height="17.999999999999996"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -386,6 +389,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="srD-oP-bbe" firstAttribute="width" secondItem="bvD-ov-g9j" secondAttribute="width" id="FZr-86-aQo"/>
+                                                        <constraint firstItem="PZS-A8-dEp" firstAttribute="top" secondItem="14J-Bg-O2G" secondAttribute="bottom" constant="2" id="PAm-Gn-prP"/>
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
@@ -398,7 +402,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="redraw" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MailDetails" rowHeight="500" id="8mZ-4S-oXS">
-                                        <rect key="frame" x="0.0" y="160" width="414" height="500"/>
+                                        <rect key="frame" x="0.0" y="147" width="414" height="500"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="8mZ-4S-oXS" id="ril-Nw-EKd">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="499.66666666666669"/>
@@ -420,7 +424,6 @@
                                                 <constraint firstItem="M8U-mM-439" firstAttribute="leading" secondItem="ril-Nw-EKd" secondAttribute="leadingMargin" id="wd1-Z7-6yB"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>

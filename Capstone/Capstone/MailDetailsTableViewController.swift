@@ -10,8 +10,8 @@ import UIKit
 
 class MailDetailsTableViewController: UITableViewController {
     
-    let details = ["chrizj9@gmail.com", "Kayla.Benoit@uregina.ca", "As Featured on CTV Your Morning. Black Friday Deals with 2X Cash Back at 150+ Stores", "\(Calendar.now(addingDays: 0))", "Pairing usually requires an authentication process where a user must validate the connection between devices. The flow of the authentication process varies and usually depends on the interface capabilities of one device or the other. Sometimes pairing is a simple “Just Works” operation, where the click of a button is all it takes to pair (this is common for devices with no UI, like headsets). Other times pairing involves matching 6-digit numeric codes. Older, legacy (v2.0 and earlier), pairing processes involve the entering of a common PIN code on each device. The PIN code can range in length and complexity from four numbers (e.g. “0000” or “1234”) to a 16-character alphanumeric string. Pairing usually requires an authentication process where a user must validate the connection between devices. \nPairing usually requires an authentication process where a user must validate the connection between devices. The flow of the authentication process varies and usually depends on the interface capabilities of one device or the other. Sometimes pairing is a simple “Just Works” operation, where the click of a button is all it takes to pair (this is common for devices with no UI, like headsets). Other times pairing involves matching 6-digit numeric codes. Older, legacy (v2.0 and earlier), pairing processes involve the entering of a common PIN code on each device. The PIN code can range in length and complexity from four numbers (e.g. “0000” or “1234”) to a 16-character alphanumeric string. Pairing usually requires an authentication process where a user must validate the connection between devices. \nPairing usually requires an authentication process where a user must validate the connection between devices. The flow of the authentication process varies and usually depends on the interface capabilities of one device or the other. Sometimes pairing is a simple “Just Works” operation, where the click of a button is all it takes to pair (this is common for devices with no UI, like headsets). Other times pairing involves matching 6-digit numeric codes. Older, legacy (v2.0 and earlier), pairing processes involve the entering of a common PIN code on each device. The PIN code can range in length and complexity from four numbers (e.g. “0000” or “1234”) to a 16-character alphanumeric string. Pairing usually requires an authentication process where a user must validate the connection between devices. \nPairing usually requires an authentication process where a user must validate the connection between devices. The flow of the authentication process varies and usually depends on the interface capabilities of one device or the other. Sometimes pairing is a simple “Just Works” operation, where the click of a button is all it takes to pair (this is common for devices with no UI, like headsets). Other times pairing involves matching 6-digit numeric codes. Older, legacy (v2.0 and earlier), pairing processes involve the entering of a common PIN code on each device. The PIN code can range in length and complexity from four numbers (e.g. “0000” or “1234”) to a 16-character alphanumeric string. Pairing usually requires an authentication process where a user must validate the connection between devices. \nPairing usually requires an authentication process where a user must validate the connection between devices. The flow of the authentication process varies and usually depends on the interface capabilities of one device or the other. Sometimes pairing is a simple “Just Works” operation, where the click of a button is all it takes to pair (this is common for devices with no UI, like headsets). Other times pairing involves matching 6-digit numeric codes. Older, legacy (v2.0 and earlier), pairing processes involve the entering of a common PIN code on each device. The PIN code can range in length and complexity from four numbers (e.g. “0000” or “1234”) to a 16-character alphanumeric string. Pairing usually requires an authentication process where a user must validate the connection between devices. "]
-    
+    //var details = []
+    var details: [String: String] = ["from":"", "to":"", "subject":"", "date":"", "body":""]
     // Outlets
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
@@ -23,6 +23,7 @@ class MailDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,11 +32,11 @@ class MailDetailsTableViewController: UITableViewController {
     }
     
     func configureView() {
-        fromLabel.text = details[0]
-        toLabel.text = details[1]
-        subjectLabel.text = details[2]
-        dateLabel.text = details[3]
-        bodyLabel.text = details[4]
+        fromLabel.text = details["from"]
+        toLabel.text = details["to"]
+        subjectLabel.text = details["subject"]
+        dateLabel.text = details["date"]
+        bodyLabel.text = details["body"]
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -44,15 +45,21 @@ class MailDetailsTableViewController: UITableViewController {
             let maxLabelSize = CGSize(width: bodyLabel.frame.width, height: CGFloat.greatestFiniteMagnitude)
             let actualLabelSize = bodyLabel.text!.boundingRect(with: maxLabelSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: bodyLabel.font], context: nil).height
             let labelHeight = actualLabelSize
-            height = labelHeight + 20
-            if let cell = bodyCell {
-                cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
-            }
+            height = labelHeight + 50
+            bodyCell.separatorInset = UIEdgeInsets(top: 0, left: bodyCell.bounds.size.width, bottom: 0, right: 0)
+        }
+        else if (indexPath.section == 0 && indexPath.row == 1) {
+            let maxLabelSize = CGSize(width: subjectLabel.frame.width, height: CGFloat.greatestFiniteMagnitude)
+            let actualLabelSize = subjectLabel.text!.boundingRect(with: maxLabelSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: subjectLabel.font], context: nil).height
+            let dateActualLabelSize = dateLabel.text!.boundingRect(with: maxLabelSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: dateLabel.font], context: nil).height
+            let labelHeight = actualLabelSize
+            height = labelHeight + dateActualLabelSize + 20
         }
         else {
-            height = 80.0
+            height = 67.0
         }
         return height
     }
 }
+
 

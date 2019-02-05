@@ -207,6 +207,31 @@ class MailContentTableViewController: UITableViewController {
         emails.forEach { $0.unread = false }
         tableView.reloadData()
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "detailSegue":
+                if let cell = sender as? UITableViewCell,
+                    let indexPath = tableView.indexPath(for: cell),
+                    let seguedToMVC = segue.destination as? MailDetailsTableViewController {
+                    let email: Email
+                    if (searchController.isActive && !searchBarIsEmpty()) {
+                        email = filteredMail[indexPath.row]
+                    }
+                    else {
+                        email = emails[indexPath.row]
+                    }
+                    seguedToMVC.details["from"] = email.from
+                    seguedToMVC.details["to"] = "christian@yahoo.com"
+                    seguedToMVC.details["subject"] = email.subject
+                    seguedToMVC.details["date"] = email.relativeDateString
+                    seguedToMVC.details["body"] = email.body
+                }
+            default: break
+            }
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
