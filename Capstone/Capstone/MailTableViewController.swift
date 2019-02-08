@@ -10,6 +10,16 @@ import UIKit
 
 class MailTableViewController: UITableViewController {
     
+    @IBAction func compose(_ sender: UIBarButtonItem) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
+        
+        let modal = controller
+        let transitionDelegate = SPStorkTransitioningDelegate()
+        modal?.transitioningDelegate = transitionDelegate
+        modal?.modalPresentationStyle = .custom
+        self.present(modal!, animated: true, completion: nil)
+    }
     func callback(data: String, error: String?) {
         
         if (error == nil) {
@@ -21,6 +31,7 @@ class MailTableViewController: UITableViewController {
         }
     }
     var MailBoxes = [String]()
+    var MailBoxesCount: [String:String] = [:]
     var Messages : Message.result? = nil
     let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
     var results : Folder.result? = nil
@@ -43,6 +54,8 @@ class MailTableViewController: UITableViewController {
             {
                 for mail in (results?.data)! {
                     MailBoxes.append(mail.attributes.name)
+                    let mailBoxCount = (mail.attributes.message_count == 0) ? "" : String(mail.attributes.message_count)
+                    MailBoxesCount.updateValue(mailBoxCount, forKey: mail.attributes.name)
                 }
             }
         }
@@ -63,6 +76,7 @@ class MailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MailBoxesCell", for: indexPath)
         cell.textLabel?.text = MailBoxes[indexPath.row]
+        cell.detailTextLabel?.text = MailBoxesCount[MailBoxes[indexPath.row]]
         switch cell.textLabel?.text {
         case "Inbox":
             if let image = UIImage.init(named: "Inbox") {

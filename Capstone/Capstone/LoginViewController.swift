@@ -9,15 +9,48 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+    let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
+    @IBOutlet weak var loginUIView: UIView!
+    @IBOutlet weak var usernameTextField: LoginTextField!
+    @IBOutlet weak var passwordTextField: LoginTextField!
     
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet var passwordTextField: UITextField!
-    
-    @IBAction func tappedLoginButton(_ sender: LoginButton){
-        guard let email = usernameTextField.text, let password = passwordTextField.text else {
+    @IBAction func tappedLoginButton(_ sender: LoginButton) {
+        guard let username = usernameTextField.text, let password = passwordTextField.text else {
             return
         }
-        didLogin(method: "email and password", info: "Email: \(email) \n Password: \(password)")
+        if (email.Auth(User: username.trim(), Password: password)) {
+            routeToListContacts()
+        } else {
+            presentAlertMessage()
+        }
+//        didLogin(method: "username and password", info: "\nUsername: \(username)\n Password: \(password)")
+    }
+    
+    @IBAction func tappedCancelButton(_ sender: CancelButton) {
+        usernameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        // Do any additional setup after loading the view.
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
     
     private func didLogin(method: String, info: String) {
@@ -27,13 +60,21 @@ class LoginViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    func presentAlertMessage() {
+        let message = "⚠️ Invalid login: Incorrect username or password"
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        alert.view.tintColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+        self.present(alert, animated: true, completion: nil)
     }
     
-
+    func routeToListContacts() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let destinationVC = storyboard.instantiateViewController(withIdentifier: "MainNavigator") as! UINavigationController
+        
+        self.show(destinationVC, sender: nil)
+    }
+    
     /*
     // MARK: - Navigation
 

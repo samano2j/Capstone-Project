@@ -8,3 +8,4 @@ target 'Capstone' do
   # Latest release in CocoaPods
   pod 'SwipeCellKit'
 end
+

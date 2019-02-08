@@ -27,6 +27,21 @@ class MailContentTableViewController: UITableViewController {
     var results : Folder.result? = nil
     
     // MARK: - Types
+    @IBOutlet weak var sendMail: UIBarButtonItem!
+    @IBAction func compose(_ sender: UIBarButtonItem) {
+        transitionToComposeViewController()
+    }
+    
+    func transitionToComposeViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
+        
+        let modal = controller
+        let transitionDelegate = SPStorkTransitioningDelegate()
+        modal?.transitioningDelegate = transitionDelegate
+        modal?.modalPresentationStyle = .custom
+        self.present(modal!, animated: true, completion: nil)
+    }
     
     /// Search State restoration values.
     private enum RestorationKeys: String {
