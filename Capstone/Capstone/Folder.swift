@@ -26,7 +26,7 @@ class Folder  {
         var attributes : attributes
     }
     
-
+    
     struct result : Decodable {
         var data : [data]
     }

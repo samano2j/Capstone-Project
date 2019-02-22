@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate{
     let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
     @IBOutlet weak var loginUIView: UIView!
     @IBOutlet weak var usernameTextField: LoginTextField!
@@ -19,8 +19,10 @@ class LoginViewController: UIViewController {
             return
         }
         if (email.Auth(User: username.trim(), Password: password)) {
+            // performSegue(withIdentifier: "showListOfMessages", sender: sender)
             routeToListContacts()
         } else {
+            //routeToListContacts()
             presentAlertMessage()
         }
 //        didLogin(method: "username and password", info: "\nUsername: \(username)\n Password: \(password)")
@@ -31,9 +33,22 @@ class LoginViewController: UIViewController {
         passwordTextField.resignFirstResponder()
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if (textField == usernameTextField) {
+            usernameTextField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        } else if (textField == passwordTextField) {
+            passwordTextField.resignFirstResponder()
+            usernameTextField.becomeFirstResponder()
+        }
+        return true
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         // Do any additional setup after loading the view.
@@ -70,7 +85,10 @@ class LoginViewController: UIViewController {
     
     func routeToListContacts() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let destinationVC = storyboard.instantiateViewController(withIdentifier: "MainNavigator") as! UINavigationController
+        let destinationVC = storyboard.instantiateViewController(withIdentifier: "MainScreen") 
+        
+//        let contentVC = storyboard.instantiateViewController(withIdentifier: "ContentViewController") as! MailContentTableViewController
+//        contentVC.eMail = email
         
         self.show(destinationVC, sender: nil)
     }

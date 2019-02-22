@@ -10,7 +10,7 @@ import UIKit
 
 let kCancelButtonBackgroundColor = UIColor(displayP3Red: 222/255, green: 222/255, blue: 222/255, alpha: 1)
 let kCancelButtonTintColor = UIColor.white
-let kCancelButtonCornerRadius: CGFloat = 13.0
+let kCancelButtonCornerRadius: CGFloat = 20.0
 
 class CancelButton: UIButton {
     

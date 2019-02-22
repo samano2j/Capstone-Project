@@ -35,6 +35,7 @@ class MailTableViewController: UITableViewController {
     var Messages : Message.result? = nil
     let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
     var results : Folder.result? = nil
+    var mailFolderID: [String:String] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,7 @@ class MailTableViewController: UITableViewController {
                     MailBoxes.append(mail.attributes.name)
                     let mailBoxCount = (mail.attributes.message_count == 0) ? "" : String(mail.attributes.message_count)
                     MailBoxesCount.updateValue(mailBoxCount, forKey: mail.attributes.name)
+                    mailFolderID.updateValue(mail.id, forKey: mail.attributes.name)
                 }
             }
         }
@@ -124,8 +126,12 @@ class MailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            MailBoxes.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            if (email.Auth(User: "max", Password: "1234") == true) {
+                if (email.DeleteFolder(folder_id: mailFolderID[MailBoxes[indexPath.row]]!)) {
+                    MailBoxes.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

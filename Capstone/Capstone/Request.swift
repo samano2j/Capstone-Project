@@ -23,11 +23,24 @@ class Request : NSObject
     }
     
     func HTTPGETJSONAPI(url: String,  token: String,
-                      callback: @escaping (String, String?) -> Void) {
+                        callback: @escaping (String, String?) -> Void) {
         
         var request = URLRequest(url: URL(string: url)!)
         
         request.httpMethod = "GET"
+        request.addValue("application/vnd.api+json",forHTTPHeaderField: "Content-Type")
+        request.addValue(token, forHTTPHeaderField: "Authorization")
+        
+        
+        HTTPsendRequest(request: request, callback: callback)
+    }
+    
+    func HTTPDELETEJSONAPI(url: String,  token: String,
+                           callback: @escaping (String, String?) -> Void) {
+        
+        var request = URLRequest(url: URL(string: url)!)
+        
+        request.httpMethod = "DELETE"
         request.addValue("application/vnd.api+json",forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
         
@@ -35,18 +48,19 @@ class Request : NSObject
         HTTPsendRequest(request: request, callback: callback)
     }
     
+    
     func HTTPsendRequest(request: URLRequest,
                          callback: @escaping (String, String?) -> Void) {
         
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if (error != nil) {
-                   
-                    callback("", error?.localizedDescription)
-                } else {
-                    let outputStr  = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    callback(outputStr!, nil)
-                }
+            if (error != nil) {
+                
+                callback("", error?.localizedDescription)
+            } else {
+                let outputStr  = String(data: data!, encoding: String.Encoding.utf8) as String!
+                callback(outputStr!, nil)
+            }
         }
         
         task.resume()

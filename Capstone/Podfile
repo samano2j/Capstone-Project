@@ -7,5 +7,7 @@ target 'Capstone' do
 
   # Latest release in CocoaPods
   pod 'SwipeCellKit'
+  pod 'MessageKit'
+  pod 'MessageInputBar'
 end
 

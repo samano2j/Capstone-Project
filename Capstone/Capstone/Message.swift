@@ -29,16 +29,42 @@ class Message {
         var attributes : attributes
     }
     
+    struct meta : Decodable {
+        var per_page : Int
+        var current_page : Int
+        var next_page : Int?
+        var prev_page : Int?
+        var total_pages : Int
+        var total_count : Int
+    }
+    
+    struct name_attributes : Decodable {
+        var first_name : String
+        var last_name : String
+    }
+    
+    struct included : Decodable {
+        var id : Int
+        var type : String
+        var attributes : name_attributes
+    }
     
     struct result : Decodable {
         var data : [data]
+        var meta : meta
+        var included : [included]
     }
     
     
     struct SingleMessage {
         
+        struct meta : Decodable {
+            
+        }
         struct result : Decodable {
             var data : data
+            var meta : SingleMessage.meta
+            var included : [included]
         }
         
     }

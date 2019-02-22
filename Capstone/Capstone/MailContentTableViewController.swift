@@ -23,8 +23,10 @@ class MailContentTableViewController: UITableViewController {
     var folderID: String!
     
     var Messages : Message.result? = nil
-    let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
+    var eMail = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
+//    var eMail: eHealth? = nil
     var results : Folder.result? = nil
+    var messagesID: Message.SingleMessage.result? = nil
     
     // MARK: - Types
     @IBOutlet weak var sendMail: UIBarButtonItem!
@@ -41,6 +43,28 @@ class MailContentTableViewController: UITableViewController {
         modal?.transitioningDelegate = transitionDelegate
         modal?.modalPresentationStyle = .custom
         self.present(modal!, animated: true, completion: nil)
+    }
+    
+    @IBAction func ListUnreadMessages(_ sender: UIBarButtonItem) {
+        if (eMail.Auth(User: "max", Password: "1234") == true)
+        {
+            Messages = eMail.GetMessages(folder_id: folderID)
+            if (Messages != nil) {
+                let listOfUnreadMessagesTypeUnread = eMail.GetUnreadMessages(Messages: Messages!)
+                var listOfUnreadMessages: [Email] = []
+                for msg in listOfUnreadMessagesTypeUnread {
+                    let singleMessage = eMail.GetMessage(folder_id: String(msg.folder_id), message_id: String(msg.sender_id))
+                    let senderProfile = eMail.GetSenderInformation(Message: singleMessage!)
+                    let userProfile = eMail.GetProfile()
+                    let to = userProfile.first_name ?? "" + " " + userProfile.last_name!
+                    let from = senderProfile!.first_name ?? "" + " " + senderProfile!.last_name!
+                    let message = Email(from: from, to: to, subject: msg.subject, body: msg.body, date: Calendar.now(addingDays: 0), unread: true, id: "45")
+                    listOfUnreadMessages.append(message)
+                }
+                emails = listOfUnreadMessages
+                tableView.reloadData()
+            }
+        }
     }
     
     /// Search State restoration values.
@@ -88,6 +112,7 @@ class MailContentTableViewController: UITableViewController {
         ///////////////////////////////////stuffs for search/////////////////////////////////////////////
 //        resultsTableController = MailResultTableViewController()
 //        resultsTableController.tableView.delegate = self
+        //tableView!.allowsMultipleSelection = true
         
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -206,20 +231,28 @@ class MailContentTableViewController: UITableViewController {
     }
     
     func resetData() {
-       emails = mockEmails
-        
-        if ( email.Auth(User: "max", Password: "1234") == true )
+        emails = mockEmails
+        if (eMail.Auth(User: "max", Password: "1234") == true )
         {
-            Messages = email.GetMessages(folder_id: folderID)
+            Messages = eMail.GetMessages(folder_id: folderID)
             if (Messages != nil) {
                 for msg in (Messages?.data)! {
-                        let message = Email(from: msg.attributes.subject, subject: msg.attributes.subject, body: msg.attributes.body, date: Calendar.now(addingDays: 0))
+                    let singleMessage = eMail.GetMessage(folder_id: folderID, message_id: msg.id)
+                    let userProfile = eMail.GetProfile()
+                    let senderProfile = eMail.GetSenderInformation(Message: singleMessage!)
+                    let firstname = userProfile.first_name ?? ""
+                    let lastname = userProfile.last_name ?? ""
+                    let to =  firstname + " " + lastname
+                    let from = senderProfile!.first_name! + " " + senderProfile!.last_name!
+                    let sent = msg.attributes.sent_at
+
+                    let message = Email(from: from, to: to, subject: msg.attributes.subject, body: msg.attributes.body, date: sent.toDate(), unread: !eMail.IsRead(Message: singleMessage!), id: msg.id)
                         emails.append(message)
                 }
             }
         }
         
-        emails.forEach { $0.unread = false }
+        // emails.forEach { $0.unread = false }
         tableView.reloadData()
     }
     
@@ -238,10 +271,11 @@ class MailContentTableViewController: UITableViewController {
                         email = emails[indexPath.row]
                     }
                     seguedToMVC.details["from"] = email.from
-                    seguedToMVC.details["to"] = "christian@yahoo.com"
+                    seguedToMVC.details["to"] = email.to
                     seguedToMVC.details["subject"] = email.subject
                     seguedToMVC.details["date"] = email.relativeDateString
                     seguedToMVC.details["body"] = email.body
+                    
                 }
             default: break
             }
@@ -398,7 +432,12 @@ extension MailContentTableViewController: SwipeTableViewCellDelegate {
             configure(action: flag, with: .flag)
             
             let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in
-                self.emails.remove(at: indexPath.row)
+                
+                if (self.eMail.Auth(User: "max", Password: "1234") == true) {
+                    if (self.eMail.DeleteMessage(folder_id: self.folderID, message_id: self.emails[indexPath.row].id)) {
+                        self.emails.remove(at: indexPath.row)
+                    }
+                }
             }
             configure(action: delete, with: .trash)
             

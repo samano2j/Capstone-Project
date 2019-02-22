@@ -215,4 +215,13 @@ extension String
     {
         return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }
+    
+    func toDate(withFormat format: String = "yyyy-MM-dd'T'HH:mm:ss.SSSZ") -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        guard let date = dateFormatter.date(from: self) else {
+            preconditionFailure("Take a look to your format")
+        }
+        return date
+    }
 }

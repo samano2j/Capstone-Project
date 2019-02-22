@@ -8,19 +8,20 @@
 
 import UIKit
 
-class ComposeViewController: UIViewController {
+class ComposeViewController: UIViewController, UITextFieldDelegate{
     
-    @IBOutlet weak var toLabel: UILabel!
+    @IBOutlet weak var ToTextView: UITextField!
+    @IBOutlet weak var CcTextView: UITextField!
+    @IBOutlet weak var SubjectTextView: UITextField!
+    
     let navBar = SPFakeBarView(style: .stork)
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.view.backgroundColor = UIColor.white
         self.modalPresentationCapturesStatusBarAppearance = true
         
 //        let darkendBarTintColor = #colorLiteral(red: 0.08335601538, green: 0.09890990704, blue: 0.367097348, alpha: 1)
-        
 //        self.navBar.backgroundColor = darkendBarTintColor
         
         self.navBar.titleLabel.text = "New Message"
@@ -29,6 +30,10 @@ class ComposeViewController: UIViewController {
         self.navBar.rightButton.addTarget(self, action: #selector(self.dismissAction), for: .touchUpInside)
         self.navBar.leftButton.addTarget(self, action: #selector(self.dismissAction), for: .touchUpInside)
         self.view.addSubview(self.navBar)
+    }
+    
+    @IBAction func SubjectTextViewChanged(_ sender: UITextField) {
+        self.navBar.titleLabel.text = sender.text
     }
     
     @objc func dismissAction() {
