@@ -38,7 +38,7 @@ class ViewController: UIViewController {
                 
                 for mail in (results?.data)!
                 {
-                    
+                    print("test")
                     
                     if (mail.attributes.name == "Inbox")
                     {
