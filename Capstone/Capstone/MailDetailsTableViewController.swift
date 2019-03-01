@@ -10,8 +10,9 @@ import UIKit
 
 class MailDetailsTableViewController: UITableViewController {
     
-    //var details = []
-    var details: [String: String] = ["from":"", "to":"", "subject":"", "date":"", "body":""]
+    var emailService: [Email] = []
+    var details = Details(from: "", to: "", subject: "", date: "", body: "", index: 6, emails: [])
+    var indexPath: Int = 4
     // Outlets
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
@@ -31,9 +32,28 @@ class MailDetailsTableViewController: UITableViewController {
         self.present(modal!, animated: true, completion: nil)
     }
     
+    @IBAction func pressedUp(_ sender: UIBarButtonItem) {
+        emailService = details.emails
+        indexPath = indexPath - 1
+        if (indexPath >= 0 && indexPath < emailService.count) {
+            configureView(from: emailService[indexPath].from, to: emailService[indexPath].to, subject: emailService[indexPath].subject, date: "\(emailService[indexPath].date)", body: emailService[indexPath].body, index: indexPath)
+            getCustomImage(imageDisplayName: fromLabel.text, imageView: imageView)
+        }
+    }
+    
+    @IBAction func pressedDown(_ sender: UIBarButtonItem) {
+        emailService = details.emails
+        indexPath = indexPath + 1
+        if (indexPath >= 0 && indexPath < emailService.count) {
+            configureView(from: emailService[indexPath].from, to: emailService[indexPath].to, subject: emailService[indexPath].subject, date: "\(emailService[indexPath].date)", body: emailService[indexPath].body, index: indexPath)
+            getCustomImage(imageDisplayName: fromLabel.text, imageView: imageView)
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
+        configureView(from: details.from, to: details.to, subject: details.subject, date: details.date, body: details.body, index: details.index)
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         getCustomImage(imageDisplayName: fromLabel.text, imageView: imageView)
     }
@@ -43,12 +63,13 @@ class MailDetailsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func configureView() {
-        fromLabel.text = details["from"]
-        toLabel.text = details["to"]
-        subjectLabel.text = details["subject"]
-        dateLabel.text = details["date"]
-        bodyLabel.text = details["body"]
+    func configureView(from: String, to: String, subject: String, date: String, body: String, index: Int) {
+        fromLabel.text = from
+        toLabel.text = to
+        subjectLabel.text = subject
+        dateLabel.text = date
+        bodyLabel.text = body
+        indexPath = index
     }
     
     func getCustomImage(imageDisplayName: String?, imageView: UIImageView!){
@@ -84,3 +105,22 @@ class MailDetailsTableViewController: UITableViewController {
 }
 
 
+class Details: NSObject {
+    let from: String
+    let to: String
+    let subject: String
+    let date: String
+    let body: String
+    let index: Int
+    let emails: [Email]
+    
+    init(from: String, to: String, subject: String, date: String, body: String, index: Int, emails: [Email]) {
+        self.from = from
+        self.to = to
+        self.subject = subject
+        self.date = date
+        self.body = body
+        self.index = index
+        self.emails = emails
+    }
+}

@@ -270,12 +270,8 @@ class MailContentTableViewController: UITableViewController {
                     else {
                         email = emails[indexPath.row]
                     }
-                    seguedToMVC.details["from"] = email.from
-                    seguedToMVC.details["to"] = email.to
-                    seguedToMVC.details["subject"] = email.subject
-                    seguedToMVC.details["date"] = email.relativeDateString
-                    seguedToMVC.details["body"] = email.body
-                    
+                    let det = Details(from: email.from, to: email.to, subject: email.subject, date: email.relativeDateString, body: email.body, index: indexPath.row, emails: emails)
+                    seguedToMVC.details = det
                 }
             default: break
             }

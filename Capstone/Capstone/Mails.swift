@@ -61,6 +61,16 @@ class Email: NSObject, NSCoding {
         id = decodedid
     }
     
+    override init() {
+        self.from = ""
+        self.to = ""
+        self.subject = ""
+        self.body = ""
+        self.date = Date.init()
+        self.unread = false
+        self.id = "3"
+    }
+    
     init(from: String, to: String, subject: String, body: String, date: Date, unread: Bool, id: String) {
         self.from = from
         self.to = to

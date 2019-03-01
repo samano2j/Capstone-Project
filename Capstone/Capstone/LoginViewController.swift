@@ -85,7 +85,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     func routeToListContacts() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let destinationVC = storyboard.instantiateViewController(withIdentifier: "MainScreen") 
+        let destinationVC = storyboard.instantiateViewController(withIdentifier: "MainScreen") as! UINavigationController
         
 //        let contentVC = storyboard.instantiateViewController(withIdentifier: "ContentViewController") as! MailContentTableViewController
 //        contentVC.eMail = email
