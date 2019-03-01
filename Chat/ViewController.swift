@@ -19,6 +19,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var messageInput: UITextField!
     @IBOutlet weak var messagesTable: UITableView!
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+
     @IBAction func SendMessage(_ sender: UIButton) {
       
         self.currentUser!.sendMessage(
@@ -40,6 +54,11 @@ class ViewController: UIViewController {
         
         messagesTable.transform = CGAffineTransform(scaleX: 1, y: -1)
         defaultFrame = self.view.frame
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         messagesTable.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         messagesTable.dataSource = self
 
