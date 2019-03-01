@@ -5,7 +5,6 @@
 //  Created by user150359 on 1/23/19.
 //  Copyright © 2019 user150359. All rights reserved.
 //
-
 import Foundation
 
 
@@ -180,8 +179,19 @@ class eHealth
         }
     }
     
-    func GetProfile() -> sender_information {
-        var profile = sender_information()
+    struct profile_information {
+        var first_name : String?
+        var last_name : String?
+        var id : String?
+        
+        init () {
+            first_name = nil
+            last_name = nil
+            id = nil
+        }
+    }
+    func GetProfile() -> profile_information {
+        var profile = profile_information()
         var profile_data : Profile.result? = nil
         
         let sem = DispatchSemaphore(value: 0)

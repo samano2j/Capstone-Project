@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class Profile {
     
     struct attributes : Decodable {
@@ -20,7 +19,7 @@ class Profile {
     }
     
     struct data : Decodable {
-        var id : Int
+        var id : String
         var type : String
         var attributes : attributes
     }

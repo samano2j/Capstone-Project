@@ -25,6 +25,9 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
 //        self.navBar.backgroundColor = darkendBarTintColor
         
         self.navBar.titleLabel.text = "New Message"
+        self.navBar.setShadow(xTranslation: <#T##CGFloat#>, yTranslation: <#T##CGFloat#>, widthRelativeFactor: <#T##CGFloat#>, heightRelativeFactor: <#T##CGFloat#>, blurRadius: <#T##CGFloat#>, shadowOpacity: <#T##CGFloat#>)
+//        self.navBar.titleLabel.rightAnchor.constraint(equalToSystemSpacingAfter: self.navBar.rightButton.rightAnchor, multiplier: 5)
+//        self.navBar.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.navBar.leftButton.leftAnchor, multiplier: 5)
         self.navBar.leftButton.setTitle("Cancel", for: .normal)
         self.navBar.rightButton.setTitle("Send", for: .normal)
         self.navBar.rightButton.addTarget(self, action: #selector(self.dismissAction), for: .touchUpInside)
