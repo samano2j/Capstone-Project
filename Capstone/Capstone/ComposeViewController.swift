@@ -25,11 +25,12 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
 //        self.navBar.backgroundColor = darkendBarTintColor
         
         self.navBar.titleLabel.text = "New Message"
-        self.navBar.setShadow(xTranslation: <#T##CGFloat#>, yTranslation: <#T##CGFloat#>, widthRelativeFactor: <#T##CGFloat#>, heightRelativeFactor: <#T##CGFloat#>, blurRadius: <#T##CGFloat#>, shadowOpacity: <#T##CGFloat#>)
-//        self.navBar.titleLabel.rightAnchor.constraint(equalToSystemSpacingAfter: self.navBar.rightButton.rightAnchor, multiplier: 5)
-//        self.navBar.titleLabel.leftAnchor.constraint(equalToSystemSpacingAfter: self.navBar.leftButton.leftAnchor, multiplier: 5)
         self.navBar.leftButton.setTitle("Cancel", for: .normal)
         self.navBar.rightButton.setTitle("Send", for: .normal)
+//        let horizontalSpacing1 = NSLayoutConstraint(item: self.navBar.leftButton, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.navBar.titleLabel, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: 10)
+//        let horizontalSpacing2 = NSLayoutConstraint(item: self.navBar.titleLabel, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.navBar.rightButton, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: 10)
+//        NSLayoutConstraint.activate([horizontalSpacing1, horizontalSpacing2])
+
         self.navBar.rightButton.addTarget(self, action: #selector(self.dismissAction), for: .touchUpInside)
         self.navBar.leftButton.addTarget(self, action: #selector(self.dismissAction), for: .touchUpInside)
         self.view.addSubview(self.navBar)

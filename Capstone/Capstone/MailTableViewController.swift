@@ -48,7 +48,7 @@ class MailTableViewController: UITableViewController {
         tableView.allowsSelection = true
         definesPresentationContext = true
         
-        if (email.Auth(User: "max", Password: "1234") == true )
+        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
         {
             results = email.GetFolders()
             if (results != nil)
@@ -126,7 +126,7 @@ class MailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            if (email.Auth(User: "max", Password: "1234") == true) {
+            if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
                 if (email.DeleteFolder(folder_id: mailFolderID[MailBoxes[indexPath.row]]!)) {
                     MailBoxes.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
@@ -146,7 +146,7 @@ class MailTableViewController: UITableViewController {
                     let indexPath = tableView.indexPath(for: cell),
                     let seguedToMVC = segue.destination as? MailContentTableViewController {
                     seguedToMVC.titleStringViaSegue = MailBoxes[indexPath.row]
-                    if (email.Auth(User: "max", Password: "1234") == true )
+                    if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
                     {
                         results = email.GetFolders()
                         for mail in (results?.data)! {

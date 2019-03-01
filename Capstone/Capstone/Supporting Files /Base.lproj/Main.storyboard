@@ -472,9 +472,17 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
-                        <barButtonItem systemItem="organize" id="Et8-RK-WEL"/>
+                        <barButtonItem systemItem="organize" id="Et8-RK-WEL">
+                            <connections>
+                                <action selector="moveMessages:" destination="TtG-Jw-GKM" id="3aD-HX-RBV"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Zeh-IS-KPz"/>
-                        <barButtonItem systemItem="trash" id="brl-Se-puI"/>
+                        <barButtonItem systemItem="trash" id="brl-Se-puI">
+                            <connections>
+                                <action selector="pressedDelete:" destination="TtG-Jw-GKM" id="SoC-wR-HqC"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="CCr-1E-La4"/>
                         <barButtonItem systemItem="reply" id="Cfh-MC-oyR"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="ocC-MZ-4Dr"/>

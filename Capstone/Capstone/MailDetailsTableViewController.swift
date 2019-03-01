@@ -13,6 +13,10 @@ class MailDetailsTableViewController: UITableViewController {
     var emailService: [Email] = []
     var details = Details(from: "", to: "", subject: "", date: "", body: "", index: 6, emails: [])
     var indexPath: Int = 4
+    var ApiUrl = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
+    var folderID = ""
+    var DetMailBoxes = [String]()
+    var results : Folder.result? = nil
     // Outlets
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
@@ -30,6 +34,50 @@ class MailDetailsTableViewController: UITableViewController {
         modal?.transitioningDelegate = transitionDelegate
         modal?.modalPresentationStyle = .custom
         self.present(modal!, animated: true, completion: nil)
+    }
+    
+//    @IBAction func moveMessages(_ sender: UIBarButtonItem) {
+//        if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
+//            results = self.ApiUrl.GetFolders()
+//            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//            let closure: (UIAlertAction) -> Void = { }
+//            if (results != nil) {
+//                for mail in (results?.data)! {
+//                    DetMailBoxes.append(mail.attributes.name)
+//                }
+//                for temp in DetMailBoxes {
+//                    controller.addAction(UIAlertAction(title: temp, style: .default, handler: closure))
+//                }
+//                self.present(controller, animated: true, completion: nil)
+//            }
+//        }
+//    }
+    
+    //    if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
+//    {
+//    results = email.GetFolders()
+//    if (results != nil)
+//    {
+//    for mail in (results?.data)! {
+//    MailBoxes.append(mail.attributes.name)
+//    let mailBoxCount = (mail.attributes.message_count == 0) ? "" : String(mail.attributes.message_count)
+//    MailBoxesCount.updateValue(mailBoxCount, forKey: mail.attributes.name)
+//    mailFolderID.updateValue(mail.id, forKey: mail.attributes.name)
+//    }
+//    }
+//    }
+    
+    @IBAction func pressedDelete(_ sender: UIBarButtonItem) {
+        if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
+            emailService = details.emails
+            if (self.ApiUrl.DeleteMessage(folder_id: folderID, message_id: emailService[indexPath].id)) {
+                indexPath = indexPath + 1
+                if (indexPath >= 0 && indexPath < emailService.count) {
+                    configureView(from: emailService[indexPath].from, to: emailService[indexPath].to, subject: emailService[indexPath].subject, date: "\(emailService[indexPath].date)", body: emailService[indexPath].body, index: indexPath)
+                    getCustomImage(imageDisplayName: fromLabel.text, imageView: imageView)
+                }
+            }
+        }
     }
     
     @IBAction func pressedUp(_ sender: UIBarButtonItem) {

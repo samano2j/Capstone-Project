@@ -46,7 +46,7 @@ class MailContentTableViewController: UITableViewController {
     }
     
     @IBAction func ListUnreadMessages(_ sender: UIBarButtonItem) {
-        if (eMail.Auth(User: "max", Password: "1234") == true)
+        if (eMail.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true)
         {
             Messages = eMail.GetMessages(folder_id: folderID)
             if (Messages != nil) {
@@ -232,7 +232,7 @@ class MailContentTableViewController: UITableViewController {
     
     func resetData() {
         emails = mockEmails
-        if (eMail.Auth(User: "max", Password: "1234") == true )
+        if (eMail.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
         {
             Messages = eMail.GetMessages(folder_id: folderID)
             if (Messages != nil) {
@@ -272,6 +272,7 @@ class MailContentTableViewController: UITableViewController {
                     }
                     let det = Details(from: email.from, to: email.to, subject: email.subject, date: email.relativeDateString, body: email.body, index: indexPath.row, emails: emails)
                     seguedToMVC.details = det
+                    seguedToMVC.folderID = folderID
                 }
             default: break
             }
@@ -429,7 +430,7 @@ extension MailContentTableViewController: SwipeTableViewCellDelegate {
             
             let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in
                 
-                if (self.eMail.Auth(User: "max", Password: "1234") == true) {
+                if (self.eMail.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
                     if (self.eMail.DeleteMessage(folder_id: self.folderID, message_id: self.emails[indexPath.row].id)) {
                         self.emails.remove(at: indexPath.row)
                     }

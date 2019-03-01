@@ -14,18 +14,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var usernameTextField: LoginTextField!
     @IBOutlet weak var passwordTextField: LoginTextField!
     
+    static var username: String = ""
+    static var password: String = ""
+    
     @IBAction func tappedLoginButton(_ sender: LoginButton) {
         guard let username = usernameTextField.text, let password = passwordTextField.text else {
             return
         }
         if (email.Auth(User: username.trim(), Password: password)) {
-            // performSegue(withIdentifier: "showListOfMessages", sender: sender)
+            LoginViewController.username = username
+            LoginViewController.password = password
             routeToListContacts()
         } else {
-            //routeToListContacts()
             presentAlertMessage()
         }
-//        didLogin(method: "username and password", info: "\nUsername: \(username)\n Password: \(password)")
     }
     
     @IBAction func tappedCancelButton(_ sender: CancelButton) {
@@ -85,12 +87,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     func routeToListContacts() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let destinationVC = storyboard.instantiateViewController(withIdentifier: "MainScreen") as! UINavigationController
+        let destinationNVC = storyboard.instantiateViewController(withIdentifier: "MainScreen") as! UINavigationController
         
 //        let contentVC = storyboard.instantiateViewController(withIdentifier: "ContentViewController") as! MailContentTableViewController
 //        contentVC.eMail = email
         
-        self.show(destinationVC, sender: nil)
+        self.show(destinationNVC, sender: nil)
     }
     
     /*
