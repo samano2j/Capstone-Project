@@ -19,20 +19,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var messageInput: UITextField!
     @IBOutlet weak var messagesTable: UITableView!
     
+    func moveViewsWithKeyboard(height: CGFloat) {
+        self.view.frame = defaultFrame.offsetBy(dx: 0, dy: height)
+    }
+    
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
+        let frame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        moveViewsWithKeyboard(height: -frame.height)
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
+        moveViewsWithKeyboard(height: 0)
     }
-
     @IBAction func SendMessage(_ sender: UIButton) {
       
         self.currentUser!.sendMessage(
