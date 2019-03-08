@@ -116,6 +116,74 @@ class Email
         return success
     }
     
+    struct CreateFolderAttributes : Codable
+    {
+        var name : String
+        var parent_folder_id : Int?
+        
+        init () {
+            parent_folder_id = nil
+            name = ""
+        }
+        
+    }
+    struct CreateFolderData : Codable
+    {
+        var type : String
+        var attributes : CreateFolderAttributes
+        init () {
+            attributes = CreateFolderAttributes()
+            type = "folders"
+        }
+        
+    }
+    struct CreateFolderResult : Codable
+    {
+        var data : CreateFolderData
+        init () {
+            data = CreateFolderData()
+        }
+    }
+    
+    func CreateFolder(folder_name : String, parent_folder_id : Int?) -> Folder.singleresult?
+    {
+        var newFolder = CreateFolderResult()
+        var resultFolder : Folder.singleresult? = nil
+        
+        let sem = DispatchSemaphore(value: 0)
+        
+        newFolder.data.attributes.name = folder_name
+        newFolder.data.attributes.parent_folder_id = parent_folder_id
+        
+        let jsonData = try! JSONEncoder().encode(newFolder)
+        
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        print(jsonString)
+        
+        req.HTTPPOSTJSONAPI(url: URL + "/common/folders", token: jwt!, data: jsonData) { (data, error) in
+            
+            if (error == nil)
+            {
+                do
+                {
+                    
+                    let json = try JSONDecoder().decode(Folder.singleresult.self, from: data.data(using: .utf8)!)
+                    resultFolder = json
+                    
+                } catch {
+                    //print(error.localizedDescription)
+                }
+                
+            }
+            sem.signal()
+            
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return resultFolder
+    }
+    
     func SaveDraft(Msg : Message.ComposeResult) {
         let sem = DispatchSemaphore(value: 0)
         
@@ -309,6 +377,7 @@ class Email
             id = nil
         }
     }
+    
     func GetProfile() -> profile_information {
         var profile = profile_information()
         var profile_data : Profile.result? = nil

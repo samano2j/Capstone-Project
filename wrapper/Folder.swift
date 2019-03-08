@@ -31,4 +31,8 @@ class Folder  {
         var data : [data]
     }
     
+    struct singleresult : Decodable {
+        var data : data
+    }
+    
 }

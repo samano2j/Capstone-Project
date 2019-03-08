@@ -50,15 +50,21 @@ class ViewController: UIViewController {
                 
                 for mail in (results?.data)!
                 {
-                    //print(mail.attributes.name + ":" + mail.id) //inbox == 647, trash 650
+                    print(mail.attributes.name + ":" + mail.id) //inbox == 647, trash 650
                     
-                    if (mail.attributes.name == "Sent")
+                    if ( email.CreateFolder(folder_name: "new folder 2", parent_folder_id: nil) != nil)
+                    {
+                        print("successfully created folder")
+                    }
+                    
+                    
+                   /* if (mail.attributes.name == "Sent")
                     {
                        
                         Messages = email.GetMessages(folder_id: mail.id)
                         
                         //break
-                    }
+                    }*/
                 }
             }
         }
