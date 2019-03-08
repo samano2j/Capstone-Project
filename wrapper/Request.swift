@@ -22,6 +22,20 @@ class Request : NSObject
         HTTPsendRequest(request: request, callback: callback)
     }
     
+    func HTTPPOSTJSONAPI(url: String,  token: String, data: Data,
+                        callback: @escaping (String, String?) -> Void) {
+        
+        var request = URLRequest(url: URL(string: url)!)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/vnd.api+json",forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        
+        request.httpBody = data
+        
+        HTTPsendRequest(request: request, callback: callback)
+    }
+
     func HTTPGETJSONAPI(url: String,  token: String,
                       callback: @escaping (String, String?) -> Void) {
         

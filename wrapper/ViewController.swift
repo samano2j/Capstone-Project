@@ -19,34 +19,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        var recpt : Message.ComposeRecptData = Message.ComposeRecptData()
-        recpt.id = "14"
+       
         
-        var r = Message.ComposeResult()
-        
-        r.data.attributes.body = "test"
-        r.relationships.message_recipients.data.append(recpt)
-        
-        
-        
-        let jsonData = try! JSONEncoder().encode(r)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        print(jsonString)
-        
-        
-       /* var Messages : Message.result? = nil
+        var Messages : Message.result? = nil
         
         let email = Email(url: "http://otu-capstone.cs.uregina.ca:3000")
         
-        
-        
+    
         if ( email.Auth(User: "max", Password: "1234") == true )
         {
             
             var results : Folder.result? = nil
             results = email.GetFolders()
             
-            email.GetProfile()
+           
+           // email.ComposeMessage(recpt_ids: [email.GetProfile().id!], body: "hello", subject: "test", reply_to_id: "", urgent: false)
+            
+            
             
             if (results != nil)
             {
@@ -80,7 +69,8 @@ class ViewController: UIViewController {
                 
                 if (msg != nil)
                 {
-                    email.GetSenderInformation(Message: msg!)
+                    print(msg?.data.attributes.body)
+                    //email.GetSenderInformation(Message: msg!)
                     
                     
                     
@@ -88,7 +78,7 @@ class ViewController: UIViewController {
                 }
                 
             }
-        }*/
+        }
     }
     
     

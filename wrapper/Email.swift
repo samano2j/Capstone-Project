@@ -60,6 +60,58 @@ class Email
     
     
     
+    func ComposeMessage(recpt_ids : [String], body : String, subject : String, reply_to_id : String, urgent : Bool) -> Bool {
+        var success = true
+        
+        let sem = DispatchSemaphore(value: 0)
+        
+        var recpts : [Message.ComposeRecptData] = []
+        
+        for recpt_id in recpt_ids {
+            var new_recpt = Message.ComposeRecptData()
+            new_recpt.id = recpt_id
+            new_recpt.attributes.recipient_id = recpt_id
+            recpts.append(new_recpt)
+        }
+        
+        var r = Message.ComposeResult()
+        
+        r.data.attributes.body = body
+        r.data.attributes.subject = subject
+        r.data.attributes.reply_to_id = reply_to_id
+        r.data.attributes.urgent = urgent
+        
+        
+        for recpt in recpts {
+            r.relationships.message_recipients.data.append(recpt)
+        }
+        
+        let jsonData = try! JSONEncoder().encode(r)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        
+        req.HTTPPOSTJSONAPI(url: URL + "/common/message", token: jwt!, data: jsonData) { (data, error) in
+            
+            if (error == nil)
+            {
+                print(data)
+                
+            }
+            else
+            {
+                success = false
+            }
+         
+            sem.signal()
+        }
+        
+      
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return success
+        
+    }
+    
+    
     func GetFolders() -> Folder.result? {
         var Folders : Folder.result? = nil
         
