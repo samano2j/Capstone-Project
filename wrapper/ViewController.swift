@@ -33,7 +33,7 @@ class ViewController: UIViewController {
             results = email.GetFolders()
             
            
-          /*  let m : Message.ComposeResult? = email.ComposeMessage(recpt_ids: [email.GetProfile().id!], body: "hello", subject: "test", reply_to_id: "", urgent: false)
+           /* let m : Message.ComposeResult? = email.ComposeMessage(recpt_ids: [email.GetProfile().id!], body: "hello2", subject: "test", reply_to_id: "", urgent: false)
             
             if (m != nil)
             {
@@ -50,13 +50,14 @@ class ViewController: UIViewController {
                 
                 for mail in (results?.data)!
                 {
+                    //print(mail.attributes.name + ":" + mail.id) //inbox == 647, trash 650
                     
-                    
-                    if (mail.attributes.name == "Inbox")
+                    if (mail.attributes.name == "Sent")
                     {
+                       
                         Messages = email.GetMessages(folder_id: mail.id)
                         
-                        break
+                        //break
                     }
                 }
             }
@@ -76,12 +77,14 @@ class ViewController: UIViewController {
                 
                 if (msg != nil)
                 {
-                    if (msg?.data.attributes.body == "hello")
-                    {
-                        print(email.DeleteMessage(folder_id: String((msg?.data.attributes.folder_id)!), message_id: (msg?.data.id)!))
-                    }
+                    
+                    
+                  
+                    /*print( email.MoveMessages(from_folder: String((msg?.data.attributes.folder_id)!), to_folder: "648", message_ids: [(msg?.data.id)!]))*/
+                   
                     
                     print(msg?.data.attributes.body)
+                    
                     //email.GetSenderInformation(Message: msg!)
                     
                     

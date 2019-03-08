@@ -58,6 +58,63 @@ class Email
         return !(jwt ?? "").isEmpty
     }
     
+    //TO:DO - properly parse response JSON to determine success
+    
+    struct MoveAttributes : Codable
+    {
+        var message_ids : [String]
+        
+        init () {
+            message_ids = []
+        }
+    }
+    
+    struct MoveData : Codable {
+        var attributes: MoveAttributes
+        
+        init()
+        {
+            attributes = MoveAttributes()
+        }
+    }
+    struct MoveResult : Codable {
+        var data: MoveData
+        init() {
+            data = MoveData()
+        }
+    }
+    
+    func MoveMessages(from_folder : String, to_folder : String, message_ids : [String]) -> Bool
+    {
+        var success = false
+        
+        let sem = DispatchSemaphore(value: 0)
+        var MoveResults = MoveResult()
+        
+        for message_id in message_ids {
+            MoveResults.data.attributes.message_ids.append(message_id)
+        }
+        
+        let jsonData = try! JSONEncoder().encode(MoveResults)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        print(jsonString)
+        req.HTTPPUTJSONAPI(url: URL + "/staff/folders/" + from_folder + "/messages/move_to/" + to_folder, token: jwt!, data: jsonData) { (data, error) in
+            
+            if (error == nil)
+            {
+                print(data)
+                success = true
+                
+            }
+            
+            sem.signal()
+        }
+        
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return success
+    }
     
     func SaveDraft(Msg : Message.ComposeResult) {
         let sem = DispatchSemaphore(value: 0)
