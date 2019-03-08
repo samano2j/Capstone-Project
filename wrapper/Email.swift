@@ -59,9 +59,21 @@ class Email
     }
     
     
+    func SaveDraft(Msg : Message.ComposeResult) {
+        let sem = DispatchSemaphore(value: 0)
+        
+        let jsonData = try! JSONEncoder().encode(Msg)
     
-    func ComposeMessage(recpt_ids : [String], body : String, subject : String, reply_to_id : String, urgent : Bool) -> Bool {
-        var success = true
+        req.HTTPPOSTJSONAPI(url: URL + "/common/draft", token: jwt!, data: jsonData) { (data, error) in
+        
+            sem.signal()
+        }
+
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+    }
+    
+    func ComposeMessage(recpt_ids : [String], body : String, subject : String, reply_to_id : String, urgent : Bool) -> Message.ComposeResult? {
+       
         
         let sem = DispatchSemaphore(value: 0)
         
@@ -76,6 +88,8 @@ class Email
         
         var r = Message.ComposeResult()
         
+        var Msg : Message.ComposeResult? = nil
+        
         r.data.attributes.body = body
         r.data.attributes.subject = subject
         r.data.attributes.reply_to_id = reply_to_id
@@ -87,18 +101,13 @@ class Email
         }
         
         let jsonData = try! JSONEncoder().encode(r)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
         
         req.HTTPPOSTJSONAPI(url: URL + "/common/message", token: jwt!, data: jsonData) { (data, error) in
             
             if (error == nil)
             {
-                print(data)
+                Msg = r
                 
-            }
-            else
-            {
-                success = false
             }
          
             sem.signal()
@@ -107,7 +116,7 @@ class Email
       
         _ = sem.wait(timeout: DispatchTime.distantFuture)
         
-        return success
+        return Msg
         
     }
     
