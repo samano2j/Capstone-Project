@@ -33,7 +33,7 @@ class ViewController: UIViewController {
             results = email.GetFolders()
             
            
-           /* let m : Message.ComposeResult? = email.ComposeMessage(recpt_ids: [email.GetProfile().id!], body: "hello2", subject: "test", reply_to_id: "", urgent: false)
+           /* let m : Message.ComposeResult? = email.ComposeMessage(recpt_ids: [email.GetProfile().id!], body: "hello3", subject: "test", reply_to_id: "", urgent: false)
             
             if (m != nil)
             {
@@ -80,7 +80,7 @@ class ViewController: UIViewController {
                     
                     
                   
-                    /*print( email.MoveMessages(from_folder: String((msg?.data.attributes.folder_id)!), to_folder: "648", message_ids: [(msg?.data.id)!]))*/
+                   /* print( email.MoveMessages(from_folder: String((msg?.data.attributes.folder_id)!), to_folder: "648", message_ids: [(msg?.data.id)!]))*/
                    
                     
                     print(msg?.data.attributes.body)

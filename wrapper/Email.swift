@@ -98,11 +98,11 @@ class Email
         let jsonData = try! JSONEncoder().encode(MoveResults)
         let jsonString = String(data: jsonData, encoding: .utf8)!
         print(jsonString)
-        req.HTTPPUTJSONAPI(url: URL + "/staff/folders/" + from_folder + "/messages/move_to/" + to_folder, token: jwt!, data: jsonData) { (data, error) in
+        req.HTTPPUTJSONAPI(url: URL + "/common/folders/" + from_folder + "/messages/move_to/" + to_folder, token: jwt!, data: jsonData) { (data, error) in
             
             if (error == nil)
             {
-                print(data)
+                
                 success = true
                 
             }
