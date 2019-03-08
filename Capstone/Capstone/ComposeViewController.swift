@@ -21,16 +21,9 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         super.viewDidLoad()
         self.modalPresentationCapturesStatusBarAppearance = true
         
-//        let darkendBarTintColor = #colorLiteral(red: 0.08335601538, green: 0.09890990704, blue: 0.367097348, alpha: 1)
-//        self.navBar.backgroundColor = darkendBarTintColor
-        
         self.navBar.titleLabel.text = "New Message"
         self.navBar.leftButton.setTitle("Cancel", for: .normal)
         self.navBar.rightButton.setTitle("Send", for: .normal)
-//        let horizontalSpacing1 = NSLayoutConstraint(item: self.navBar.leftButton, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.navBar.titleLabel, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: 10)
-//        let horizontalSpacing2 = NSLayoutConstraint(item: self.navBar.titleLabel, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.navBar.rightButton, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: 10)
-//        NSLayoutConstraint.activate([horizontalSpacing1, horizontalSpacing2])
-
         self.navBar.rightButton.addTarget(self, action: #selector(self.dismissAction), for: .touchUpInside)
         self.navBar.leftButton.addTarget(self, action: #selector(self.dismissAction), for: .touchUpInside)
         self.view.addSubview(self.navBar)
@@ -42,5 +35,30 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     
     @objc func dismissAction() {
         self.dismiss()
+    }
+    
+//    static public func segueToComposeViewController() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
+//
+//        let modal = controller
+//        let transitionDelegate = SPStorkTransitioningDelegate()
+//        modal?.transitioningDelegate = transitionDelegate
+//        modal?.modalPresentationStyle = .custom
+//        self.present(modal!, animated: true, completion: nil)
+//    }
+}
+
+
+extension UITableViewController {
+    public func segueToComposeViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
+        
+        let modal = controller
+        let transitionDelegate = SPStorkTransitioningDelegate()
+        modal?.transitioningDelegate = transitionDelegate
+        modal?.modalPresentationStyle = .custom
+        self.present(modal!, animated: true, completion: nil)
     }
 }

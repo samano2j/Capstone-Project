@@ -106,7 +106,9 @@ class HomeTableViewController: UITableViewController {
     func openURL(_ url: URL) {
         let webViewController = SFSafariViewController(url: url)
         if #available(iOS 10.0, *) {
-            webViewController.preferredControlTintColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+            webViewController.preferredControlTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            webViewController.preferredBarTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+            webViewController.configuration.accessibilityNavigationStyle = .combined
         }
         present(webViewController, animated: true, completion: nil)
     }

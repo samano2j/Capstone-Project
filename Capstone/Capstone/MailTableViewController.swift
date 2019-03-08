@@ -10,16 +10,11 @@ import UIKit
 
 class MailTableViewController: UITableViewController {
     
+    @IBOutlet var composeButton: UIBarButtonItem!
     @IBAction func compose(_ sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
-        
-        let modal = controller
-        let transitionDelegate = SPStorkTransitioningDelegate()
-        modal?.transitioningDelegate = transitionDelegate
-        modal?.modalPresentationStyle = .custom
-        self.present(modal!, animated: true, completion: nil)
+        self.segueToComposeViewController()
     }
+    
     func callback(data: String, error: String?) {
         
         if (error == nil) {
@@ -30,6 +25,7 @@ class MailTableViewController: UITableViewController {
             print("Error -> \(String(describing: error))")
         }
     }
+    
     var MailBoxes = [String]()
     var MailBoxesCount: [String:String] = [:]
     var Messages : Message.result? = nil
@@ -44,9 +40,11 @@ class MailTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
         tableView.allowsSelection = true
         definesPresentationContext = true
+        tableView.allowsMultipleSelectionDuringEditing = true
         
         if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
         {
@@ -79,36 +77,8 @@ class MailTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MailBoxesCell", for: indexPath)
         cell.textLabel?.text = MailBoxes[indexPath.row]
         cell.detailTextLabel?.text = MailBoxesCount[MailBoxes[indexPath.row]]
-        switch cell.textLabel?.text {
-        case "Inbox":
-            if let image = UIImage.init(named: "Inbox") {
-                cell.imageView?.image = image
-            }
-        case "Drafts":
-            if let image = UIImage.init(named: "Drafts") {
-                cell.imageView?.image = image
-            }
-        case "Sent":
-            if let image = UIImage.init(named: "Sent") {
-                cell.imageView?.image = image
-            }
-        case "Junk":
-            if let image = UIImage.init(named: "Folder") {
-                cell.imageView?.image = image
-            }
-        case "Trash":
-            if let image = UIImage.init(named: "Trash-1") {
-                cell.imageView?.image = image
-            }
-        case "Archive":
-            if let image = UIImage.init(named: "Archive-1") {
-                cell.imageView?.image = image
-            }
-        default:
-            if let image = UIImage.init(named: "Folder") {
-                cell.imageView?.image = image
-            }
-        }
+        let temp = cell.textLabel?.text
+        cell.imageView?.image = MailTableViewController.returnImageForFolderType(name: temp!)
 
         return cell
     }
@@ -121,6 +91,21 @@ class MailTableViewController: UITableViewController {
      return true
      }*/
     
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
+        
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let delete = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(addTapped))
+        if (tableView.isEditing) {
+            self.toolbarItems = [spacer, delete]
+        } else {
+            self.toolbarItems = [spacer, composeButton]
+        }
+    }
+    
+    @objc func addTapped() {
+    }
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -137,6 +122,9 @@ class MailTableViewController: UITableViewController {
         }
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return !tableView.isEditing
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
@@ -161,4 +149,24 @@ class MailTableViewController: UITableViewController {
         }
     }
     
+    static public func returnImageForFolderType(name: String) -> UIImage {
+        var image: UIImage
+        switch name {
+        case "Inbox":
+            image = #imageLiteral(resourceName: "Inbox")
+        case "Drafts":
+            image = #imageLiteral(resourceName: "Drafts")
+        case "Sent":
+            image = #imageLiteral(resourceName: "Sent")
+        case "Junk":
+            image = #imageLiteral(resourceName: "Archive-1")
+        case "Trash":
+            image = #imageLiteral(resourceName: "Trash-1")
+        case "Archive":
+            image = #imageLiteral(resourceName: "Archive-1")
+        default:
+            image = #imageLiteral(resourceName: "Folder")
+        }
+        return image
+    }
 }

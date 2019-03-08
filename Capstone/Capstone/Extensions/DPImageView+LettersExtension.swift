@@ -62,7 +62,7 @@ extension UIImageView {
         context?.fill(CGRect(x: 0, y: 0, width: size.width, height: size.height))
         
         let attributes = textAttributes ?? [NSAttributedString.Key.foregroundColor: UIColor.white,
-                                            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 19.0)]
+                                            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15.0)]
         
         
         //stroke color

@@ -43,11 +43,11 @@
                                                             <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Disclosure" translatesAutoresizingMaskIntoConstraints="NO" id="UNG-rq-ulh">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Disclosure" translatesAutoresizingMaskIntoConstraints="NO" id="9tv-JI-oKR">
                                                             <rect key="frame" x="352" y="3.3333333333333339" width="14" height="14.000000000000002"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="14" id="Ty6-tZ-2ee"/>
-                                                                <constraint firstAttribute="height" constant="14" id="eoh-QM-XJN"/>
+                                                                <constraint firstAttribute="height" constant="14" id="QfB-VT-oaL"/>
+                                                                <constraint firstAttribute="width" constant="14" id="U5Y-8D-web"/>
                                                             </constraints>
                                                         </imageView>
                                                     </subviews>
@@ -255,7 +255,98 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i6T-Uh-GCd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="57" y="997"/>
+            <point key="canvasLocation" x="-720" y="978"/>
+        </scene>
+        <!--Messages-->
+        <scene sceneID="fJh-2e-iN8">
+            <objects>
+                <tableViewController id="Gej-Mu-vxQ" customClass="ChatListTableViewController" customModule="Capstone" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OGI-5i-2xT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatKitCell" rowHeight="103" id="9AG-5e-0hM" customClass="ChatKitMessagesListCell" customModule="Capstone" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="103"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9AG-5e-0hM" id="wZH-y6-Acn">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="102.66666666666667"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BeY-wG-fz9">
+                                            <rect key="frame" x="20" y="11" width="59" height="34"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Princess Consuéla" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ia6-iF-7al">
+                                            <rect key="frame" x="84.000000000000014" y="11" width="147.33333333333337" height="20"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlr-iJ-2br">
+                                            <rect key="frame" x="82" y="39" width="312" height="48"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="312" id="RSi-Is-sS7"/>
+                                            </constraints>
+                                            <string key="text">Sra. Mendez - Thank you so MUCH for this.  We know you do not have to do this and we are so grateful to you.  Please let us know if there's anything else we can do.</string>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:16 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wv3-Qw-pho">
+                                            <rect key="frame" x="310.33333333333331" y="11" width="62.666666666666686" height="20"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Disclosure" translatesAutoresizingMaskIntoConstraints="NO" id="UNG-rq-ulh">
+                                            <rect key="frame" x="380" y="14" width="14" height="14"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="14" id="Ty6-tZ-2ee"/>
+                                                <constraint firstAttribute="height" constant="14" id="eoh-QM-XJN"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="UNG-rq-ulh" firstAttribute="leading" secondItem="wv3-Qw-pho" secondAttribute="trailing" constant="7" id="6by-CY-vCk"/>
+                                        <constraint firstItem="ia6-iF-7al" firstAttribute="leading" secondItem="BeY-wG-fz9" secondAttribute="trailing" constant="5" id="87f-K8-uT4"/>
+                                        <constraint firstItem="hlr-iJ-2br" firstAttribute="leading" secondItem="BeY-wG-fz9" secondAttribute="trailing" constant="3" id="BAw-15-cnc"/>
+                                        <constraint firstItem="hlr-iJ-2br" firstAttribute="top" secondItem="wv3-Qw-pho" secondAttribute="bottom" constant="8" symbolic="YES" id="C5L-UI-gUH"/>
+                                        <constraint firstItem="UNG-rq-ulh" firstAttribute="centerY" secondItem="wv3-Qw-pho" secondAttribute="centerY" id="O73-Yg-dpq"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="hlr-iJ-2br" secondAttribute="trailing" id="P3R-LF-rFo"/>
+                                        <constraint firstItem="BeY-wG-fz9" firstAttribute="top" secondItem="wZH-y6-Acn" secondAttribute="topMargin" id="PBj-L2-3zM"/>
+                                        <constraint firstItem="hlr-iJ-2br" firstAttribute="trailing" secondItem="wv3-Qw-pho" secondAttribute="trailing" constant="21" id="U7J-UI-Qm4"/>
+                                        <constraint firstItem="BeY-wG-fz9" firstAttribute="top" secondItem="ia6-iF-7al" secondAttribute="top" id="aMn-se-7gb"/>
+                                        <constraint firstItem="UNG-rq-ulh" firstAttribute="top" secondItem="wZH-y6-Acn" secondAttribute="topMargin" constant="3" id="eTw-xg-pwX"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="hlr-iJ-2br" secondAttribute="bottom" constant="5" id="egS-1B-MBP"/>
+                                        <constraint firstItem="BeY-wG-fz9" firstAttribute="top" secondItem="wv3-Qw-pho" secondAttribute="top" id="hdl-fn-V0l"/>
+                                        <constraint firstItem="hlr-iJ-2br" firstAttribute="top" secondItem="ia6-iF-7al" secondAttribute="bottom" constant="8" symbolic="YES" id="msz-2e-BHo"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="BeY-wG-fz9" secondAttribute="bottom" constant="47" id="ocJ-aV-c0o"/>
+                                        <constraint firstItem="BeY-wG-fz9" firstAttribute="leading" secondItem="wZH-y6-Acn" secondAttribute="leadingMargin" id="qf7-el-VCi"/>
+                                        <constraint firstItem="wv3-Qw-pho" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ia6-iF-7al" secondAttribute="trailing" constant="8" symbolic="YES" id="vfn-O6-G9g"/>
+                                        <constraint firstItem="UNG-rq-ulh" firstAttribute="trailing" secondItem="wZH-y6-Acn" secondAttribute="trailingMargin" id="yxN-UO-7Mz"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="messageAvatar" destination="BeY-wG-fz9" id="bea-by-BII"/>
+                                    <outlet property="messagesDate" destination="wv3-Qw-pho" id="l6K-b3-Meb"/>
+                                    <outlet property="resentMessage" destination="hlr-iJ-2br" id="c9i-Z6-aec"/>
+                                    <outlet property="senderName" destination="ia6-iF-7al" id="jLD-rj-bmE"/>
+                                    <segue destination="WmH-l9-7sG" kind="show" id="To7-K2-r04"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Gej-Mu-vxQ" id="JHG-r9-wzO"/>
+                            <outlet property="delegate" destination="Gej-Mu-vxQ" id="Ki6-nT-h1s"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Messages" id="dE1-Sk-imw">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="XGw-0H-WcE"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="deu-xq-84H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="444.92753623188412" y="976.63043478260875"/>
         </scene>
         <!--Mailboxes-->
         <scene sceneID="VqW-Mc-dK2">
@@ -310,6 +401,9 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Mailboxes" id="1Hr-WU-g3k"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="composeButton" destination="JKa-4y-qF4" id="ho3-zj-IHC"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C8o-Bi-5hP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -681,7 +775,7 @@
                     <toolbarItems>
                         <barButtonItem systemItem="reply" id="rXs-wy-UGb">
                             <connections>
-                                <segue destination="WmH-l9-7sG" kind="show" id="yj6-L4-DNZ"/>
+                                <segue destination="Gej-Mu-vxQ" kind="show" id="BOb-fa-8Wp"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="qb4-2v-K17"/>

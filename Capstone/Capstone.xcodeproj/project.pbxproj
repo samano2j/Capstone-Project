@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		402F838A10C2FDCF61057D93 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562D8AADDCA4C4D98F1D70F4 /* Pods_Capstone.framework */; };
+		8317E64C222F48AD00AC5CC9 /* ChatListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */; };
 		831DB57C220A5F7B00CE1BFC /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831DB57B220A5F7B00CE1BFC /* ComposeViewController.swift */; };
 		831DB586220A655B00CE1BFC /* SPStorkTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831DB57F220A655A00CE1BFC /* SPStorkTransitioningDelegate.swift */; };
 		831DB587220A655B00CE1BFC /* SPStorkDismissingAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831DB580220A655A00CE1BFC /* SPStorkDismissingAnimationController.swift */; };
@@ -168,6 +169,7 @@
 		1ADBCE389C5954CAC546B08D /* Pods-Capstone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Capstone/Pods-Capstone.debug.xcconfig"; sourceTree = "<group>"; };
 		3787C994E2F7A005094BD6C3 /* Pods-Capstone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Capstone.release.xcconfig"; path = "Pods/Target Support Files/Pods-Capstone/Pods-Capstone.release.xcconfig"; sourceTree = "<group>"; };
 		562D8AADDCA4C4D98F1D70F4 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewController.swift; sourceTree = "<group>"; };
 		831DB57B220A5F7B00CE1BFC /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		831DB57F220A655A00CE1BFC /* SPStorkTransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPStorkTransitioningDelegate.swift; sourceTree = "<group>"; };
 		831DB580220A655A00CE1BFC /* SPStorkDismissingAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPStorkDismissingAnimationController.swift; sourceTree = "<group>"; };
@@ -862,6 +864,7 @@
 				838E5196221FF89300DF9B74 /* BasicExampleViewController.swift */,
 				838E5198221FF9D900DF9B74 /* ChatViewController.swift */,
 				838E519C222522F600DF9B74 /* HomeTableViewController.swift */,
+				8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */,
 				838E5191221FF31700DF9B74 /* Models */,
 				838E518C221FEA1200DF9B74 /* Data Generation */,
 				8324BBDA220BCB0300C4B59A /* Extensions */,
@@ -1135,6 +1138,7 @@
 				831DB6AB220A85BC00CE1BFC /* SPLocalNotification.swift in Sources */,
 				83233D9B21A3BE26008443C2 /* Capstone.xcdatamodeld in Sources */,
 				831DB620220A83D400CE1BFC /* SPFormTextInputTableViewCell.swift in Sources */,
+				8317E64C222F48AD00AC5CC9 /* ChatListTableViewController.swift in Sources */,
 				831DB6A5220A858200CE1BFC /* SPConstraints.swift in Sources */,
 				831DB62F220A83F100CE1BFC /* SPDownloadingButton.swift in Sources */,
 				831DB631220A83F100CE1BFC /* SPButton.swift in Sources */,

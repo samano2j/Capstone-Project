@@ -278,6 +278,10 @@ class MailContentTableViewController: UITableViewController {
             }
         }
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return !tableView.isEditing
+    }
 }
 
 // MARK: - UISearchBarDelegate

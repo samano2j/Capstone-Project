@@ -26,46 +26,32 @@ class MailDetailsTableViewController: UITableViewController {
     @IBOutlet weak var bodyCell: UITableViewCell!
     @IBOutlet weak var imageView: UIImageView!
     @IBAction func compose(_ sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
-        
-        let modal = controller
-        let transitionDelegate = SPStorkTransitioningDelegate()
-        modal?.transitioningDelegate = transitionDelegate
-        modal?.modalPresentationStyle = .custom
-        self.present(modal!, animated: true, completion: nil)
+        self.segueToComposeViewController()
     }
     
-//    @IBAction func moveMessages(_ sender: UIBarButtonItem) {
-//        if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-//            results = self.ApiUrl.GetFolders()
-//            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//            let closure: (UIAlertAction) -> Void = { }
-//            if (results != nil) {
-//                for mail in (results?.data)! {
-//                    DetMailBoxes.append(mail.attributes.name)
-//                }
-//                for temp in DetMailBoxes {
-//                    controller.addAction(UIAlertAction(title: temp, style: .default, handler: closure))
-//                }
-//                self.present(controller, animated: true, completion: nil)
-//            }
-//        }
-//    }
-    
-    //    if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
-//    {
-//    results = email.GetFolders()
-//    if (results != nil)
-//    {
-//    for mail in (results?.data)! {
-//    MailBoxes.append(mail.attributes.name)
-//    let mailBoxCount = (mail.attributes.message_count == 0) ? "" : String(mail.attributes.message_count)
-//    MailBoxesCount.updateValue(mailBoxCount, forKey: mail.attributes.name)
-//    mailFolderID.updateValue(mail.id, forKey: mail.attributes.name)
-//    }
-//    }
-//    }
+    @IBAction func moveMessages(_ sender: UIBarButtonItem) {
+        if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
+            results = self.ApiUrl.GetFolders()
+            let controller = UIAlertController(title: nil, message: "Move this message to a new mailbox.", preferredStyle: .actionSheet)
+            
+            if (results != nil) {
+                for mail in (results?.data)! {
+                    DetMailBoxes.append(mail.attributes.name)
+                }
+                
+                let closure: (UIAlertAction) -> Void = {_ in print("you've pressed " + controller.actions.description)}
+                
+                for temp in DetMailBoxes {
+                    let action = UIAlertAction(title: temp, style: .default, handler: closure)
+                    action.setValue(MailTableViewController.returnImageForFolderType(name: temp), forKey: "image")
+                    controller.addAction(action)
+                }
+                controller.addCancelAction(title: "Cancel")
+
+                self.present(controller, animated: true, completion: nil)
+            }
+        }
+    }
     
     @IBAction func pressedDelete(_ sender: UIBarButtonItem) {
         if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
