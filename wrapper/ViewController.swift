@@ -33,18 +33,18 @@ class ViewController: UIViewController {
             results = email.GetFolders()
             
            
-            let m : Message.ComposeResult? = email.ComposeMessage(recpt_ids: [email.GetProfile().id!], body: "hello", subject: "test", reply_to_id: "", urgent: false)
+          /*  let m : Message.ComposeResult? = email.ComposeMessage(recpt_ids: [email.GetProfile().id!], body: "hello", subject: "test", reply_to_id: "", urgent: false)
             
             if (m != nil)
             {
                 print("Sent message")
                 email.SaveDraft(Msg: m!) //save draft
                 
-            }
+            }*/
             
             
             
-           /* if (results != nil)
+            if (results != nil)
             {
                 
                 
@@ -59,7 +59,7 @@ class ViewController: UIViewController {
                         break
                     }
                 }
-            }*/
+            }
         }
         
         
@@ -76,6 +76,11 @@ class ViewController: UIViewController {
                 
                 if (msg != nil)
                 {
+                    if (msg?.data.attributes.body == "hello")
+                    {
+                        print(email.DeleteMessage(folder_id: String((msg?.data.attributes.folder_id)!), message_id: (msg?.data.id)!))
+                    }
+                    
                     print(msg?.data.attributes.body)
                     //email.GetSenderInformation(Message: msg!)
                     

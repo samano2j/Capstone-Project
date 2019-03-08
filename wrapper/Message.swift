@@ -32,7 +32,7 @@ class Message {
     
     
     struct meta : Decodable {
-        var per_page : Int
+        var per_page : String
         var current_page : Int
         var next_page : Int?
         var prev_page : Int?

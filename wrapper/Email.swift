@@ -125,7 +125,7 @@ class Email
         var Folders : Folder.result? = nil
         
         let sem = DispatchSemaphore(value: 0)
-        req.HTTPGETJSONAPI(url: URL + "/staff/folders", token: jwt!) { (data, error ) in
+        req.HTTPGETJSONAPI(url: URL + "/common/folders", token: jwt!) { (data, error ) in
             
             if (error == nil)
             {
@@ -157,7 +157,7 @@ class Email
         var Messages : Message.result? = nil
         
         let sem = DispatchSemaphore(value: 0)
-        req.HTTPGETJSONAPI(url: URL + "/staff/folders/" + folder_id + "/messages", token: jwt!) { (data, error) in
+        req.HTTPGETJSONAPI(url: URL + "/common/folders/" + folder_id + "/messages", token: jwt!) { (data, error) in
             if (error == nil)
             {
                 do
@@ -193,7 +193,7 @@ class Email
         var msg : Message.SingleMessage.result? = nil
         
         let sem = DispatchSemaphore(value: 0)
-        req.HTTPGETJSONAPI(url: URL + "/staff/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
+        req.HTTPGETJSONAPI(url: URL + "/common/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
             if (error == nil)
             {
                 do
@@ -318,7 +318,7 @@ class Email
         
         let sem = DispatchSemaphore(value: 0)
         
-        req.HTTPDELETEJSONAPI(url: URL + "/staff/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
+        req.HTTPDELETEJSONAPI(url: URL + "/common/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
             if (error == nil)
             {
                 
@@ -345,7 +345,7 @@ class Email
         
         let sem = DispatchSemaphore(value: 0)
         
-        req.HTTPDELETEJSONAPI(url: URL + "/staff/folders/" + folder_id, token: jwt!) { (data, error) in
+        req.HTTPDELETEJSONAPI(url: URL + "/common/folders/" + folder_id, token: jwt!) { (data, error) in
             if (error == nil)
             {
                 
