@@ -13,12 +13,28 @@ class ViewController: UIViewController {
         }
         
     }
+
     
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        var recpt : Message.ComposeRecptData = Message.ComposeRecptData()
+        recpt.id = "14"
         
-        var Messages : Message.result? = nil
+        var r = Message.ComposeResult()
+        
+        r.data.attributes.body = "test"
+        r.relationships.message_recipients.data.append(recpt)
+        
+        
+        
+        let jsonData = try! JSONEncoder().encode(r)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        print(jsonString)
+        
+        
+       /* var Messages : Message.result? = nil
         
         let email = Email(url: "http://otu-capstone.cs.uregina.ca:3000")
         
@@ -38,7 +54,7 @@ class ViewController: UIViewController {
                 
                 for mail in (results?.data)!
                 {
-                    print("test")
+                    
                     
                     if (mail.attributes.name == "Inbox")
                     {
@@ -72,7 +88,7 @@ class ViewController: UIViewController {
                 }
                 
             }
-        }
+        }*/
     }
     
     

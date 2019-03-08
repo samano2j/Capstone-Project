@@ -30,6 +30,7 @@ class Message {
         var attributes : attributes
     }
     
+    
     struct meta : Decodable {
         var per_page : Int
         var current_page : Int
@@ -57,6 +58,8 @@ class Message {
     }
     
     
+    
+    
     struct SingleMessage {
         
         struct meta : Decodable {
@@ -69,5 +72,89 @@ class Message {
         }
         
     }
+    
+        struct ComposeAttributes : Codable {
+            var body : String
+            var subject : String
+            var urgent : Bool
+            var reply_to_id : String
+            
+            init () {
+                body = ""
+                subject = ""
+                urgent = false
+                reply_to_id = ""
+                
+            }
+        }
+        
+        struct ComposeRecptDataAttributes : Codable
+        {
+            var bcc : Bool
+            var recipient_id : String
+            
+            
+            init () {
+                recipient_id = ""
+                bcc = false
+            }
+            
+        }
+        struct ComposeRecptData : Codable
+        {
+            var id : String
+            var type : String
+            var attributes : ComposeRecptDataAttributes
+            
+            init () {
+                id = ""
+                type = "message_recipients"
+                attributes = ComposeRecptDataAttributes()
+            }
+            
+            
+        }
+        struct ComposeRecpt : Codable
+        {
+            var data : [ComposeRecptData]
+            
+            init() {
+                data = []
+                
+            }
+            
+        }
+        struct ComposeRelationships : Codable {
+            var message_recipients : ComposeRecpt
+            
+            init () {
+                message_recipients = ComposeRecpt()
+            }
+            
+        }
+        
+        struct ComposeData : Codable
+        {
+            var type : String
+            var attributes : ComposeAttributes
+            
+            init () {
+                type = "messages"
+                attributes = ComposeAttributes()
+            }
+        }
+        
+        struct ComposeResult : Codable {
+            var data : ComposeData
+            var relationships : ComposeRelationships
+            
+            init () {
+                data = ComposeData()
+                relationships = ComposeRelationships()
+                
+            }
+            
+        }
+    
     
 }
