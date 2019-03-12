@@ -26,8 +26,21 @@ class ViewController: UIViewController {
         let email = Email(url: "http://otu-capstone.cs.uregina.ca:3000")
         
     
-        if ( email.Auth(User: "max", Password: "1234") == true )
+        if ( email.Auth(User: "clara", Password: "1234") == true )
         {
+            
+            let matches : Profile.MatchUserResult? =  email.GetMatchings()
+            
+            if (matches != nil)
+            {
+                for match in (matches?.data)! {
+                    print(match.attributes.first_name)
+                }
+            }
+           /*  if ( email.CreateFolder(folder_name: "new folder 2", parent_folder_id: nil) != nil)
+            {
+                print("successfully created folder")
+            }*/
             
             var results : Folder.result? = nil
             results = email.GetFolders()
@@ -44,18 +57,17 @@ class ViewController: UIViewController {
             
             
             
+            email.GetBroadcasts()
+            
             if (results != nil)
             {
                 
                 
                 for mail in (results?.data)!
                 {
-                    print(mail.attributes.name + ":" + mail.id) //inbox == 647, trash 650
+                   // print(mail.attributes.name + ":" + mail.id) //inbox == 647, trash 650
                     
-                    if ( email.CreateFolder(folder_name: "new folder 2", parent_folder_id: nil) != nil)
-                    {
-                        print("successfully created folder")
-                    }
+                   
                     
                     
                    /* if (mail.attributes.name == "Sent")

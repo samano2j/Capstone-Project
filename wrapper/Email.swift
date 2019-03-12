@@ -157,9 +157,7 @@ class Email
         
         let jsonData = try! JSONEncoder().encode(newFolder)
         
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        print(jsonString)
-        
+    
         req.HTTPPOSTJSONAPI(url: URL + "/common/folders", token: jwt!, data: jsonData) { (data, error) in
             
             if (error == nil)
@@ -378,6 +376,61 @@ class Email
         }
     }
     
+    func GetBroadcasts() {
+        let sem = DispatchSemaphore(value: 0)
+        
+        req.HTTPGETJSONAPI(url: URL + "/common/broadcasts", token: jwt!) { (data, error) in
+            if (error == nil)
+            {
+                do
+                {   print(data)
+                    
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } else {
+                print("Error -> \(String(describing: error))")
+            }
+            
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+    }
+    
+    
+    
+    func GetMatchings() -> Profile.MatchUserResult? {
+        let sem = DispatchSemaphore(value: 0)
+        var matches : Profile.MatchUserResult? = nil
+    
+        req.HTTPGETJSONAPI(url: URL + "/common/matchings", token: jwt!) { (data, error) in
+            if (error == nil)
+            {
+                do
+                {
+                    
+                    let json = try JSONDecoder().decode(Profile.MatchUserResult.self, from: data.data(using: .utf8)!)
+                    matches = json
+                    
+                
+                } catch {
+                    print(error.localizedDescription)
+                }
+                
+            } else {
+                print("Error -> \(String(describing: error))")
+            }
+            
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+    
+        return matches
+        
+    }
     func GetProfile() -> profile_information {
         var profile = profile_information()
         var profile_data : Profile.result? = nil

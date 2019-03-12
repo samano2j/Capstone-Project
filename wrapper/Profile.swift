@@ -29,4 +29,18 @@ class Profile {
         var data : data
     }
     
+    struct MatchUserAttributes : Decodable {
+        var first_name : String
+        var last_name : String
+    }
+    
+    struct MatchUserData : Decodable {
+        var id : Int
+        var type : String
+        var attributes : MatchUserAttributes
+    }
+    
+    struct MatchUserResult : Decodable {
+        var data : [MatchUserData]
+    }
 }
