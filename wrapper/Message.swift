@@ -67,7 +67,6 @@ class Message {
         }
         struct result : Decodable {
             var data : data
-            var meta : SingleMessage.meta
             var included : [included]
         }
         

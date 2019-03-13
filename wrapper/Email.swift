@@ -400,7 +400,7 @@ class Email
     }
     
     
-    
+
     func GetMatchings() -> Profile.MatchUserResult? {
         let sem = DispatchSemaphore(value: 0)
         var matches : Profile.MatchUserResult? = nil
@@ -410,7 +410,7 @@ class Email
             {
                 do
                 {
-                    
+                   
                     let json = try JSONDecoder().decode(Profile.MatchUserResult.self, from: data.data(using: .utf8)!)
                     matches = json
                     
@@ -490,6 +490,33 @@ class Email
         return sender_info
     }
     
+    func GetSenderInformation(messages : Message.result, msg_id : String) -> sender_information? {
+        var sender_id : Int? = nil
+        var sender_info : sender_information? = nil
+        var temp = sender_information()
+        
+        for msg in messages.data {
+            if (msg.id == msg_id) {
+                sender_id = msg.attributes.sender_id
+            }
+        }
+        
+        if (sender_id != nil) {
+            for sender in messages.included {
+                if (sender_id == sender.id) {
+                    temp.first_name = sender.attributes.first_name
+                    temp.last_name = sender.attributes.last_name
+                    temp.id = sender.id
+                    
+                    sender_info = temp
+                }
+            }
+        }
+        
+        
+        
+        return sender_info
+    }
     
     func DeleteMessage(folder_id: String, message_id: String) -> Bool
     {

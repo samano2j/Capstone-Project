@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         let email = Email(url: "http://otu-capstone.cs.uregina.ca:3000")
         
     
-        if ( email.Auth(User: "clara", Password: "1234") == true )
+        if ( email.Auth(User: "cindy", Password: "1234") == true )
         {
             
             let matches : Profile.MatchUserResult? =  email.GetMatchings()
@@ -57,7 +57,7 @@ class ViewController: UIViewController {
             
             
             
-            email.GetBroadcasts()
+            //email.GetBroadcasts()
             
             if (results != nil)
             {
@@ -70,13 +70,14 @@ class ViewController: UIViewController {
                    
                     
                     
-                   /* if (mail.attributes.name == "Sent")
+                    if (mail.attributes.name == "Inbox")
                     {
                        
                         Messages = email.GetMessages(folder_id: mail.id)
+                     
                         
-                        //break
-                    }*/
+                        break
+                    }
                 }
             }
         }
@@ -91,24 +92,24 @@ class ViewController: UIViewController {
             {
                 
                 
-                let msg = email.GetMessage(folder_id: String(Message.attributes.folder_id), message_id: Message.id)
+               // let msg = email.GetMessage(folder_id: String(Message.attributes.folder_id), message_id: Message.id)
                 
-                if (msg != nil)
-                {
+                //if (msg != nil)
+                //{
                     
                     
                   
                    /* print( email.MoveMessages(from_folder: String((msg?.data.attributes.folder_id)!), to_folder: "648", message_ids: [(msg?.data.id)!]))*/
                    
                     
-                    print(msg?.data.attributes.body)
+                    //print(msg?.data.attributes.body)
                     
                     //email.GetSenderInformation(Message: msg!)
                     
                     
                     
                     
-                }
+                //}
                 
             }
         }
