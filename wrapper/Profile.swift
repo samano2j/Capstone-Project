@@ -35,6 +35,12 @@ class Profile {
     }
     
     struct MatchUserData : Decodable {
+        var id : String
+        var type : String
+        //var attributes : MatchUserAttributes
+    }
+    
+    struct MatchUserIncluded : Decodable {
         var id : Int
         var type : String
         var attributes : MatchUserAttributes
@@ -42,5 +48,6 @@ class Profile {
     
     struct MatchUserResult : Decodable {
         var data : [MatchUserData]
+        var included : [MatchUserIncluded]
     }
 }

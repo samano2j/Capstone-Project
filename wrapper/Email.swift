@@ -286,6 +286,7 @@ class Email
                 do
                 {
                     
+                    
                     let json = try JSONDecoder().decode(Message.result.self, from: data.data(using: .utf8)!)
                     Messages = json
                     
@@ -405,14 +406,16 @@ class Email
         let sem = DispatchSemaphore(value: 0)
         var matches : Profile.MatchUserResult? = nil
     
-        req.HTTPGETJSONAPI(url: URL + "/common/matchings", token: jwt!) { (data, error) in
+        req.HTTPGETJSONAPI(url: URL + "/client/matchings", token: jwt!) { (data, error) in
             if (error == nil)
             {
                 do
                 {
+                    
                    
                     let json = try JSONDecoder().decode(Profile.MatchUserResult.self, from: data.data(using: .utf8)!)
                     matches = json
+                    
                     
                 
                 } catch {
@@ -488,6 +491,66 @@ class Email
         }
         
         return sender_info
+    }
+    
+    func GetToInformation(Message: Message.SingleMessage.result) -> Array<sender_information> {
+        var to_information = Array<sender_information>()
+        var msg_ids : [Int] = []
+        
+        for msg_id in Message.data.relationships.to.data {
+            msg_ids.append(msg_id.id)
+            
+        }
+        
+        for msg_id in msg_ids {
+            for ppl in Message.included {
+                if (ppl.id == msg_id)
+                {
+                    var to = sender_information()
+                    
+                    to.first_name = ppl.attributes.first_name
+                    to.last_name = ppl.attributes.last_name
+                    to.id = ppl.id
+                    
+                    to_information.append(to)
+                }
+            }
+        }
+        
+        return to_information
+    }
+    
+    func GetToInformation(messages : Message.result, msg_id : String) -> Array<sender_information>
+    {
+        var to_information = Array<sender_information>()
+        var msg_ids : [Int] = []
+        
+        for msg in messages.data {
+            if (msg.id == msg_id)
+            {
+                for msg_id in msg.relationships.to.data {
+                    msg_ids.append(msg_id.id)
+                }
+            }
+        }
+        
+        
+        for msg_id in msg_ids {
+            for ppl in messages.included {
+                if (ppl.id == msg_id)
+                {
+                    var to = sender_information()
+                    
+                    to.first_name = ppl.attributes.first_name
+                    to.last_name = ppl.attributes.last_name
+                    to.id = ppl.id
+                    
+                    to_information.append(to)
+                }
+            }
+        }
+        
+        return to_information
     }
     
     func GetSenderInformation(messages : Message.result, msg_id : String) -> sender_information? {

@@ -33,8 +33,10 @@ class ViewController: UIViewController {
             
             if (matches != nil)
             {
-                for match in (matches?.data)! {
-                    print(match.attributes.first_name)
+                for match in (matches?.included)!
+                {
+                    
+                    print(match.attributes.first_name + ":" + match.attributes.last_name)
                 }
             }
            /*  if ( email.CreateFolder(folder_name: "new folder 2", parent_folder_id: nil) != nil)
@@ -91,13 +93,24 @@ class ViewController: UIViewController {
             for Message in (Messages?.data)!
             {
                 
+                /*var info : [Email.sender_information]
+                info = email.GetToInformation(messages: Messages!, msg_id: Message.id)
                 
-               // let msg = email.GetMessage(folder_id: String(Message.attributes.folder_id), message_id: Message.id)
+                for person in info {
+                    print(person.first_name! + ":" + person.last_name!)
+                }*/
                 
-                //if (msg != nil)
-                //{
+                let msg = email.GetMessage(folder_id: String(Message.attributes.folder_id), message_id: Message.id)
+                
+                if (msg != nil)
+                {
+                let info = email.GetToInformation(Message: msg!)
                     
-                    
+                    for person in info {
+                        print(person.first_name! + ":" + person.last_name! + ":" + (msg?.data.id)!)
+                        
+                    }
+                   
                   
                    /* print( email.MoveMessages(from_folder: String((msg?.data.attributes.folder_id)!), to_folder: "648", message_ids: [(msg?.data.id)!]))*/
                    
@@ -109,7 +122,7 @@ class ViewController: UIViewController {
                     
                     
                     
-                //}
+                }
                 
             }
         }

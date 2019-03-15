@@ -28,6 +28,8 @@ class Message {
         var id : String
         var type : String
         var attributes : attributes
+        var relationships : relationships
+        
     }
     
     
@@ -43,6 +45,19 @@ class Message {
     struct name_attributes : Decodable {
         var first_name : String
         var last_name : String
+    }
+    
+    struct relationships_data : Decodable {
+        var id : Int
+        var type : String
+    }
+    
+    struct relationships_to : Decodable {
+        var data : [relationships_data]
+    }
+    
+    struct relationships : Decodable {
+        var to : relationships_to
     }
     
     struct included : Decodable {
