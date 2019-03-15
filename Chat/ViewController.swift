@@ -41,7 +41,6 @@ class ViewController: UIViewController {
     
     @IBAction func TextViewChanged(_ sender: Any) {
         
-        
         if (currentRoom != nil){
             currentUser?.typing(in: currentRoom!) { (Error) in
                 
@@ -153,8 +152,13 @@ extension ViewController: PCRoomDelegate {
         
         typingUsers.append((user.name)!)
         
-        for user in typingUsers {
-            appendedString += user + ", "
+        if (typingUsers.count > 1 ) {
+            for user in typingUsers {
+                appendedString += user + ", "
+            }
+        }
+        else {
+            appendedString += typingUsers[0] + " "
         }
         
         appendedString += " is typing..."
@@ -177,8 +181,13 @@ extension ViewController: PCRoomDelegate {
         }
         else
         {
-            for user in typingUsers {
-                appendedString += user + ", "
+            if (typingUsers.count > 1 ) {
+                for user in typingUsers {
+                    appendedString += user + ", "
+                }
+            }
+            else {
+                appendedString += typingUsers[0] + " "
             }
         
             appendedString += " is typing..."
