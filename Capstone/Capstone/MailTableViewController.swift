@@ -40,12 +40,18 @@ class MailTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        let edit = self.editButtonItem
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createFolder))
+        self.navigationItem.rightBarButtonItems = [edit, add]
         
         tableView.allowsSelection = true
         definesPresentationContext = true
         tableView.allowsMultipleSelectionDuringEditing = true
         
+        initializeTableViewDataSource()
+    }
+    
+    func initializeTableViewDataSource() {
         if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
         {
             results = email.GetFolders()
@@ -59,6 +65,37 @@ class MailTableViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    func error() {
+        let err = UIAlertController(title: "Error", message: "⚠️Sorry this action cannot be executed", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .cancel)
+        err.addAction(ok)
+        
+        present(err, animated: true)
+    }
+    
+    @objc func createFolder() {
+        let ac = UIAlertController(title: "Create Folder", message: "Enter Folder Name", preferredStyle: .alert)
+        ac.addTextField()
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let submitAction = UIAlertAction(title: "Create", style: .default) { [unowned ac] _ in
+            guard let answer = ac.textFields![0].text else { return }
+            if (self.email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true ) {
+                if self.email.CreateFolder(folder_name: answer, parent_folder_id: nil) == nil {
+                    self.error()
+                } else {
+                    self.MailBoxes.removeAll(keepingCapacity: true)
+                    self.initializeTableViewDataSource()
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
+        ac.addAction(submitAction)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
     }
     
     // MARK: - Table view data source
@@ -96,7 +133,7 @@ class MailTableViewController: UITableViewController {
         tableView.setEditing(editing, animated: true)
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let delete = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(addTapped))
+        let delete = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteRows))
         if (tableView.isEditing) {
             self.toolbarItems = [spacer, delete]
         } else {
@@ -104,7 +141,26 @@ class MailTableViewController: UITableViewController {
         }
     }
     
-    @objc func addTapped() {
+    @objc func deleteRows() {
+        if let selectedRows = self.tableView.indexPathsForSelectedRows {
+            // 1 The selected rows are added to a temporary array
+            var items = [String]()
+            for indexPath in selectedRows  {
+                items.append(MailBoxes[indexPath.row])
+            }
+            // 2 The index of the items of the temporary array will be used to remove the items of the MailBoxes array and 
+            for item in items {
+                if let index = MailBoxes.index(of: item) {
+                    if (email.DeleteFolder(folder_id: mailFolderID[MailBoxes[index]]!)) {
+                        MailBoxes.remove(at: index)
+                    }
+                }
+            }
+            // 3
+            tableView.beginUpdates()
+            tableView.deleteRows(at: selectedRows, with: .left)
+            tableView.endUpdates()
+        }
     }
     
     // Override to support editing the table view.
@@ -147,6 +203,13 @@ class MailTableViewController: UITableViewController {
             default: break
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("view will appear!")
+        self.MailBoxes.removeAll(keepingCapacity: true)
+        self.initializeTableViewDataSource()
+        self.tableView.reloadData()
     }
     
     static public func returnImageForFolderType(name: String) -> UIImage {

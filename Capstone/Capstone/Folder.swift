@@ -5,7 +5,6 @@
 //  Created by user150359 on 1/24/19.
 //  Copyright © 2019 user150359. All rights reserved.
 //
-
 import Foundation
 
 class Folder  {
@@ -29,6 +28,10 @@ class Folder  {
     
     struct result : Decodable {
         var data : [data]
+    }
+    
+    struct singleresult : Decodable {
+        var data : data
     }
     
 }

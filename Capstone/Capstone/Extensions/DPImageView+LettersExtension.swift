@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SPStorkController
 
 extension UIImageView {
     
@@ -223,5 +224,26 @@ extension String
             preconditionFailure("Take a look to your format")
         }
         return date
+    }
+    
+    func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: [.usesFontLeading, .usesLineFragmentOrigin], attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return boundingBox.height
+    }
+}
+
+
+extension UITableViewController {
+    public func segueToComposeViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
+        
+        let modal = controller
+        let transitionDelegate = SPStorkTransitioningDelegate()
+        modal?.transitioningDelegate = transitionDelegate
+        modal?.modalPresentationStyle = .custom
+        self.present(modal!, animated: true, completion: nil)
     }
 }

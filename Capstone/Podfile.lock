@@ -4,24 +4,32 @@ PODS:
   - MessageInputBar/Core (0.4.1)
   - MessageKit (2.0.0):
     - MessageInputBar/Core
+  - SparrowKit (1.5.2)
+  - SPStorkController (1.5)
   - SwipeCellKit (2.5.1)
 
 DEPENDENCIES:
   - MessageInputBar
   - MessageKit
+  - SparrowKit
+  - SPStorkController
   - SwipeCellKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - MessageInputBar
     - MessageKit
+    - SparrowKit
+    - SPStorkController
     - SwipeCellKit
 
 SPEC CHECKSUMS:
   MessageInputBar: e81c7535347f1f7b923de7080409a535a004b6e4
   MessageKit: 29c1c87e5a396d2ca7a3f712e5171dc9aba42a1e
+  SparrowKit: ea939f5ada255b0eb0f8c4feca4bba101b893301
+  SPStorkController: c393b17fc98de186e73748f9bbe438eb0a031f22
   SwipeCellKit: 30fd6a4f8a8b8ac864ea389c8b4c8bac5ba5471a
 
-PODFILE CHECKSUM: 5eec5dc74245a9742f0f9c8acf56e96eea240c2a
+PODFILE CHECKSUM: 063192144326fa5248188914a0526801c24cc57e
 
 COCOAPODS: 1.5.3

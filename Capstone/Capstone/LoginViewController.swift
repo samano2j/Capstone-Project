@@ -37,11 +37,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (textField == usernameTextField) {
-            usernameTextField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
-        } else if (textField == passwordTextField) {
-            passwordTextField.resignFirstResponder()
-            usernameTextField.becomeFirstResponder()
         }
         return true
     }
@@ -53,7 +49,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         passwordTextField.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        // Do any additional setup after loading the view.
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -88,10 +83,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     func routeToListContacts() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let destinationNVC = storyboard.instantiateViewController(withIdentifier: "MainScreen") as! UINavigationController
-        
-//        let contentVC = storyboard.instantiateViewController(withIdentifier: "ContentViewController") as! MailContentTableViewController
-//        contentVC.eMail = email
-        
+
         self.show(destinationNVC, sender: nil)
     }
     

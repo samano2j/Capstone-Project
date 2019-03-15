@@ -10,7 +10,6 @@ import Foundation
 
 
 class Message {
-    
     struct attributes : Decodable {
         var folder_id : Int
         var folder_name : String
@@ -27,10 +26,13 @@ class Message {
         var id : String
         var type : String
         var attributes : attributes
+        var relationships : relationships
+        
     }
     
+    
     struct meta : Decodable {
-        var per_page : Int
+        var per_page : String
         var current_page : Int
         var next_page : Int?
         var prev_page : Int?
@@ -41,6 +43,19 @@ class Message {
     struct name_attributes : Decodable {
         var first_name : String
         var last_name : String
+    }
+    
+    struct relationships_data : Decodable {
+        var id : Int
+        var type : String
+    }
+    
+    struct relationships_to : Decodable {
+        var data : [relationships_data]
+    }
+    
+    struct relationships : Decodable {
+        var to : relationships_to
     }
     
     struct included : Decodable {
@@ -56,6 +71,8 @@ class Message {
     }
     
     
+    
+    
     struct SingleMessage {
         
         struct meta : Decodable {
@@ -63,10 +80,91 @@ class Message {
         }
         struct result : Decodable {
             var data : data
-            var meta : SingleMessage.meta
             var included : [included]
         }
         
     }
     
+    struct ComposeAttributes : Codable {
+        var body : String
+        var subject : String
+        var urgent : Bool
+        var reply_to_id : String
+        
+        init () {
+            body = ""
+            subject = ""
+            urgent = false
+            reply_to_id = ""
+            
+        }
+    }
+    
+    struct ComposeRecptDataAttributes : Codable
+    {
+        var bcc : Bool
+        var recipient_id : String
+        
+        
+        init () {
+            recipient_id = ""
+            bcc = false
+        }
+        
+    }
+    struct ComposeRecptData : Codable
+    {
+        var id : String
+        var type : String
+        var attributes : ComposeRecptDataAttributes
+        
+        init () {
+            id = ""
+            type = "message_recipients"
+            attributes = ComposeRecptDataAttributes()
+        }
+        
+        
+    }
+    struct ComposeRecpt : Codable
+    {
+        var data : [ComposeRecptData]
+        
+        init() {
+            data = []
+            
+        }
+        
+    }
+    struct ComposeRelationships : Codable {
+        var message_recipients : ComposeRecpt
+        
+        init () {
+            message_recipients = ComposeRecpt()
+        }
+        
+    }
+    
+    struct ComposeData : Codable
+    {
+        var type : String
+        var attributes : ComposeAttributes
+        
+        init () {
+            type = "messages"
+            attributes = ComposeAttributes()
+        }
+    }
+    
+    struct ComposeResult : Codable {
+        var data : ComposeData
+        var relationships : ComposeRelationships
+        
+        init () {
+            data = ComposeData()
+            relationships = ComposeRelationships()
+            
+        }
+        
+    }
 }

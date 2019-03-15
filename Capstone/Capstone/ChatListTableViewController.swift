@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import SparrowKit
+import SPStorkController
 
 class ChatListTableViewController: UITableViewController {
-
+//    let navBar = SPFakeBarView.init(style: .stork)
+//    override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +28,21 @@ class ChatListTableViewController: UITableViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.tableFooterView = UIView()
         self.toolbarItems = nil
+        
+        
+        super.viewDidLoad()
+//        self.modalPresentationCapturesStatusBarAppearance = true
+//
+//        self.navBar.titleLabel.text = "New Message"
+//        self.navBar.leftButton.setTitle("Cancel", for: .normal)
+//        self.navBar.rightButton.setTitle("Send", for: .normal)
+//        self.navBar.leftButton.addTarget(self, action: #selector(self.cancel), for: .touchUpInside)
+//        self.navBar.rightButton.addTarget(self, action: #selector(self.cancel), for: .touchUpInside)
+//
+//        self.view.addSubview(self.navBar)
+    }
+    
+    @objc func cancel() {
     }
     
     @objc func addTapped() {
@@ -51,8 +70,8 @@ class ChatListTableViewController: UITableViewController {
             self.toolbarItems = []
         }
     }
+    
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -69,6 +88,7 @@ class ChatListTableViewController: UITableViewController {
         cell.senderName.text = MockChatMeassages[indexPath.row].name
         cell.resentMessage.text = MockChatMeassages[indexPath.row].message
         cell.messagesDate.text = MockChatMeassages[indexPath.row].relativeChatDateString
+        //let imageView = cell.imageView
         getCustomImage(imageDisplayName: MockChatMeassages[indexPath.row].name, imageView: cell.messageAvatar)
 
         return cell

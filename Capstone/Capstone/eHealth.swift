@@ -7,9 +7,7 @@
 //
 import Foundation
 
-
-class eHealth
-{
+class eHealth {
     var URL = ""
     var req = Request()
     var jwt: String? = nil
@@ -57,13 +55,197 @@ class eHealth
         return !(jwt ?? "").isEmpty
     }
     
+    //TO:DO - properly parse response JSON to determine success
+    
+    struct MoveAttributes : Codable
+    {
+        var message_ids : [String]
+        
+        init () {
+            message_ids = []
+        }
+    }
+    
+    struct MoveData : Codable {
+        var attributes: MoveAttributes
+        
+        init()
+        {
+            attributes = MoveAttributes()
+        }
+    }
+    struct MoveResult : Codable {
+        var data: MoveData
+        init() {
+            data = MoveData()
+        }
+    }
+    
+    func MoveMessages(from_folder : String, to_folder : String, message_ids : [String]) -> Bool
+    {
+        var success = false
+        
+        let sem = DispatchSemaphore(value: 0)
+        var MoveResults = MoveResult()
+        
+        for message_id in message_ids {
+            MoveResults.data.attributes.message_ids.append(message_id)
+        }
+        
+        let jsonData = try! JSONEncoder().encode(MoveResults)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        print(jsonString)
+        req.HTTPPUTJSONAPI(url: URL + "/common/folders/" + from_folder + "/messages/move_to/" + to_folder, token: jwt!, data: jsonData) { (data, error) in
+            
+            if (error == nil)
+            {
+                
+                success = true
+                
+            }
+            
+            sem.signal()
+        }
+        
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return success
+    }
+    
+    struct CreateFolderAttributes : Codable
+    {
+        var name : String
+        var parent_folder_id : Int?
+        
+        init () {
+            parent_folder_id = nil
+            name = ""
+        }
+        
+    }
+    struct CreateFolderData : Codable
+    {
+        var type : String
+        var attributes : CreateFolderAttributes
+        init () {
+            attributes = CreateFolderAttributes()
+            type = "folders"
+        }
+        
+    }
+    struct CreateFolderResult : Codable
+    {
+        var data : CreateFolderData
+        init () {
+            data = CreateFolderData()
+        }
+    }
+    
+    func CreateFolder(folder_name : String, parent_folder_id : Int?) -> Folder.singleresult?
+    {
+        var newFolder = CreateFolderResult()
+        var resultFolder : Folder.singleresult? = nil
+        
+        let sem = DispatchSemaphore(value: 0)
+        
+        newFolder.data.attributes.name = folder_name
+        newFolder.data.attributes.parent_folder_id = parent_folder_id
+        
+        let jsonData = try! JSONEncoder().encode(newFolder)
+        
+        
+        req.HTTPPOSTJSONAPI(url: URL + "/common/folders", token: jwt!, data: jsonData) { (data, error) in
+            
+            if (error == nil)
+            {
+                do
+                {
+                    
+                    let json = try JSONDecoder().decode(Folder.singleresult.self, from: data.data(using: .utf8)!)
+                    resultFolder = json
+                    
+                } catch {
+                    //print(error.localizedDescription)
+                }
+                
+            }
+            sem.signal()
+            
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return resultFolder
+    }
+    
+    func SaveDraft(Msg : Message.ComposeResult) {
+        let sem = DispatchSemaphore(value: 0)
+        
+        let jsonData = try! JSONEncoder().encode(Msg)
+        
+        req.HTTPPOSTJSONAPI(url: URL + "/common/draft", token: jwt!, data: jsonData) { (data, error) in
+            
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+    }
+    
+    func ComposeMessage(recpt_ids : [String], body : String, subject : String, reply_to_id : String, urgent : Bool) -> Message.ComposeResult? {
+        
+        
+        let sem = DispatchSemaphore(value: 0)
+        
+        var recpts : [Message.ComposeRecptData] = []
+        
+        for recpt_id in recpt_ids {
+            var new_recpt = Message.ComposeRecptData()
+            new_recpt.id = recpt_id
+            new_recpt.attributes.recipient_id = recpt_id
+            recpts.append(new_recpt)
+        }
+        
+        var r = Message.ComposeResult()
+        
+        var Msg : Message.ComposeResult? = nil
+        
+        r.data.attributes.body = body
+        r.data.attributes.subject = subject
+        r.data.attributes.reply_to_id = reply_to_id
+        r.data.attributes.urgent = urgent
+        
+        
+        for recpt in recpts {
+            r.relationships.message_recipients.data.append(recpt)
+        }
+        
+        let jsonData = try! JSONEncoder().encode(r)
+        
+        req.HTTPPOSTJSONAPI(url: URL + "/common/message", token: jwt!, data: jsonData) { (data, error) in
+            
+            if (error == nil)
+            {
+                Msg = r
+                
+            }
+            
+            sem.signal()
+        }
+        
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return Msg
+        
+    }
     
     
     func GetFolders() -> Folder.result? {
         var Folders : Folder.result? = nil
         
         let sem = DispatchSemaphore(value: 0)
-        req.HTTPGETJSONAPI(url: URL + "/staff/folders", token: jwt!) { (data, error ) in
+        req.HTTPGETJSONAPI(url: URL + "/common/folders", token: jwt!) { (data, error ) in
             
             if (error == nil)
             {
@@ -95,11 +277,12 @@ class eHealth
         var Messages : Message.result? = nil
         
         let sem = DispatchSemaphore(value: 0)
-        req.HTTPGETJSONAPI(url: URL + "/staff/folders/" + folder_id + "/messages", token: jwt!) { (data, error) in
+        req.HTTPGETJSONAPI(url: URL + "/common/folders/" + folder_id + "/messages", token: jwt!) { (data, error) in
             if (error == nil)
             {
                 do
                 {
+                    
                     
                     let json = try JSONDecoder().decode(Message.result.self, from: data.data(using: .utf8)!)
                     Messages = json
@@ -131,7 +314,7 @@ class eHealth
         var msg : Message.SingleMessage.result? = nil
         
         let sem = DispatchSemaphore(value: 0)
-        req.HTTPGETJSONAPI(url: URL + "/staff/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
+        req.HTTPGETJSONAPI(url: URL + "/common/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
             if (error == nil)
             {
                 do
@@ -189,6 +372,64 @@ class eHealth
             last_name = nil
             id = nil
         }
+    }
+    
+    func GetBroadcasts() {
+        let sem = DispatchSemaphore(value: 0)
+        
+        req.HTTPGETJSONAPI(url: URL + "/common/broadcasts", token: jwt!) { (data, error) in
+            if (error == nil)
+            {
+                do
+                {   print(data)
+                    
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } else {
+                print("Error -> \(String(describing: error))")
+            }
+            
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+    }
+    
+    
+    
+    func GetMatchings() -> Profile.MatchUserResult? {
+        let sem = DispatchSemaphore(value: 0)
+        var matches : Profile.MatchUserResult? = nil
+        
+        req.HTTPGETJSONAPI(url: URL + "/client/matchings", token: jwt!) { (data, error) in
+            if (error == nil)
+            {
+                do
+                {
+                    
+                    
+                    let json = try JSONDecoder().decode(Profile.MatchUserResult.self, from: data.data(using: .utf8)!)
+                    matches = json
+                    
+                    
+                    
+                } catch {
+                    print(error.localizedDescription)
+                }
+                
+            } else {
+                print("Error -> \(String(describing: error))")
+            }
+            
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return matches
+        
     }
     func GetProfile() -> profile_information {
         var profile = profile_information()
@@ -249,6 +490,93 @@ class eHealth
         return sender_info
     }
     
+    func GetToInformation(Message: Message.SingleMessage.result) -> Array<sender_information> {
+        var to_information = Array<sender_information>()
+        var msg_ids : [Int] = []
+        
+        for msg_id in Message.data.relationships.to.data {
+            msg_ids.append(msg_id.id)
+            
+        }
+        
+        for msg_id in msg_ids {
+            for ppl in Message.included {
+                if (ppl.id == msg_id)
+                {
+                    var to = sender_information()
+                    
+                    to.first_name = ppl.attributes.first_name
+                    to.last_name = ppl.attributes.last_name
+                    to.id = ppl.id
+                    
+                    to_information.append(to)
+                }
+            }
+        }
+        
+        return to_information
+    }
+    
+    func GetToInformation(messages : Message.result, msg_id : String) -> Array<sender_information>
+    {
+        var to_information = Array<sender_information>()
+        var msg_ids : [Int] = []
+        
+        for msg in messages.data {
+            if (msg.id == msg_id)
+            {
+                for msg_id in msg.relationships.to.data {
+                    msg_ids.append(msg_id.id)
+                }
+            }
+        }
+        
+        
+        for msg_id in msg_ids {
+            for ppl in messages.included {
+                if (ppl.id == msg_id)
+                {
+                    var to = sender_information()
+                    
+                    to.first_name = ppl.attributes.first_name
+                    to.last_name = ppl.attributes.last_name
+                    to.id = ppl.id
+                    
+                    to_information.append(to)
+                }
+            }
+        }
+        
+        return to_information
+    }
+    
+    func GetSenderInformation(messages : Message.result, msg_id : String) -> sender_information? {
+        var sender_id : Int? = nil
+        var sender_info : sender_information? = nil
+        var temp = sender_information()
+        
+        for msg in messages.data {
+            if (msg.id == msg_id) {
+                sender_id = msg.attributes.sender_id
+            }
+        }
+        
+        if (sender_id != nil) {
+            for sender in messages.included {
+                if (sender_id == sender.id) {
+                    temp.first_name = sender.attributes.first_name
+                    temp.last_name = sender.attributes.last_name
+                    temp.id = sender.id
+                    
+                    sender_info = temp
+                }
+            }
+        }
+        
+        
+        
+        return sender_info
+    }
     
     func DeleteMessage(folder_id: String, message_id: String) -> Bool
     {
@@ -256,7 +584,7 @@ class eHealth
         
         let sem = DispatchSemaphore(value: 0)
         
-        req.HTTPDELETEJSONAPI(url: URL + "/staff/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
+        req.HTTPDELETEJSONAPI(url: URL + "/common/folders/" + folder_id + "/messages/" + message_id, token: jwt!) { (data, error) in
             if (error == nil)
             {
                 
@@ -283,7 +611,7 @@ class eHealth
         
         let sem = DispatchSemaphore(value: 0)
         
-        req.HTTPDELETEJSONAPI(url: URL + "/staff/folders/" + folder_id, token: jwt!) { (data, error) in
+        req.HTTPDELETEJSONAPI(url: URL + "/common/folders/" + folder_id, token: jwt!) { (data, error) in
             if (error == nil)
             {
                 
