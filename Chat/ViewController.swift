@@ -13,8 +13,10 @@ class ViewController: UIViewController {
     var chatManager: ChatManager!
     var currentUser: PCCurrentUser?
     var chatManagerDelegate: PCChatManagerDelegate?
+    var chatRoomDelegate: PCRoomDelegate?
     var messages: [PCMessage] = []
     var defaultFrame: CGRect!
+    var currentRoom: PCRoom?
     
     @IBOutlet weak var messageInput: UITextField!
     @IBOutlet weak var messagesTable: UITableView!
@@ -31,6 +33,27 @@ class ViewController: UIViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         moveViewsWithKeyboard(height: 0)
     }
+    
+
+
+    
+    @IBAction func TextViewChanged(_ sender: Any) {
+        
+        
+        if (currentRoom != nil){
+            currentUser?.typing(in: currentRoom!) { (Error) in
+                
+                if (Error != nil)
+                {
+                    print("Chat Error: \(String(describing: Error))")
+                }
+                
+            }
+        }
+        
+    }
+    
+
     @IBAction func SendMessage(_ sender: UIButton) {
       
         self.currentUser!.sendMessage(
@@ -61,8 +84,8 @@ class ViewController: UIViewController {
         messagesTable.dataSource = self
 
         chatManager = ChatManager(
-            instanceLocator: "v1:us1:c8b9b762-7de0-4e17-b597-b452e7659fa4",
-            tokenProvider: PCTokenProvider(url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/c8b9b762-7de0-4e17-b597-b452e7659fa4/token"),
+            instanceLocator: "v1:us1:22f58ecc-7a16-4269-84a6-7d27e20eb88e",
+            tokenProvider: PCTokenProvider(url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/22f58ecc-7a16-4269-84a6-7d27e20eb88e/token"),
             userID: "iden"
         )
         
@@ -78,8 +101,12 @@ class ViewController: UIViewController {
             print("Connected!")
             
             guard let currentUser = currentUser else { return }
-            self.currentUser = currentUser
             
+            
+            self.currentUser = currentUser
+            self.currentRoom = currentUser.rooms[0]
+            
+           
             currentUser.subscribeToRoom(
                 room: currentUser.rooms[0],
                 roomDelegate: self
@@ -89,7 +116,11 @@ class ViewController: UIViewController {
                     return
                 }
                 print("Subscribed to room!")
+                
+                
             }
+            
+            
             
         }
         
@@ -110,6 +141,20 @@ extension ViewController: PCRoomDelegate {
             self.messagesTable.reloadData()
         }
     }
+    
+    func onUserStartedTyping(user: PCUser) {
+        print("User \((user.name)!) started typing in room \((currentRoom?.name)!)")
+        
+        
+    }
+
+    func onUserStoppedTyping(user: PCUser) {
+         print("User \((user.name)!) started typing in room \((currentRoom?.name)!)")
+        
+
+    }
+    
+    
 }
 
 extension ViewController: UITableViewDataSource {
