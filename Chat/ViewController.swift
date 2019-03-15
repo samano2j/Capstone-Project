@@ -36,6 +36,7 @@ class ViewController: UIViewController {
     
 
 
+
     
     @IBAction func TextViewChanged(_ sender: Any) {
         
@@ -72,7 +73,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.title = "Chat"
         messagesTable.transform = CGAffineTransform(scaleX: 1, y: -1)
         defaultFrame = self.view.frame
         
@@ -131,7 +132,10 @@ class ViewController: UIViewController {
    
 }
 
-class MyChatManagerDelegate: PCChatManagerDelegate {}
+class MyChatManagerDelegate: PCChatManagerDelegate {
+    
+
+}
 
 extension ViewController: PCRoomDelegate {
     func onMessage(_ message: PCMessage) {
@@ -144,13 +148,18 @@ extension ViewController: PCRoomDelegate {
     
     func onUserStartedTyping(user: PCUser) {
         print("User \((user.name)!) started typing in room \((currentRoom?.name)!)")
-        
-        
+        DispatchQueue.main.async {
+            self.navigationItem.title = "\((user.name)!) is typing..."
+        }
+
     }
 
     func onUserStoppedTyping(user: PCUser) {
-         print("User \((user.name)!) started typing in room \((currentRoom?.name)!)")
+         print("User \((user.name)!) stopped typing in room \((currentRoom?.name)!)")
         
+        DispatchQueue.main.async {
+            self.navigationItem.title = "Chat"
+        }
 
     }
     
