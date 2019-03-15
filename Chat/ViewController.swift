@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var messages: [PCMessage] = []
     var defaultFrame: CGRect!
     var currentRoom: PCRoom?
+    var typingUsers : [String] = []
     
     @IBOutlet weak var messageInput: UITextField!
     @IBOutlet weak var messagesTable: UITableView!
@@ -148,17 +149,43 @@ extension ViewController: PCRoomDelegate {
     
     func onUserStartedTyping(user: PCUser) {
         print("User \((user.name)!) started typing in room \((currentRoom?.name)!)")
+        var appendedString = ""
+        
+        typingUsers.append((user.name)!)
+        
+        for user in typingUsers {
+            appendedString += user + ", "
+        }
+        
+        appendedString += " is typing..."
+        
         DispatchQueue.main.async {
-            self.navigationItem.title = "\((user.name)!) is typing..."
+            self.navigationItem.title = appendedString
         }
 
     }
 
     func onUserStoppedTyping(user: PCUser) {
          print("User \((user.name)!) stopped typing in room \((currentRoom?.name)!)")
+        var appendedString = ""
+        
+        typingUsers = typingUsers.filter{ $0 != (user.name)! }
+        
+        if (typingUsers.count == 0 )
+        {
+            appendedString = "Chat"
+        }
+        else
+        {
+            for user in typingUsers {
+                appendedString += user + ", "
+            }
+        
+            appendedString += " is typing..."
+        }
         
         DispatchQueue.main.async {
-            self.navigationItem.title = "Chat"
+            self.navigationItem.title = appendedString
         }
 
     }
