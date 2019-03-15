@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         let email = Email(url: "http://otu-capstone.cs.uregina.ca:3000")
         
     
-        if ( email.Auth(User: "cindy", Password: "1234") == true )
+        if ( email.Auth(User: "max", Password: "1234") == true )
         {
             
             let matches : Profile.MatchUserResult? =  email.GetMatchings()

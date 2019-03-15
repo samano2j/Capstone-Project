@@ -412,7 +412,7 @@ class Email
                 do
                 {
                     
-                   
+                    
                     let json = try JSONDecoder().decode(Profile.MatchUserResult.self, from: data.data(using: .utf8)!)
                     matches = json
                     
@@ -651,18 +651,18 @@ class Email
         var urgent : Bool
         var sysmsg : Bool
         var sent_at : String
+        var msg_id : String
     }
     
     func GetUnreadMessages(Messages : Message.result) -> Array<unread_message>
     {
-        
         var unread_messages = Array<unread_message>()
 
         for Message in Messages.data
         {
             if (Message.attributes.read_at == nil)
             {
-                unread_messages.append(unread_message(folder_id: Message.attributes.folder_id, folder_name: Message.attributes.folder_name, subject: Message.attributes.subject, body: Message.attributes.body, sender_id: Message.attributes.sender_id, urgent: Message.attributes.urgent, sysmsg: Message.attributes.sysmsg, sent_at: Message.attributes.sent_at))
+                unread_messages.append(unread_message(folder_id: Message.attributes.folder_id, folder_name: Message.attributes.folder_name, subject: Message.attributes.subject, body: Message.attributes.body, sender_id: Message.attributes.sender_id, urgent: Message.attributes.urgent, sysmsg: Message.attributes.sysmsg, sent_at: Message.attributes.sent_at, msg_id: Message.id))
             }
         }
         
