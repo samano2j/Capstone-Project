@@ -26,11 +26,12 @@ class ViewController: UIViewController {
         let email = Email(url: "http://otu-capstone.cs.uregina.ca:3000")
         
     
-        if ( email.Auth(User: "max", Password: "1234") == true )
+        if ( email.Auth(User: "trista", Password: "1234") == true )
         {
         
+            //email.SaveDraft(recpt_ids: [email.GetProfile().id!], body: "test2", subject: "testdraft", reply_to_id: "", urgent: false)
             
-            let matches : Profile.MatchUserResult? =  email.GetMatchings()
+           /* let matches : Profile.MatchUserResult? =  email.GetMatchings()
             
             if (matches != nil)
             {
@@ -39,7 +40,7 @@ class ViewController: UIViewController {
                     
                     print(match.attributes.first_name + ":" + match.attributes.last_name)
                 }
-            }
+            }*/
            /*  if ( email.CreateFolder(folder_name: "new folder 2", parent_folder_id: nil) != nil)
             {
                 print("successfully created folder")
@@ -73,7 +74,7 @@ class ViewController: UIViewController {
                    
                     
                     
-                    if (mail.attributes.name == "Inbox")
+                    if (mail.attributes.name == "Drafts")
                     {
                        
                         Messages = email.GetMessages(folder_id: mail.id)
@@ -91,21 +92,22 @@ class ViewController: UIViewController {
         if (Messages != nil)
         {
             
+            
             for Message in (Messages?.data)!
             {
                 
-                /*var info : [Email.sender_information]
+                var info : [Email.sender_information]
                 info = email.GetToInformation(messages: Messages!, msg_id: Message.id)
                 
                 for person in info {
                     print(person.first_name! + ":" + person.last_name!)
-                }*/
+                }
                 
-                let msg = email.GetMessage(folder_id: String(Message.attributes.folder_id), message_id: Message.id)
+               let msg = email.GetMessage(folder_id: String(Message.attributes.folder_id), message_id: Message.id)
                 
                 if (msg != nil)
                 {
-                let info = email.GetToInformation(Message: msg!)
+                    let info = email.GetToInformation(Message: msg!)
                     
                     for person in info {
                         print(person.first_name! + ":" + person.last_name! + ":" + (msg?.data.id)!)

@@ -206,7 +206,7 @@ class Email
         let jsonData = try! JSONEncoder().encode(message)
         
         req.HTTPPOSTJSONAPI(url: URL + "/common/draft", token: jwt!, data: jsonData) { (data, error) in
-            
+          
             
             sem.signal()
         }
@@ -305,7 +305,7 @@ class Email
                 do
                 {
                     
-                    
+                  print(data)
                     let json = try JSONDecoder().decode(Message.result.self, from: data.data(using: .utf8)!)
                     Messages = json
                     
@@ -402,12 +402,7 @@ class Email
         req.HTTPGETJSONAPI(url: URL + "/common/broadcasts", token: jwt!) { (data, error) in
             if (error == nil)
             {
-                do
-                {   print(data)
-                    
-                } catch {
-                    print(error.localizedDescription)
-                }
+               
             } else {
                 print("Error -> \(String(describing: error))")
             }
@@ -681,7 +676,10 @@ class Email
         {
             if (Message.attributes.read_at == nil)
             {
-                unread_messages.append(unread_message(folder_id: Message.attributes.folder_id, folder_name: Message.attributes.folder_name, subject: Message.attributes.subject, body: Message.attributes.body, sender_id: Message.attributes.sender_id, urgent: Message.attributes.urgent, sysmsg: Message.attributes.sysmsg, sent_at: Message.attributes.sent_at, msg_id: Message.id))
+                
+                var sentat = Message.attributes.sent_at == nil ? "" : (Message.attributes.sent_at)!
+                
+                unread_messages.append(unread_message(folder_id: Message.attributes.folder_id, folder_name: Message.attributes.folder_name, subject: Message.attributes.subject, body: Message.attributes.body, sender_id: Message.attributes.sender_id, urgent: Message.attributes.urgent, sysmsg: Message.attributes.sysmsg, sent_at: sentat, msg_id: Message.id))
             }
         }
         
