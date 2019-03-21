@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -309,7 +309,7 @@
 		0BE9FEBF88FA657797FE1EA3A5DE3540 /* HorizontalEdgeInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HorizontalEdgeInsets.swift; path = Sources/Models/HorizontalEdgeInsets.swift; sourceTree = "<group>"; };
 		0C152D84F85B2853192D5FF789D5E876 /* SPTextField.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPTextField.swift; path = Source/SparrowKit/UI/Other/SPTextField.swift; sourceTree = "<group>"; };
 		0C70016BB21B4C33E316014926215783 /* MessageKind.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MessageKind.swift; path = Sources/Models/MessageKind.swift; sourceTree = "<group>"; };
-		0F28BF3CB3408DD14932ED8940083DF9 /* SparrowKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SparrowKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F28BF3CB3408DD14932ED8940083DF9 /* SparrowKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SparrowKit.framework; path = SparrowKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FF829CC36E5E659079278DDC9D5AD84 /* MessageKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MessageKit.xcconfig; sourceTree = "<group>"; };
 		10432EFC1AB3DA074AB0E1EF4075109C /* SPUIFontExtenshion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPUIFontExtenshion.swift; path = Source/SparrowKit/Extension/SPUIFontExtenshion.swift; sourceTree = "<group>"; };
 		1123B02AE298C8E3B5795B8CC2F5F766 /* Pods-Capstone-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Capstone-frameworks.sh"; sourceTree = "<group>"; };
@@ -318,7 +318,7 @@
 		1244EEBDBD08EE12409276B0FB7437A1 /* MessageInputBar-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MessageInputBar-prefix.pch"; sourceTree = "<group>"; };
 		1292994C318152A2DA091578A89210C2 /* SparrowKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SparrowKit-prefix.pch"; sourceTree = "<group>"; };
 		1314E80EFE0E6294E5F75DAF1F286F9B /* MessageLabelDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MessageLabelDelegate.swift; path = Sources/Protocols/MessageLabelDelegate.swift; sourceTree = "<group>"; };
-		159CA8915C09C489E1779A5573AB1E4B /* MessageKitAssets.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessageKitAssets.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		159CA8915C09C489E1779A5573AB1E4B /* MessageKitAssets.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MessageKitAssets.bundle; path = "MessageKit-MessageKitAssets.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15A79B418FE19841474B723376F6B63E /* Swipeable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Swipeable.swift; path = Source/Swipeable.swift; sourceTree = "<group>"; };
 		171040BB5E1B9C2B355E2F027ECBE94F /* SPFooterButtonsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPFooterButtonsView.swift; path = Source/SparrowKit/UI/Other/SPFooterButtonsView.swift; sourceTree = "<group>"; };
 		171350DEDCC1AB1FD7204F1DA8F0E415 /* SPSystemIconButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPSystemIconButton.swift; path = Source/SparrowKit/UI/Buttons/SPSystemIconButton.swift; sourceTree = "<group>"; };
@@ -387,13 +387,13 @@
 		4F48E91BFB879069940AADA73D8387E4 /* SPTelegram.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPTelegram.swift; path = Source/SparrowKit/Social/telegram/SPTelegram.swift; sourceTree = "<group>"; };
 		4FAFBF81CB363E86FBB1E87CACE89CFD /* SwipeCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwipeCollectionViewCellDelegate.swift; path = Source/SwipeCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		4FDD8D8CA57528F413145B1C7DE7B6E5 /* SPNativeLargeButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPNativeLargeButton.swift; path = Source/SparrowKit/UI/Buttons/SPNativeLargeButton.swift; sourceTree = "<group>"; };
-		501C48D8B5F961080BC1A1E0618FC73E /* Images */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = Images; path = Assets/MessageKitAssets.bundle/Images; sourceTree = "<group>"; };
+		501C48D8B5F961080BC1A1E0618FC73E /* Images */ = {isa = PBXFileReference; includeInIndex = 1; name = Images; path = Assets/MessageKitAssets.bundle/Images; sourceTree = "<group>"; };
 		5051D28328DB2FE3125BEC7448A3922F /* SwipeCellKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwipeCellKit.modulemap; sourceTree = "<group>"; };
 		50826B97E8B8B9BBF4F4C51E4312E328 /* SPUIImageViewExtenshion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPUIImageViewExtenshion.swift; path = Source/SparrowKit/Extension/SPUIImageViewExtenshion.swift; sourceTree = "<group>"; };
 		50D3A1AFDE92E3B32206BB70E6644696 /* SPStorkDismissingAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPStorkDismissingAnimationController.swift; path = Source/SPStorkController/SPStorkDismissingAnimationController.swift; sourceTree = "<group>"; };
 		50DF45E18EEE3C9208C99AB06F78C017 /* SwipeCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwipeCollectionViewCell.swift; path = Source/SwipeCollectionViewCell.swift; sourceTree = "<group>"; };
 		516DC7A91C0DE5368D3A5A3E41716202 /* PlayButtonView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PlayButtonView.swift; path = Sources/Views/PlayButtonView.swift; sourceTree = "<group>"; };
-		52B880BBF3976525749FA98BC1011F72 /* SPStorkController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SPStorkController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		52B880BBF3976525749FA98BC1011F72 /* SPStorkController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SPStorkController.framework; path = SPStorkController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5608A978FD2B656A8CDFB8F02DBE53DF /* SPAnimationAlpha.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPAnimationAlpha.swift; path = Source/SparrowKit/Animation/SPAnimationAlpha.swift; sourceTree = "<group>"; };
 		57E2086847EE5229F41657E673AA8FB4 /* MessageKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MessageKit-umbrella.h"; sourceTree = "<group>"; };
 		5867870509B30B2282077A608854A714 /* SPProposeTableViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPProposeTableViewCell.swift; path = Source/SparrowKit/UI/Tables/Cells/SPProposeTableViewCell.swift; sourceTree = "<group>"; };
@@ -413,16 +413,16 @@
 		633F1807621BAD6BE0FAB608C486063C /* SwipeCollectionViewCell+Accessibility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "SwipeCollectionViewCell+Accessibility.swift"; path = "Source/SwipeCollectionViewCell+Accessibility.swift"; sourceTree = "<group>"; };
 		649138C4FE3E2E0B02DB8B4F47F3CC56 /* Pods-Capstone.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Capstone.modulemap"; sourceTree = "<group>"; };
 		64A9C5B399678AA141748248B36ACC7B /* MessageContentCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MessageContentCell.swift; path = Sources/Views/Cells/MessageContentCell.swift; sourceTree = "<group>"; };
-		66130D09610AB9BD2C8530140BEEDDBD /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		66130D09610AB9BD2C8530140BEEDDBD /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Capstone.framework; path = "Pods-Capstone.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6830FA7BC52C89945E9329B27F90097F /* Pods-Capstone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Capstone.debug.xcconfig"; sourceTree = "<group>"; };
 		690E8273A8F4CBBA40F19521A9F3C9EA /* SPStorkPresentingAnimationController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPStorkPresentingAnimationController.swift; path = Source/SPStorkController/SPStorkPresentingAnimationController.swift; sourceTree = "<group>"; };
-		6924F61FC034AA32C48C237B063D2F0A /* MessageInputBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessageInputBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6924F61FC034AA32C48C237B063D2F0A /* MessageInputBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MessageInputBar.framework; path = MessageInputBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		692E675D524134C579C1213047C6E7A8 /* SPFormButtonTableViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPFormButtonTableViewCell.swift; path = Source/SparrowKit/UI/Tables/Cells/Form/SPFormButtonTableViewCell.swift; sourceTree = "<group>"; };
 		6A8469FF0E6CE5EA86E06F43BBCA65EC /* SwipeTableViewCell+Display.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "SwipeTableViewCell+Display.swift"; path = "Source/SwipeTableViewCell+Display.swift"; sourceTree = "<group>"; };
 		6A8591EF06AB9EFBFB5C642481A187FA /* SPUIViewExtenshion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPUIViewExtenshion.swift; path = Source/SparrowKit/Extension/SPUIViewExtenshion.swift; sourceTree = "<group>"; };
 		6A9FEABE82722A56A945F613A2E64711 /* LabelAlignment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LabelAlignment.swift; path = Sources/Models/LabelAlignment.swift; sourceTree = "<group>"; };
 		6B1179D6E2689205E4FF7417AA140FB9 /* SPStorkController-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SPStorkController-umbrella.h"; sourceTree = "<group>"; };
-		700ADA671BDE454D7098E1793B383A2D /* MessageKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessageKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		700ADA671BDE454D7098E1793B383A2D /* MessageKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MessageKit.framework; path = MessageKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		707FBBB11EF2C04687E79D82E7565768 /* SPTableController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPTableController.swift; path = Source/SparrowKit/UI/Controllers/SPTableController.swift; sourceTree = "<group>"; };
 		712B136A26C742AFAFF78673DEF4CDAD /* SparrowKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SparrowKit-umbrella.h"; sourceTree = "<group>"; };
 		722B03590B60A15D9FA31874506A0088 /* SPImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPImageView.swift; path = Source/SparrowKit/UI/Other/SPImageView.swift; sourceTree = "<group>"; };
@@ -453,7 +453,7 @@
 		8E81FA1A2B30F9DA6FA9577F17373F55 /* SPLocalAuthentication.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPLocalAuthentication.swift; path = "Source/SparrowKit/Local Authentication/SPLocalAuthentication.swift"; sourceTree = "<group>"; };
 		8FD204B619865ACC4119A47F02A0A538 /* CellSizeCalculator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CellSizeCalculator.swift; path = Sources/Layout/CellSizeCalculator.swift; sourceTree = "<group>"; };
 		8FEFDCEC870325E0EDB08ACC4BE04C83 /* SPEmptyLabelsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPEmptyLabelsView.swift; path = Source/SparrowKit/UI/Labels/SPEmptyLabelsView.swift; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		942833A15289D30CF36DB14DDA59BBD9 /* MessagesDataSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MessagesDataSource.swift; path = Sources/Protocols/MessagesDataSource.swift; sourceTree = "<group>"; };
 		94B432DD432CFD7CB7BEE7FA7F77C92B /* SPArrayExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPArrayExtension.swift; path = Source/SparrowKit/Extension/SPArrayExtension.swift; sourceTree = "<group>"; };
 		95341A45FAC893BD218C5CE269E939D3 /* SwipeCellKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwipeCellKit-prefix.pch"; sourceTree = "<group>"; };
@@ -548,7 +548,7 @@
 		FCE6EDC6CD6783D9AEAAB904E8D41D46 /* SPCollectionViewLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPCollectionViewLayout.swift; path = Source/SparrowKit/UI/Collections/Layouts/SPCollectionViewLayout.swift; sourceTree = "<group>"; };
 		FD15D971293FC2BBA9C5A3A563DAE2A5 /* NSConstraintLayoutSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSConstraintLayoutSet.swift; path = Sources/Models/NSConstraintLayoutSet.swift; sourceTree = "<group>"; };
 		FD8274D7D583AE314C77EC22B5B8A2DC /* SPProposeController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SPProposeController.swift; path = Source/SparrowKit/UI/Controllers/SPProposeController.swift; sourceTree = "<group>"; };
-		FDA525D78700523944DCDA93E708F023 /* SwipeCellKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwipeCellKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDA525D78700523944DCDA93E708F023 /* SwipeCellKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwipeCellKit.framework; path = SwipeCellKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE742AA7FAB769B5E29F95D6EF3A820C /* LocationMessageCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LocationMessageCell.swift; path = Sources/Views/Cells/LocationMessageCell.swift; sourceTree = "<group>"; };
 		FF5C96905FC091221800077767B8CCC5 /* SwipeCellKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwipeCellKit-umbrella.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -752,6 +752,7 @@
 				AE7919E9B9A5C1CE143E1DDFECD1EFAF /* SPWhatsApp.swift */,
 				4CCE207FB27E0BDA2525054FA4B15311 /* Support Files */,
 			);
+			name = SparrowKit;
 			path = SparrowKit;
 			sourceTree = "<group>";
 		};
@@ -776,6 +777,7 @@
 				2E3737D9DF1F8F5ED38DF21A700CD826 /* SPStorkViewControllerExtenshion.swift */,
 				E815DFA7280F2A38CB83FC0A056A06F3 /* Support Files */,
 			);
+			name = SPStorkController;
 			path = SPStorkController;
 			sourceTree = "<group>";
 		};
@@ -866,6 +868,7 @@
 				A20568B7C629B00CF965D5340F765168 /* Resources */,
 				014C4A506A31632D2ED80B17D86110AF /* Support Files */,
 			);
+			name = MessageKit;
 			path = MessageKit;
 			sourceTree = "<group>";
 		};
@@ -950,6 +953,7 @@
 				2CD9D31937CF58767D924AE2F8D8B5C4 /* Core */,
 				D7A5C526EAAFD836891245AC3036AD91 /* Support Files */,
 			);
+			name = MessageInputBar;
 			path = MessageInputBar;
 			sourceTree = "<group>";
 		};
@@ -980,6 +984,7 @@
 				4C7D516D398342B94800A288CBBE0511 /* SwipeTransitionLayout.swift */,
 				751999718606A641790409D6E0D317D0 /* Support Files */,
 			);
+			name = SwipeCellKit;
 			path = SwipeCellKit;
 			sourceTree = "<group>";
 		};
@@ -1222,7 +1227,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 0930;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1630,7 +1635,11 @@
 				INFOPLIST_FILE = "Target Support Files/SwipeCellKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/SwipeCellKit/SwipeCellKit.modulemap";
 				PRODUCT_MODULE_NAME = SwipeCellKit;
 				PRODUCT_NAME = SwipeCellKit;
@@ -1678,7 +1687,11 @@
 				INFOPLIST_FILE = "Target Support Files/MessageKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/MessageKit/MessageKit.modulemap";
 				PRODUCT_MODULE_NAME = MessageKit;
 				PRODUCT_NAME = MessageKit;
@@ -1711,14 +1724,19 @@
 				INFOPLIST_FILE = "Target Support Files/SparrowKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/SparrowKit/SparrowKit.modulemap";
 				PRODUCT_MODULE_NAME = SparrowKit;
 				PRODUCT_NAME = SparrowKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1761,7 +1779,11 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-Capstone/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-Capstone/Pods-Capstone.modulemap";
 				OTHER_LDFLAGS = "";
@@ -1797,7 +1819,11 @@
 				INFOPLIST_FILE = "Target Support Files/SparrowKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/SparrowKit/SparrowKit.modulemap";
 				PRODUCT_MODULE_NAME = SparrowKit;
 				PRODUCT_NAME = SparrowKit;
@@ -1829,7 +1855,11 @@
 				INFOPLIST_FILE = "Target Support Files/MessageInputBar/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/MessageInputBar/MessageInputBar.modulemap";
 				PRODUCT_MODULE_NAME = MessageInputBar;
 				PRODUCT_NAME = MessageInputBar;
@@ -1862,14 +1892,19 @@
 				INFOPLIST_FILE = "Target Support Files/SPStorkController/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/SPStorkController/SPStorkController.modulemap";
 				PRODUCT_MODULE_NAME = SPStorkController;
 				PRODUCT_NAME = SPStorkController;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1959,14 +1994,19 @@
 				INFOPLIST_FILE = "Target Support Files/MessageKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/MessageKit/MessageKit.modulemap";
 				PRODUCT_MODULE_NAME = MessageKit;
 				PRODUCT_NAME = MessageKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1992,14 +2032,19 @@
 				INFOPLIST_FILE = "Target Support Files/MessageInputBar/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/MessageInputBar/MessageInputBar.modulemap";
 				PRODUCT_MODULE_NAME = MessageInputBar;
 				PRODUCT_NAME = MessageInputBar;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2063,7 +2108,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
@@ -2086,7 +2130,11 @@
 				INFOPLIST_FILE = "Target Support Files/Pods-Capstone/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-Capstone/Pods-Capstone.modulemap";
 				OTHER_LDFLAGS = "";
@@ -2096,7 +2144,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2122,7 +2171,11 @@
 				INFOPLIST_FILE = "Target Support Files/SPStorkController/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/SPStorkController/SPStorkController.modulemap";
 				PRODUCT_MODULE_NAME = SPStorkController;
 				PRODUCT_NAME = SPStorkController;
@@ -2154,14 +2207,19 @@
 				INFOPLIST_FILE = "Target Support Files/SwipeCellKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MODULEMAP_FILE = "Target Support Files/SwipeCellKit/SwipeCellKit.modulemap";
 				PRODUCT_MODULE_NAME = SwipeCellKit;
 				PRODUCT_NAME = SwipeCellKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
