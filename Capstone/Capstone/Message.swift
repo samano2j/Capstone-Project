@@ -18,7 +18,7 @@ class Message {
         var sender_id : Int
         var urgent : Bool
         var sysmsg : Bool
-        var sent_at : String
+        var sent_at : String?
         var read_at : String?
     }
     

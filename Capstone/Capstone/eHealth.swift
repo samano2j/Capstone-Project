@@ -179,12 +179,32 @@ class eHealth {
         return resultFolder
     }
     
-    func SaveDraft(Msg : Message.ComposeResult) {
+    
+    func SaveDraft(recpt_ids : [String], body : String, subject : String, reply_to_id : String, urgent : Bool)
+    {
         let sem = DispatchSemaphore(value: 0)
+        var message = Message.ComposeResult()
+        var recpts : [Message.ComposeRecptData] = []
         
-        let jsonData = try! JSONEncoder().encode(Msg)
+        for recpt_id in recpt_ids {
+            var new_recpt = Message.ComposeRecptData()
+            new_recpt.id = recpt_id
+            new_recpt.attributes.recipient_id = recpt_id
+            recpts.append(new_recpt)
+        }
+        message.data.attributes.body = body
+        message.data.attributes.subject = subject
+        message.data.attributes.reply_to_id = reply_to_id
+        message.data.attributes.urgent = urgent
+        
+        for recpt in recpts {
+            message.relationships.message_recipients.data.append(recpt)
+        }
+        
+        let jsonData = try! JSONEncoder().encode(message)
         
         req.HTTPPOSTJSONAPI(url: URL + "/common/draft", token: jwt!, data: jsonData) { (data, error) in
+            
             
             sem.signal()
         }
@@ -648,18 +668,21 @@ class eHealth {
         var urgent : Bool
         var sysmsg : Bool
         var sent_at : String
+        var msg_id : String
     }
     
-    func GetUnreadMessages(Messages : Message.result) -> Array<unread_message>
+ func GetUnreadMessages(Messages : Message.result) -> Array<unread_message>
     {
-        
         var unread_messages = Array<unread_message>()
-        
+
         for Message in Messages.data
         {
             if (Message.attributes.read_at == nil)
             {
-                unread_messages.append(unread_message(folder_id: Message.attributes.folder_id, folder_name: Message.attributes.folder_name, subject: Message.attributes.subject, body: Message.attributes.body, sender_id: Message.attributes.sender_id, urgent: Message.attributes.urgent, sysmsg: Message.attributes.sysmsg, sent_at: Message.attributes.sent_at))
+                
+                var sentat = Message.attributes.sent_at == nil ? "" : (Message.attributes.sent_at)!
+                
+                unread_messages.append(unread_message(folder_id: Message.attributes.folder_id, folder_name: Message.attributes.folder_name, subject: Message.attributes.subject, body: Message.attributes.body, sender_id: Message.attributes.sender_id, urgent: Message.attributes.urgent, sysmsg: Message.attributes.sysmsg, sent_at: sentat, msg_id: Message.id))
             }
         }
         

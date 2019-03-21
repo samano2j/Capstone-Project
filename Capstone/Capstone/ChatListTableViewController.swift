@@ -50,9 +50,9 @@ class ChatListTableViewController: UITableViewController {
     
     func getCustomImage(imageDisplayName: String?, imageView: UIImageView!){
         if let name = imageDisplayName, !name.isEmpty {
-            imageView.setImage(string:name, color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), circular: true, stroke: true)
+            imageView.setImage(string:name, color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), circular: true, stroke: false)
         } else {
-            imageView.setImage(string:"Display Picture", color: UIColor.colorHash(name: "Display Picture"), circular: true, stroke: true)
+            imageView.setImage(string:"Display Picture", color: UIColor.colorHash(name: "Display Picture"), circular: true, stroke: false)
         }
     }
     

@@ -30,6 +30,9 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.view.addSubview(self.navBar)
         self.tableView.tableFooterView = UIView()
         
+        tableView.contentInset.top = self.navBar.height
+        tableView.scrollIndicatorInsets.top = self.navBar.height
+        
         initializeCells()
     }
     
@@ -42,7 +45,6 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
             if let profileResult = eMail.GetMatchings() {
                 print(profileResult)
                 for con in profileResult.included {
-//                    print(con)
                     let temp = contact(first_name: con.attributes.first_name, last_name: con.attributes.last_name, id: con.id, type: con.type)
                     contacts.append(temp)
                 }
@@ -79,14 +81,16 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("SELECTED INDEX \(indexPath.row)")
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "composeViewController") as! ComposeViewController
-        
-        newViewController.selectedContact = contacts[indexPath.row]
-        self.present(newViewController, animated: false, completion: nil)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print("SELECTED INDEX \(indexPath.row)")
+////        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+////        let newViewController = storyBoard.instantiateViewController(withIdentifier: "composeViewController") as! ComposeViewController
+////
+////        newViewController.selectedContact = contacts[indexPath.row]
+////        self.dismiss()
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        //self.present(newViewController, animated: false, completion: nil)
+//    }
     
     /*
     // MARK: - Navigation
@@ -97,9 +101,17 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        SPStorkController.scrollViewDidScroll(scrollView)
+    }
 }
 
+extension ContactsViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        SPStorkController.scrollViewDidScroll(scrollView)
+    }
+}
 
 class ContactTableViewCell: UITableViewCell {
     @IBOutlet weak var contactImage: UIImageView!

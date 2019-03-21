@@ -48,6 +48,20 @@ class MailTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.allowsMultipleSelectionDuringEditing = true
         
+        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true ) {
+            results = email.GetFolders()
+            for mail in (results?.data)! {
+                if mail.attributes.name == "Drafts" {
+                    Messages = email.GetMessages(folder_id: mail.id)
+                    if (Messages != nil) {
+                        for msg in (Messages?.data)! {
+                            print("msg: ", msg)
+                        }
+                    }
+                }
+            }
+        }
+        
         initializeTableViewDataSource()
     }
     
@@ -148,7 +162,7 @@ class MailTableViewController: UITableViewController {
             for indexPath in selectedRows  {
                 items.append(MailBoxes[indexPath.row])
             }
-            // 2 The index of the items of the temporary array will be used to remove the items of the MailBoxes array and 
+            // 2 The index of the items of the temporary array will be used to remove the items of the MailBoxes array and
             for item in items {
                 if let index = MailBoxes.index(of: item) {
                     if (email.DeleteFolder(folder_id: mailFolderID[MailBoxes[index]]!)) {

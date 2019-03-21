@@ -54,7 +54,7 @@ extension BasicExampleViewController: MessagesDisplayDelegate {
     // MARK: - Text Messages
     
     func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .white : .darkText
+        return isFromCurrentSender(message: message) ? .darkText : .darkText
     }
     
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
@@ -68,13 +68,13 @@ extension BasicExampleViewController: MessagesDisplayDelegate {
     // MARK: - All Messages
     
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1) : UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1)
+        return isFromCurrentSender(message: message) ? #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.9019607843, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
-        
-        let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
-        return .bubbleTail(tail, .curved)
+        return isFromCurrentSender(message: message) ? .bubble : .bubbleOutline(#colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.9019607843, alpha: 1))
+//        let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
+//        return .bubbleTail(tail, .curved)
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -112,15 +112,18 @@ extension BasicExampleViewController: MessagesDisplayDelegate {
 extension BasicExampleViewController: MessagesLayoutDelegate {
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 18
+        if indexPath.section % 3 == 0 {
+            return 15
+        }
+        return 0
     }
     
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 20
+        return 0//20
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return 16
+        return 0//16
     }
     
 }

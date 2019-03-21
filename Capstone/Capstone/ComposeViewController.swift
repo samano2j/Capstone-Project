@@ -42,14 +42,14 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
 
         self.view.addSubview(self.navBar)
         
-        if let con = selectedContact {
-            self.ToTextView.text = con.first_name + " " + con.last_name
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if (self.reply_message_id != nil && self.reply_sender_id != nil) {
             ToTextView.text = String(reply_sender_id!)
+        }
+        if let con = selectedContact {
+            ToTextView.text = String(con.id) //con.first_name + " " + con.last_name
         }
     }
     
@@ -87,15 +87,26 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     
     func compose(recpt_ids: [String], body: String, subject: String, reply_to_id: String, urgent: Bool) {
         if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-            if let result = self.ApiUrl.ComposeMessage(recpt_ids: recpt_ids, body: body, subject: subject, reply_to_id: "", urgent: urgent) {
-//                print("\(result)")
+            if let _ = self.ApiUrl.ComposeMessage(recpt_ids: recpt_ids, body: body, subject: subject, reply_to_id: "", urgent: urgent) {
                 self.dismiss()
             }
         }
     }
     
     @objc func cancel() {
-        self.dismiss()
+        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        controller.addAction(UIAlertAction(title: "Delete Draft", style: .destructive, handler: {(_) in self.dismiss()}))
+        controller.addAction(UIAlertAction(title: "Save Draft", style: .default, handler: {(_) in
+            guard let to = self.ToTextView.text, let subject = self.SubjectTextView.text, let body = self.BodyTextView.text, case let urgent = self.UrgentSwitch.isOn else { return }
+            let recpt_ids: [String] = [to]
+            if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
+                self.ApiUrl.SaveDraft(recpt_ids: recpt_ids, body: body, subject: subject, reply_to_id: "", urgent: urgent)
+                self.dismiss()
+            }
+        }))
+        controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        self.present(controller, animated: true, completion: nil)
+        
     }
     
     public func segueToContactViewController() {

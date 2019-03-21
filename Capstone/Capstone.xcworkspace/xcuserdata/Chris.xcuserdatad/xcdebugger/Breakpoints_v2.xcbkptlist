@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailDetailsTableViewController.swift"
-            timestampString = "574324817.442891"
+            timestampString = "574815968.156243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "178"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailContentTableViewController.swift"
-            timestampString = "574324817.443395"
+            timestampString = "574820293.746789"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
             landmarkName = "resetData()"
             landmarkType = "7">
             <Locations>
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailDetailsTableViewController.swift"
-            timestampString = "574324817.443459"
+            timestampString = "574815968.170319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailContentTableViewController.swift"
-            timestampString = "574324817.443795"
+            timestampString = "574820293.74755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "ListUnreadMessages(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,13 +154,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailTableViewController.swift"
-            timestampString = "574292084.84876"
+            timestampString = "574820293.748372"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailDetailsTableViewController.swift"
-            timestampString = "574324817.4439991"
+            timestampString = "574815968.172352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
@@ -218,7 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailDetailsTableViewController.swift"
-            timestampString = "574324817.444327"
+            timestampString = "574815968.1725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "50"
@@ -234,13 +234,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailTableViewController.swift"
-            timestampString = "574292084.852286"
+            timestampString = "574820293.748605"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "setEditing(_:animated:)"
-            landmarkType = "7">
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -266,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/ChatListTableViewController.swift"
-            timestampString = "574131537.626835"
+            timestampString = "574820293.74878"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "92"
@@ -298,23 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/ComposeViewController.swift"
-            timestampString = "574324817.444711"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Capstone/ComposeViewController.swift"
-            timestampString = "574324817.444774"
+            timestampString = "574903672.2491601"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
@@ -330,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Capstone/MailContentTableViewController.swift"
-            timestampString = "574325615.463888"
+            timestampString = "574820293.749054"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "resetData()"
             landmarkType = "7">
          </BreakpointContent>
