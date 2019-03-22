@@ -13,7 +13,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var loginUIView: UIView!
     @IBOutlet weak var usernameTextField: LoginTextField!
     @IBOutlet weak var passwordTextField: LoginTextField!
-    
+
     static var username: String = ""
     static var password: String = ""
     
@@ -24,7 +24,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         if (email.Auth(User: username.trim(), Password: password)) {
             LoginViewController.username = username
             LoginViewController.password = password
-            routeToListContacts()
+            routeToListHomeScreen()
         } else {
             presentAlertMessage()
         }
@@ -65,13 +65,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    private func didLogin(method: String, info: String) {
-        let message = "Successfully logged in with \(method). " + info
-        let alert = UIAlertController(title: "Success", message: message, preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Done", style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     func presentAlertMessage() {
         let message = "⚠️ Invalid login: Incorrect username or password"
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertController.Style.alert)
@@ -80,21 +73,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         self.present(alert, animated: true, completion: nil)
     }
     
-    func routeToListContacts() {
+    func routeToListHomeScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let destinationNVC = storyboard.instantiateViewController(withIdentifier: "MainScreen") as! UINavigationController
 
         self.show(destinationNVC, sender: nil)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

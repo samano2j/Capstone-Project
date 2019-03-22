@@ -234,6 +234,16 @@ extension String
     }
 }
 
+extension Date
+{
+    func toString( dateFormat format  : String  = "MMMM d, yyyy 'at' h:mm a") -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
+    
+}
 
 extension UITableViewController {
     public func segueToComposeViewController() {

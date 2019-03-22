@@ -136,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				8319097C223C02DB00F6A176 /* Capstone.entitlements */,
-				8319097D223C02DC00F6A176 /* ContactsViewController.swift */,
 				83233D9221A3BE26008443C2 /* AppDelegate.swift */,
 				8348125D21FA63DF009A988A /* Folder.swift */,
 				8348125C21FA63DF009A988A /* Message.swift */,
@@ -151,10 +150,11 @@
 				83F704662203E799006F06F6 /* MailDetailsTableViewController.swift */,
 				831DB57B220A5F7B00CE1BFC /* ComposeViewController.swift */,
 				832AC29E2240263B00BAA805 /* ChatMainViewController.swift */,
+				8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */,
 				838E5196221FF89300DF9B74 /* BasicExampleViewController.swift */,
 				838E5198221FF9D900DF9B74 /* ChatViewController.swift */,
 				838E519C222522F600DF9B74 /* HomeTableViewController.swift */,
-				8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */,
+				8319097D223C02DC00F6A176 /* ContactsViewController.swift */,
 				838E5191221FF31700DF9B74 /* Models */,
 				838E518C221FEA1200DF9B74 /* Data Generation */,
 				8324BBDA220BCB0300C4B59A /* Extensions */,

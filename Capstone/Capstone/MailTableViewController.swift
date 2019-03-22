@@ -15,17 +15,6 @@ class MailTableViewController: UITableViewController {
         self.segueToComposeViewController()
     }
     
-    func callback(data: String, error: String?) {
-        
-        if (error == nil) {
-            print(data)
-        }
-        else
-        {
-            print("Error -> \(String(describing: error))")
-        }
-    }
-    
     var MailBoxes = [String]()
     var MailBoxesCount: [String:String] = [:]
     var Messages : Message.result? = nil
@@ -48,19 +37,19 @@ class MailTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.allowsMultipleSelectionDuringEditing = true
         
-        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true ) {
-            results = email.GetFolders()
-            for mail in (results?.data)! {
-                if mail.attributes.name == "Drafts" {
-                    Messages = email.GetMessages(folder_id: mail.id)
-                    if (Messages != nil) {
-                        for msg in (Messages?.data)! {
-                            print("msg: ", msg)
-                        }
-                    }
-                }
-            }
-        }
+//        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true ) {
+//            results = email.GetFolders()
+//            for mail in (results?.data)! {
+//                if mail.attributes.name == "Drafts" {
+//                    Messages = email.GetMessages(folder_id: mail.id)
+//                    if (Messages != nil) {
+//                        for msg in (Messages?.data)! {
+//                            print("msg: ", msg)
+//                        }
+//                    }
+//                }
+//            }
+//        }
         
         initializeTableViewDataSource()
     }

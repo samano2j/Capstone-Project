@@ -86,7 +86,7 @@ class MailDetailsTableViewController: UITableViewController {
         if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
             let singleMessage = self.ApiUrl.GetMessage(folder_id: folderID, message_id: emailService[indexPath].id)
             if (indexPath >= 0 && indexPath < emailService.count) {
-                configureView(from: emailService[indexPath].from, to: emailService[indexPath].to, subject: emailService[indexPath].subject, date: emailService[indexPath].relativeDateString, body: singleMessage?.data.attributes.body ?? "", index: indexPath)
+                configureView(from: emailService[indexPath].from, to: emailService[indexPath].to, subject: emailService[indexPath].subject, date: emailService[indexPath].date.toString(), body: singleMessage?.data.attributes.body ?? "", index: indexPath)
                 getCustomImage(imageDisplayName: fromLabel.text, imageView: imageView)
             }
         }

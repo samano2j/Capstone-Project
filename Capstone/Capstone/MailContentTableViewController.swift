@@ -293,7 +293,7 @@ class MailContentTableViewController: UITableViewController {
                     }
                     
                     let singleMessage = eMail.GetMessage(folder_id: folderID, message_id: email.id)
-                    let det = Details(from: email.from, to: email.to, subject: email.subject, date: email.relativeDateString, body: singleMessage?.data.attributes.body ?? "", index: indexPath.row, emails: emails)
+                    let det = Details(from: email.from, to: email.to, subject: email.subject, date: email.date.toString(), body: singleMessage?.data.attributes.body ?? "", index: indexPath.row, emails: emails)
                     
                     seguedToMVC.details = det
                     seguedToMVC.folderID = folderID
