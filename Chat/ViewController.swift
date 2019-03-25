@@ -8,7 +8,7 @@
 
 import UIKit
 import PusherChatkit
-import BeamsChatkit
+
 
 
 
@@ -113,8 +113,26 @@ class ViewController: UIViewController {
             
             for room in chat.GetCurrentRooms()
             {
-                print("Current room: \(room.name)")
+                let msgs = chat.FetchMessages(room: room, limit: 1)
+                for msg in msgs {
+                    for part in msg.parts
+                    {
+                        switch part.payload
+                        {
+                        case .inline(let p):
+                            print(p.content)
+                         
+                        case .url(_):
+                            print("url")
+                        case .attachment(_):
+                            print("attachment")
+                        }
+                    }
+                }
+          
             }
+            
+            
         }
         
         
