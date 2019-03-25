@@ -8,6 +8,9 @@
 
 import UIKit
 import PusherChatkit
+import BeamsChatkit
+
+
 
 class ViewController: UIViewController {
     var chatManager: ChatManager!
@@ -18,6 +21,7 @@ class ViewController: UIViewController {
     var defaultFrame: CGRect!
     var currentRoom: PCRoom?
     var typingUsers : [String] = []
+    
     
     @IBOutlet weak var messageInput: UITextField!
     @IBOutlet weak var messagesTable: UITableView!
@@ -73,6 +77,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let chat = Chat()
+        
         self.navigationItem.title = "Chat"
         messagesTable.transform = CGAffineTransform(scaleX: 1, y: -1)
         defaultFrame = self.view.frame
@@ -84,15 +90,35 @@ class ViewController: UIViewController {
         messagesTable.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         messagesTable.dataSource = self
 
-        chatManager = ChatManager(
+         self.chatManagerDelegate = MyChatManagerDelegate()
+        
+        currentUser = chat.Authenticate(username: "christian", delegate: (self.chatManagerDelegate)!)
+        
+        /*chatManager = ChatManager(
             instanceLocator: "v1:us1:22f58ecc-7a16-4269-84a6-7d27e20eb88e",
             tokenProvider: PCTokenProvider(url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/22f58ecc-7a16-4269-84a6-7d27e20eb88e/token"),
-            userID: "iden"
-        )
+            userID: "christian"
+        )*/
+ 
+       
+        if (currentUser != nil)
+        {
+            let joinableRooms = chat.GetJoinableRooms()
+            print("Connected")
+            print(joinableRooms.count)
+            
+            for room in joinableRooms {
+                print(room.name)
+            }
+            
+            for room in chat.GetCurrentRooms()
+            {
+                print("Current room: \(room.name)")
+            }
+        }
         
-        self.chatManagerDelegate = MyChatManagerDelegate()
         
-        chatManager.connect(
+        /*chatManager.connect(
             delegate: self.chatManagerDelegate!
         ) { [unowned self] currentUser, error in
             guard error == nil else {
@@ -108,7 +134,29 @@ class ViewController: UIViewController {
             self.currentRoom = currentUser.rooms[0]
             
            
-            currentUser.subscribeToRoom(
+       
+            currentUser.getJoinableRooms() { (joinableRooms, error) in
+                
+                if (error == nil)
+                {
+                    for room in (joinableRooms)! {
+                        print("Unsubscribed room: \(room.name)")
+                    }
+                        /*currentUser.joinRoom(room) { ( joinedRoom, error) in
+                            
+                            if (error == nil)
+                            {
+                                print("Joined room")
+                                print(joinedRoom?.users)
+                                
+                            }
+                        }*/
+                    }
+                }
+                
+            
+        
+        currentUser.subscribeToRoom(
                 room: currentUser.rooms[0],
                 roomDelegate: self
             ) { err in
@@ -118,34 +166,68 @@ class ViewController: UIViewController {
                 }
                 print("Subscribed to room!")
                 
-                
+                for room in currentUser.rooms
+                {
+                    print("I am in room: \(room.name)")
+                    /*if (room.subscription != nil)
+                    {
+                        room.unsubscribe()
+                    }*/
+                    
+                    
+                    
+                    print("Users: ")
+                    
+                    for user in room.users {
+                        
+                        print("User: \(user.displayName)")
+                    
+                    }
+                }
             }
             
-            
+        
+        }*/
             
         }
+    }
+    
+
+
+class MyChatManagerDelegate: PCChatManagerDelegate {
+    
+    func onPresenceChanged(stateChange: PCPresenceStateChange, user: PCUser) {
         
-        
+        print("User \(user.displayName)'s presence changed to \(stateChange.current.rawValue)")
         
     }
     
-   
-}
-
-class MyChatManagerDelegate: PCChatManagerDelegate {
     
 
 }
 
 extension ViewController: PCRoomDelegate {
     func onMessage(_ message: PCMessage) {
-        print("\(message.sender.id) sent \(message.text)")
+        
+       // print("\(message.sender.id) sent \(message.text)")
+    
+    
         messages.insert(message, at: 0)
         DispatchQueue.main.async {
             self.messagesTable.reloadData()
         }
     }
+    func onPresenceChanged(stateChange: PCPresenceStateChange, user: PCUser) {
+        
+        print("User \(user.displayName)'s presence changed to \(stateChange.current.rawValue)")
+        
+    }
     
+    func onMultipartMessage(_ message: PCMultipartMessage) {
+        
+    }
+    
+
     func onUserStartedTyping(user: PCUser) {
         print("User \((user.name)!) started typing in room \((currentRoom?.name)!)")
         var appendedString = ""
@@ -158,7 +240,7 @@ extension ViewController: PCRoomDelegate {
             }
         }
         else {
-            appendedString += typingUsers[0] + " "
+            appendedString += typingUsers[0]
         }
         
         appendedString += " is typing..."
@@ -187,7 +269,7 @@ extension ViewController: PCRoomDelegate {
                 }
             }
             else {
-                appendedString += typingUsers[0] + " "
+                appendedString += typingUsers[0]
             }
         
             appendedString += " is typing..."
@@ -211,7 +293,7 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.contentView.transform = CGAffineTransform(scaleX: 1, y: -1)
         let message = self.messages[indexPath.row]
-        cell.textLabel?.text = "\(message.sender.displayName): \(message.text)"
+        cell.textLabel?.text = "\(message.room.name)@\(message.sender.displayName): \(message.text)"
         return cell
     }
 }
