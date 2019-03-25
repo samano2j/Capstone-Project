@@ -111,15 +111,26 @@ class ViewController: UIViewController {
                 print(room.name)
             }
             
+          //  var new_room = chat.CreateRoom(name: "myroom", isPrivate: false)
+            
+            print(chat.GetCurrentRooms().count)
             for room in chat.GetCurrentRooms()
             {
-                let msgs = chat.FetchMessages(room: room, limit: 1)
+                print(room.name)
+                if (room.name == "myroom"){
+                    chat.LeaveRoom(room: room)
+                
+                }
+               /* let msgs = chat.FetchMessages(room: room, limit: 1)
+                
+                
                 for msg in msgs {
                     for part in msg.parts
                     {
                         switch part.payload
                         {
                         case .inline(let p):
+                            
                             print(p.content)
                          
                         case .url(_):
@@ -128,7 +139,7 @@ class ViewController: UIViewController {
                             print("attachment")
                         }
                     }
-                }
+                }*/
           
             }
             

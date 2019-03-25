@@ -8,6 +8,8 @@
 
 import Foundation
 import PusherChatkit
+import PusherChatkit.Swift
+import PusherPlatform
 
 class Chat {
     var chatManager : ChatManager? = nil
@@ -18,13 +20,15 @@ class Chat {
     func Authenticate(username : String, delegate : PCChatManagerDelegate) -> PCCurrentUser?
     {
          let sem = DispatchSemaphore(value: 0)
-
+        
         chatManager = ChatManager(
             instanceLocator: Constants.instanceLocator,
             tokenProvider: PCTokenProvider(url: Constants.tokenProvider),
             userID: username
         )
-        
+      
+       
+
         if (chatManager == nil)
         {
             return nil
@@ -34,10 +38,9 @@ class Chat {
             if (error == nil)
             {
                 self.currentUser = user
+                self.currentUser!.enablePushNotifications()
             }
-            
-     
-            
+    
             sem.signal()
         }
         
@@ -45,7 +48,51 @@ class Chat {
         
         return self.currentUser
     }
+    func LeaveRoom(room : PCRoom) -> Bool {
+        let sem = DispatchSemaphore(value: 0)
+        var success = false
+        self.currentUser!.leaveRoom(room) { (error) in
+            if (error == nil)
+            {
+                success = true
+            }
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        return success
+    }
     
+    func DeleteRoom(room : PCRoom) -> Bool {
+        let sem = DispatchSemaphore(value: 0)
+        var success = false
+        self.currentUser!.deleteRoom(room) { (error) in
+            if (error == nil)
+            {
+                success = true
+            }
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        return success
+        
+    }
+    func CreateRoom(name : String, isPrivate: Bool) -> PCRoom?
+    {
+        var new_room : PCRoom? = nil
+        let sem = DispatchSemaphore(value: 0)
+
+        self.currentUser!.createRoom(name: name, isPrivate: isPrivate) { (room, error) in
+            
+            if (error == nil) {
+                new_room = room
+            }
+            sem.signal()
+        }
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        return new_room
+    }
     func GetCurrentRooms() -> [PCRoom] {
         return self.currentUser != nil ? (self.currentUser)!.rooms : []
     }
@@ -73,11 +120,12 @@ class Chat {
         return PCrooms
     }
     
-    func UnSubscribeFromCurrentRoom(room : PCRoom) {
+    func UnSubscribeFromRoom(room : PCRoom) {
         
         if let index = currentSubscribedRooms.index(of: room) {
             currentSubscribedRooms.remove(at: index)
         }
+        
         
         room.unsubscribe()
     }
@@ -93,7 +141,7 @@ class Chat {
             return success
         }
         
-        
+    
         (self.currentUser)!.subscribeToRoomMultipart(id: room_id, roomDelegate: delegate, messageLimit: message_limit) { (error) in
             
             if (error == nil) {
@@ -142,7 +190,15 @@ class Chat {
     func FetchMessages(room : PCRoom, limit : Int) -> [PCMultipartMessage] {
         var messages : [PCMultipartMessage] = []
         let sem = DispatchSemaphore(value: 0)
-        self.currentUser!.fetchMultipartMessages(room, limit: limit) { (msgs, error) in
+        
+        var new_limit = limit
+        
+        if (limit > 100)
+        {
+            new_limit = 100
+        }
+        
+        self.currentUser!.fetchMultipartMessages(room, limit: new_limit) { (msgs, error) in
             
             if (error == nil)
             {
