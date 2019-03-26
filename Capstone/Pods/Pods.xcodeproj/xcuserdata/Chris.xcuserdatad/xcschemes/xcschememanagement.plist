@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BeamsChatkit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MessageInputBar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -20,6 +25,16 @@
 			<false/>
 		</dict>
 		<key>Pods-Capstone.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PusherChatkit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PusherPlatform.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

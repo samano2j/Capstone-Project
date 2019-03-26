@@ -33,15 +33,18 @@
 import UIKit
 import MessageKit
 import MessageInputBar
+import PusherChatkit
 
 /// A base class for the example controllers
-class ChatViewController: MessagesViewController, MessagesDataSource {
+class ChatViewController: MessagesViewController, MessagesDataSource, PCChatManagerDelegate {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     var messageList: [MockMessage] = []
+    var chat: Chat? = nil
+    var room: PCRoom? = nil
     
     let refreshControl = UIRefreshControl()
     
@@ -57,7 +60,8 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
         configureMessageCollectionView()
         configureMessageInputBar()
         loadFirstMessages()
-        title = "MessageKit"
+//        title = "MessageKit"
+        self.navigationItem.setTitle("MessageKit", subtitle: "christian is typing...")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,14 +80,33 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     
     func loadFirstMessages() {
         DispatchQueue.global(qos: .userInitiated).async {
-            let count = UserDefaults.standard.mockMessagesCount()
-            SampleData.shared.getMessages(count: count) { messages in
-                DispatchQueue.main.async {
-                    self.messageList = messages
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToBottom()
+            let msgs = self.chat?.FetchMessages(room: self.room!, limit: 100)
+            let sender = Sender(id: (self.chat?.currentUser?.id)!, displayName: (self.chat?.currentUser?.name)!)
+            var messages: [MockMessage] = []
+            for msg in msgs! {
+                for part in msg.parts {
+                    switch part.payload {
+                    case .inline(let p):
+                        messages.append(MockMessage(text: p.content, sender: sender, messageId: String(msg.id), date: msg.createdAtDate))
+                    case .url(let url):
+                        messages.append(MockMessage(text: url.url, sender: sender, messageId: String(msg.id), date: msg.createdAtDate))
+                    case .attachment(let attach):
+                        messages.append(MockMessage(custom: attach.customData, sender: sender, messageId: String(msg.id), date: msg.createdAtDate))
+                    }
                 }
             }
+            DispatchQueue.main.async {
+                self.messageList = messages
+                self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToBottom()
+            }
+//            SampleData.shared.getMessages(count: count) { messages in
+//                DispatchQueue.main.async {
+//                    self.messageList = messages
+//                    self.messagesCollectionView.reloadData()
+//                    self.messagesCollectionView.scrollToBottom()
+//                }
+//            }
         }
     }
     

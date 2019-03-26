@@ -8,6 +8,7 @@
 
 import UIKit
 import SwipeCellKit
+import SPStorkController
 
 class MailContentTableViewController: UITableViewController {
     // MARK: - Variable Declarations
@@ -25,7 +26,6 @@ class MailContentTableViewController: UITableViewController {
     
     var Messages : Message.result? = nil
     var eMail = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
-//    var eMail: eHealth? = nil
     var results : Folder.result? = nil
     var messagesID: Message.SingleMessage.result? = nil
     
@@ -50,10 +50,12 @@ class MailContentTableViewController: UITableViewController {
                 for msg in listOfUnreadMessagesTypeUnread {
                     let senderProfile = eMail.GetSenderInformation(messages: Messages!, msg_id: msg.msg_id)
                     let userProfile = eMail.GetProfile()
+                    
                     let to = userProfile.first_name ?? "" + " " + userProfile.last_name!
                     let from = senderProfile!.first_name ?? "" + " " + senderProfile!.last_name!
                     
-                    let message = Email(from: from, to: to, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
+                    let message = Email(from: from, fromID: String((senderProfile?.id)!), to: to, toID: (userProfile.id)!, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
+//                    let message = Email(from: from,  to: to, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
                     listOfUnreadMessages.append(message)
                 }
                 emails = listOfUnreadMessages
@@ -246,6 +248,7 @@ class MailContentTableViewController: UITableViewController {
                 for msg in (Messages?.data)! {
                     let userProfile = eMail.GetProfile()
                     let senderProfile = eMail.GetSenderInformation(messages: Messages!, msg_id: msg.id)
+                    
                     guard let firstname = userProfile.first_name, let lastname = userProfile.last_name else { return }
                     var to =  firstname + " " + lastname
                     let from = senderProfile!.first_name! + " " + senderProfile!.last_name!
@@ -267,7 +270,8 @@ class MailContentTableViewController: UITableViewController {
                         }
                     }
                     let sentDate = sent != nil ? sent!.toDate() : Date()
-                    let message = Email(from: from, to: to, subject: msg.attributes.subject, body: msg.attributes.body, date: sentDate, unread: (msg.attributes.read_at == nil), id: msg.id)
+                    let message = Email(from: from, fromID: String((senderProfile?.id)!), to: to, toID: (userProfile.id)!, subject: msg.attributes.subject, body: msg.attributes.body, date: sentDate, unread: (msg.attributes.read_at == nil), id: msg.id)
+//                    let message = Email(from: from, to: to, subject: msg.attributes.subject, body: msg.attributes.body, date: sentDate, unread: (msg.attributes.read_at == nil), id: msg.id)
                         emails.append(message)
                 }
             }
@@ -300,6 +304,25 @@ class MailContentTableViewController: UITableViewController {
                     if let message = singleMessage {
                         seguedToMVC.singleMessage = message
                     }
+                    
+
+                    if let _ = MailTableViewController.mailFolders.index(where: { $0.folderID == folderID && $0.folderName == "Drafts" }) {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
+                        
+                        print("fromID: ", email.fromID, "and toID: ", email.toID)
+                        controller?.draft = true
+                        controller?.draftTo = "14"
+                        controller?.draftSubject = det.subject
+                        controller?.draftBody = det.body
+                        
+                        let modal = controller
+                        let transitionDelegate = SPStorkTransitioningDelegate()
+                        modal?.transitioningDelegate = transitionDelegate
+                        modal?.modalPresentationStyle = .custom
+                        self.present(modal!, animated: true, completion: nil)
+                    }
+                    
                 }
             default: break
             }

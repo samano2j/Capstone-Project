@@ -143,15 +143,21 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/BeamsChatkit/BeamsChatkit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MessageInputBar/MessageInputBar.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PusherChatkit/PusherChatkit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PusherPlatform/PusherPlatform.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SPStorkController/SPStorkController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SparrowKit/SparrowKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/BeamsChatkit/BeamsChatkit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MessageInputBar/MessageInputBar.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PusherChatkit/PusherChatkit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PusherPlatform/PusherPlatform.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SPStorkController/SPStorkController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SparrowKit/SparrowKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework"

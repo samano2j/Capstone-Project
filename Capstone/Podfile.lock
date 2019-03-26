@@ -1,9 +1,14 @@
 PODS:
+  - BeamsChatkit (1.2.4)
   - MessageInputBar (0.4.1):
     - MessageInputBar/Core (= 0.4.1)
   - MessageInputBar/Core (0.4.1)
   - MessageKit (2.0.0):
     - MessageInputBar/Core
+  - PusherChatkit (1.4.3):
+    - BeamsChatkit (~> 1.2)
+    - PusherPlatform (~> 0.7.1)
+  - PusherPlatform (0.7.1)
   - SparrowKit (1.5.2)
   - SPStorkController (1.5)
   - SwipeCellKit (2.5.1)
@@ -11,25 +16,32 @@ PODS:
 DEPENDENCIES:
   - MessageInputBar
   - MessageKit
+  - PusherChatkit
   - SparrowKit
   - SPStorkController
   - SwipeCellKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BeamsChatkit
     - MessageInputBar
     - MessageKit
+    - PusherChatkit
+    - PusherPlatform
     - SparrowKit
     - SPStorkController
     - SwipeCellKit
 
 SPEC CHECKSUMS:
+  BeamsChatkit: 8d6da00ded34ee11116e9e38427a20e04301d796
   MessageInputBar: e81c7535347f1f7b923de7080409a535a004b6e4
   MessageKit: 29c1c87e5a396d2ca7a3f712e5171dc9aba42a1e
+  PusherChatkit: 9653f7744349a9abf3f57935c57716c886216219
+  PusherPlatform: 243a8c0b018663831eafc8bef39fa196257de1f2
   SparrowKit: ea939f5ada255b0eb0f8c4feca4bba101b893301
   SPStorkController: c393b17fc98de186e73748f9bbe438eb0a031f22
   SwipeCellKit: 30fd6a4f8a8b8ac864ea389c8b4c8bac5ba5471a
 
-PODFILE CHECKSUM: 063192144326fa5248188914a0526801c24cc57e
+PODFILE CHECKSUM: 609eafcfb1692c3badcfdaa7df43da1564aa524d
 
 COCOAPODS: 1.5.3

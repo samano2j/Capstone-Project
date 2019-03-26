@@ -15,12 +15,9 @@ class MailTableViewController: UITableViewController {
         self.segueToComposeViewController()
     }
     
-    var MailBoxes = [String]()
-    var MailBoxesCount: [String:String] = [:]
-    var Messages : Message.result? = nil
     let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
     var results : Folder.result? = nil
-    var mailFolderID: [String:String] = [:]
+    static var mailFolders = [Folders]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,34 +34,17 @@ class MailTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.allowsMultipleSelectionDuringEditing = true
         
-//        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true ) {
-//            results = email.GetFolders()
-//            for mail in (results?.data)! {
-//                if mail.attributes.name == "Drafts" {
-//                    Messages = email.GetMessages(folder_id: mail.id)
-//                    if (Messages != nil) {
-//                        for msg in (Messages?.data)! {
-//                            print("msg: ", msg)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        
         initializeTableViewDataSource()
     }
     
     func initializeTableViewDataSource() {
-        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
-        {
+        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true ) {
             results = email.GetFolders()
-            if (results != nil)
-            {
+            if (results != nil) {
                 for mail in (results?.data)! {
-                    MailBoxes.append(mail.attributes.name)
                     let mailBoxCount = (mail.attributes.message_count == 0) ? "" : String(mail.attributes.message_count)
-                    MailBoxesCount.updateValue(mailBoxCount, forKey: mail.attributes.name)
-                    mailFolderID.updateValue(mail.id, forKey: mail.attributes.name)
+                    let folder = Folders(folderName: mail.attributes.name, folderMessagesCount: mailBoxCount, folderID: mail.id)
+                    MailTableViewController.mailFolders.append(folder)
                 }
             }
         }
@@ -89,7 +69,7 @@ class MailTableViewController: UITableViewController {
                 if self.email.CreateFolder(folder_name: answer, parent_folder_id: nil) == nil {
                     self.error()
                 } else {
-                    self.MailBoxes.removeAll(keepingCapacity: true)
+                    MailTableViewController.mailFolders.removeAll(keepingCapacity: true)
                     self.initializeTableViewDataSource()
                     self.tableView.reloadData()
                 }
@@ -109,16 +89,15 @@ class MailTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return MailBoxes.count
+        return MailTableViewController.mailFolders.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MailBoxesCell", for: indexPath)
-        cell.textLabel?.text = MailBoxes[indexPath.row]
-        cell.detailTextLabel?.text = MailBoxesCount[MailBoxes[indexPath.row]]
-        let temp = cell.textLabel?.text
-        cell.imageView?.image = MailTableViewController.returnImageForFolderType(name: temp!)
+        cell.textLabel?.text = MailTableViewController.mailFolders[indexPath.row].folderName
+        cell.detailTextLabel?.text = MailTableViewController.mailFolders[indexPath.row].folderMessagesCount
+        cell.imageView?.image = MailTableViewController.returnImageForFolderType(name: MailTableViewController.mailFolders[indexPath.row].folderName)
 
         return cell
     }
@@ -137,25 +116,21 @@ class MailTableViewController: UITableViewController {
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let delete = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteRows))
-        if (tableView.isEditing) {
-            self.toolbarItems = [spacer, delete]
-        } else {
-            self.toolbarItems = [spacer, composeButton]
-        }
+        self.toolbarItems = (tableView.isEditing) ? [spacer, delete] : [spacer, composeButton]
     }
     
     @objc func deleteRows() {
         if let selectedRows = self.tableView.indexPathsForSelectedRows {
             // 1 The selected rows are added to a temporary array
-            var items = [String]()
-            for indexPath in selectedRows  {
-                items.append(MailBoxes[indexPath.row])
+            var items = [Folders]()
+            for indexPath in selectedRows {
+                items.append(MailTableViewController.mailFolders[indexPath.row])
             }
             // 2 The index of the items of the temporary array will be used to remove the items of the MailBoxes array and
             for item in items {
-                if let index = MailBoxes.index(of: item) {
-                    if (email.DeleteFolder(folder_id: mailFolderID[MailBoxes[index]]!)) {
-                        MailBoxes.remove(at: index)
+                if let index = MailTableViewController.mailFolders.index(where: { $0.folderName == item.folderName }) {
+                    if (email.DeleteFolder(folder_id: MailTableViewController.mailFolders[index].folderID)) {
+                        MailTableViewController.mailFolders.remove(at: index)
                     }
                 }
             }
@@ -171,8 +146,8 @@ class MailTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-                if (email.DeleteFolder(folder_id: mailFolderID[MailBoxes[indexPath.row]]!)) {
-                    MailBoxes.remove(at: indexPath.row)
+                if (email.DeleteFolder(folder_id: MailTableViewController.mailFolders[indexPath.row].folderID)) {
+                    MailTableViewController.mailFolders.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             }
@@ -192,16 +167,8 @@ class MailTableViewController: UITableViewController {
                 if let cell = sender as? UITableViewCell,
                     let indexPath = tableView.indexPath(for: cell),
                     let seguedToMVC = segue.destination as? MailContentTableViewController {
-                    seguedToMVC.titleStringViaSegue = MailBoxes[indexPath.row]
-                    if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
-                    {
-                        results = email.GetFolders()
-                        for mail in (results?.data)! {
-                            if MailBoxes[indexPath.row] == mail.attributes.name {
-                                seguedToMVC.folderID = mail.id
-                            }
-                        }
-                    }
+                    seguedToMVC.titleStringViaSegue = MailTableViewController.mailFolders[indexPath.row].folderName
+                    seguedToMVC.folderID = MailTableViewController.mailFolders[indexPath.row].folderID
                 }
             default: break
             }
@@ -209,8 +176,7 @@ class MailTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("view will appear!")
-        self.MailBoxes.removeAll(keepingCapacity: true)
+        MailTableViewController.mailFolders.removeAll(keepingCapacity: true)
         self.initializeTableViewDataSource()
         self.tableView.reloadData()
     }
@@ -236,3 +202,15 @@ class MailTableViewController: UITableViewController {
         return image
     }
 }
+
+struct Folders {
+    let folderName: String
+    let folderID: String
+    let folderMessagesCount: String
+    
+    init(folderName name: String, folderMessagesCount count: String, folderID id: String) {
+        self.folderName = name
+        self.folderMessagesCount = count
+        self.folderID = id
+    }
+};

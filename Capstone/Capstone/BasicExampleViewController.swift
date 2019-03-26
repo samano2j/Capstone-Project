@@ -42,7 +42,6 @@ final class BasicExampleViewController: ChatViewController {
         
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
-        self.navigationItem.title = "TheraComm"
     }
     
 }

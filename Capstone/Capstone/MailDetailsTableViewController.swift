@@ -44,8 +44,10 @@ class MailDetailsTableViewController: UITableViewController {
                 }
                 for temp in DetMailBoxes {
                     let action = UIAlertAction(title: temp.key, style: .default, handler: {(_) in let _ = self.ApiUrl.MoveMessages(from_folder: self.folderID, to_folder: temp.value, message_ids: [self.emailService[self.indexPath].id])
-                        self.indexPath = self.indexPath + 1
-                        self.moveToNextMailDetails()
+                        if (self.indexPath >= 0 && self.indexPath < self.emailService.count - 1) {
+                            self.indexPath = self.indexPath + 1
+                            self.moveToNextMailDetails()
+                        }
                     })
                     action.setValue(MailTableViewController.returnImageForFolderType(name: temp.key), forKey: "image")
                     controller.addAction(action)

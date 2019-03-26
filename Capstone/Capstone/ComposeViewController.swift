@@ -30,6 +30,12 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     var noSenderTitle = "Empty Sender"
     var noSenderMessage = "This message has no sender. You need a sender to send mail"
     
+    var draftTo: String? = nil
+    var draftSubject: String? = nil
+    var draftUrgent: String? = nil
+    var draftBody: String? = nil
+    var draft: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationCapturesStatusBarAppearance = true
@@ -41,7 +47,6 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         self.navBar.rightButton.addTarget(self, action: #selector(self.send), for: .touchUpInside)
 
         self.view.addSubview(self.navBar)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +55,12 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         }
         if let con = selectedContact {
             ToTextView.text = String(con.id) //con.first_name + " " + con.last_name
+        }
+        if (draft) {
+            guard let to = draftTo, let sub = draftSubject, let bod = draftBody else { return }
+            self.ToTextView.text = to
+            self.SubjectTextView.text = sub
+            self.BodyTextView.text = bod
         }
     }
     
