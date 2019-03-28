@@ -34,17 +34,23 @@ import UIKit
 import MessageKit
 import MessageInputBar
 import PusherChatkit
+import SafariServices
 
 /// A base class for the example controllers
-class ChatViewController: MessagesViewController, MessagesDataSource, PCChatManagerDelegate {
+class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDelegate {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
-    var messageList: [MockMessage] = []
+    static var messageList: [MockMessage] = []
     var chat: Chat? = nil
     var room: PCRoom? = nil
+    var chatManagerDelegate: PCChatManagerDelegate?
+    var chatRoomDelegate: PCRoomDelegate?
+    var typingUsers : [String] = []
+    
+    let messageKitCurrentUser = Sender(id: (ChatMainViewController.chat.currentUser?.id)!, displayName: (ChatMainViewController.chat.currentUser?.name)!)
     
     let refreshControl = UIRefreshControl()
     
@@ -59,31 +65,29 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCChatMana
         
         configureMessageCollectionView()
         configureMessageInputBar()
+
+//        self.chatManagerDelegate = MyChatManagerDelegate()
+//        self.chatRoomDelegate = MyChatRoomDelegate()
+        
         loadFirstMessages()
-//        title = "MessageKit"
-        self.navigationItem.setTitle("MessageKit", subtitle: "christian is typing...")
+        self.navigationItem.setTitle("MessageKit", subtitle: "")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        MockSocket.shared.connect(with: [SampleData.shared.steven, SampleData.shared.wu])
-            .onNewMessage { [weak self] message in
-                self?.insertMessage(message)
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        MockSocket.shared.disconnect()
     }
     
     func loadFirstMessages() {
         DispatchQueue.global(qos: .userInitiated).async {
-            let msgs = self.chat?.FetchMessages(room: self.room!, limit: 100)
-            let sender = Sender(id: (self.chat?.currentUser?.id)!, displayName: (self.chat?.currentUser?.name)!)
+            let _ = ChatMainViewController.chat.SubscribeToRoom(room: self.room!, delegate: self, message_limit: 0)
+            let msgs = ChatMainViewController.chat.FetchMessages(room: self.room!, limit: 100)
             var messages: [MockMessage] = []
-            for msg in msgs! {
+            for msg in msgs {
+                let sender = Sender(id: msg.sender.id, displayName: msg.sender.displayName)
                 for part in msg.parts {
                     switch part.payload {
                     case .inline(let p):
@@ -96,17 +100,10 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCChatMana
                 }
             }
             DispatchQueue.main.async {
-                self.messageList = messages
+                ChatViewController.messageList = messages
                 self.messagesCollectionView.reloadData()
                 self.messagesCollectionView.scrollToBottom()
             }
-//            SampleData.shared.getMessages(count: count) { messages in
-//                DispatchQueue.main.async {
-//                    self.messageList = messages
-//                    self.messagesCollectionView.reloadData()
-//                    self.messagesCollectionView.scrollToBottom()
-//                }
-//            }
         }
     }
     
@@ -115,7 +112,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCChatMana
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
             SampleData.shared.getMessages(count: 20) { messages in
                 DispatchQueue.main.async {
-                    self.messageList.insert(contentsOf: messages, at: 0)
+                    ChatViewController.messageList.insert(contentsOf: messages, at: 0)
                     self.messagesCollectionView.reloadDataAndKeepOffset()
                     self.refreshControl.endRefreshing()
                 }
@@ -144,25 +141,27 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCChatMana
     // MARK: - Helpers
     
     func insertMessage(_ message: MockMessage) {
-        messageList.append(message)
         // Reload last section to update header/footer labels and insert a new one
-        messagesCollectionView.performBatchUpdates({
-            messagesCollectionView.insertSections([messageList.count - 1])
-            if messageList.count >= 2 {
-                messagesCollectionView.reloadSections([messageList.count - 2])
-            }
-        }, completion: { [weak self] _ in
-            if self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToBottom(animated: true)
-            }
-        })
+        DispatchQueue.main.async {
+            ChatViewController.messageList.append(message)
+            self.messagesCollectionView.performBatchUpdates({
+                self.messagesCollectionView.insertSections([ChatViewController.messageList.count - 1])
+                if ChatViewController.messageList.count >= 2 {
+                    self.messagesCollectionView.reloadSections([ChatViewController.messageList.count - 2])
+                }
+            }, completion: { [weak self] _ in
+                if self?.isLastSectionVisible() == true {
+                    self?.messagesCollectionView.scrollToBottom(animated: true)
+                }
+            })
+        }
     }
     
     func isLastSectionVisible() -> Bool {
         
-        guard !messageList.isEmpty else { return false }
+        guard !ChatViewController.messageList.isEmpty else { return false }
         
-        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        let lastIndexPath = IndexPath(item: 0, section: ChatViewController.messageList.count - 1)
         
         return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
     }
@@ -170,15 +169,15 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCChatMana
     // MARK: - MessagesDataSource
     
     func currentSender() -> Sender {
-        return SampleData.shared.currentSender
+        return messageKitCurrentUser
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
-        return messageList.count
+        return ChatViewController.messageList.count
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        return messageList[indexPath.section]
+        return ChatViewController.messageList[indexPath.section]
     }
     
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -200,6 +199,68 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCChatMana
 //        return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
+    // PCRoomDelegate
+    func onMultipartMessage(_ message: PCMultipartMessage) {
+        let sender = Sender(id: message.sender.id, displayName: message.sender.displayName)
+        
+        for part in message.parts {
+            switch part.payload {
+            case .inline(let payload):
+                let receivedMessage = MockMessage(text: payload.content, sender: sender, messageId: String(message.id), date: message.createdAtDate)
+                insertMessage(receivedMessage)
+                print("Received message with text: \(payload.content) from \(message.sender.debugDescription)")
+            case .url(let payload):
+                print("Received message with url: \(payload.url) of type \(payload.type) from \(message.sender.debugDescription)")
+            case .attachment(let payload):
+                payload.url() { downloadUrl, error in
+                    // do something with the download url
+                }
+            }
+        }
+    }
+    
+    func onUserStartedTyping(user: PCUser) {
+        print("User \(String(describing: user.name)) started typing in room \(self.room.debugDescription)")
+        var appendedString = ""
+        if (self.room?.users.count == 2) {
+            appendedString = user.displayName + " is typing..."
+        }
+        
+        DispatchQueue.main.async {
+            if (ChatMainViewController.chat.currentUser?.id != user.id) {
+                self.navigationItem.setTitle("MessageKit", subtitle: appendedString)
+            }
+        }
+    }
+    
+    func onUserStoppedTyping(user: PCUser) {
+        print("User \(user.displayName)) stopped typing in room \(self.room.debugDescription)")
+        
+        DispatchQueue.main.async {
+            self.navigationItem.setTitle("MessageKit", subtitle: "")
+        }
+    }
+    
+    func onUserJoined(user: PCUser) {
+        print("User \(user.displayName) just joined the room \(self.room.debugDescription)")
+        let appendedString = user.displayName + "just joined the room"
+        
+        DispatchQueue.main.async {
+            self.navigationItem.setTitle("MessageKit", subtitle: appendedString)
+        }
+    }
+    
+    func onUserLeft(user: PCUser) {
+        print("User \(user.displayName) just left the room \(self.room.debugDescription)")
+        let appendedString = user.displayName + "just left the room"
+        
+        DispatchQueue.main.async {
+            self.navigationItem.setTitle("MessageKit", subtitle: appendedString)
+        }
+    }
+    
+//    func onPresenceChanged(stateChange: PCPresenceStateChange, user: PCUser) {
+//    }
 }
 
 // MARK: - MessageCellDelegate
@@ -246,16 +307,28 @@ extension ChatViewController: MessageLabelDelegate {
     
     func didSelectPhoneNumber(_ phoneNumber: String) {
         print("Phone Number Selected: \(phoneNumber)")
+        guard let number = URL(string: "tel://" + phoneNumber) else { return }
+        UIApplication.shared.open(number)
     }
     
     func didSelectURL(_ url: URL) {
         print("URL Selected: \(url)")
+        openURL(url)
     }
     
     func didSelectTransitInformation(_ transitInformation: [String: String]) {
         print("TransitInformation Selected: \(transitInformation)")
     }
     
+    func openURL(_ url: URL) {
+        let webViewController = SFSafariViewController(url: url)
+        if #available(iOS 10.0, *) {
+            webViewController.preferredControlTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            webViewController.preferredBarTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+            webViewController.configuration.accessibilityNavigationStyle = .combined
+        }
+        present(webViewController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - MessageInputBarDelegate
@@ -263,20 +336,25 @@ extension ChatViewController: MessageLabelDelegate {
 extension ChatViewController: MessageInputBarDelegate {
     
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
-        
         for component in inputBar.inputTextView.components {
             
             if let str = component as? String {
-                let message = MockMessage(text: str, sender: currentSender(), messageId: UUID().uuidString, date: Date())
-                insertMessage(message)
-            } else if let img = component as? UIImage {
-                let message = MockMessage(image: img, sender: currentSender(), messageId: UUID().uuidString, date: Date())
-                insertMessage(message)
+                let _ = ChatMainViewController.chat.sendSimpleMessage(roomID: (self.room?.id)!, text: str)
             }
-            
+//            else if let img = component as? UIImage {
+//                let message = MockMessage(image: img, sender: currentSender(), messageId: UUID().uuidString, date: Date())
+//                insertMessage(message)
+//            }
         }
         inputBar.inputTextView.text = String()
         messagesCollectionView.scrollToBottom(animated: true)
     }
     
+    func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {
+        ChatMainViewController.chat.currentUser?.typing(in: self.room!)  { (Error) in
+            if (Error != nil) {
+                print("Chat Error: \(String(describing: Error))")
+            }
+        }
+    }
 }

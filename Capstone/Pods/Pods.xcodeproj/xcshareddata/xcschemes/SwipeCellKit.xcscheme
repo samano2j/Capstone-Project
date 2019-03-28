@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "954FED98FE025BF13C11BE8530642469"
-               BuildableName = "PusherPlatform.framework"
-               BlueprintName = "PusherPlatform"
+               BlueprintIdentifier = "9D9A777196BEDFB226756D951FE31021"
+               BuildableName = "SwipeCellKit.framework"
+               BlueprintName = "SwipeCellKit"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "954FED98FE025BF13C11BE8530642469"
-            BuildableName = "PusherPlatform.framework"
-            BlueprintName = "PusherPlatform"
+            BlueprintIdentifier = "9D9A777196BEDFB226756D951FE31021"
+            BuildableName = "SwipeCellKit.framework"
+            BlueprintName = "SwipeCellKit"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,6 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9D9A777196BEDFB226756D951FE31021"
+            BuildableName = "SwipeCellKit.framework"
+            BlueprintName = "SwipeCellKit"
+            ReferencedContainer = "container:Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

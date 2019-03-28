@@ -84,7 +84,7 @@ class Request : NSObject
                 
                 callback("", error?.localizedDescription)
             } else {
-                let outputStr  = String(data: data!, encoding: String.Encoding.utf8) as String!
+                let outputStr  = String(data: data!, encoding: String.Encoding.utf8)
                 callback(outputStr!, nil)
             }
         }

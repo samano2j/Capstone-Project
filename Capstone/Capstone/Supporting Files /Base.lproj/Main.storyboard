@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6Cn-mP-x0d">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6Cn-mP-x0d">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -136,7 +136,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="494"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="wFj-df-FxC">
-                                        <rect key="frame" x="131.66666666666666" y="224" width="150.99999999999997" height="120"/>
+                                        <rect key="frame" x="147" y="224" width="120" height="120"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="120" id="OTe-K2-8OS"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="qoX-j8-xCV"/>
@@ -373,8 +373,8 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Dm2-lZ-bWN">
                                 <rect key="frame" x="20" y="124" width="374" height="28"/>
                                 <segments>
-                                    <segment title="Subscribed Rooms"/>
-                                    <segment title="Unsubscribed Rooms"/>
+                                    <segment title="Joined Rooms"/>
+                                    <segment title="Available Rooms"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentChanged:" destination="N9h-Km-fq0" eventType="valueChanged" id="HLp-QZ-pXP"/>
@@ -400,7 +400,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tMr-pI-AyQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2436.231884057971" y="955.43478260869574"/>
+            <point key="canvasLocation" x="1493" y="955"/>
         </scene>
         <!--Mailboxes-->
         <scene sceneID="VqW-Mc-dK2">
@@ -882,6 +882,10 @@
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learn More" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="25j-5T-OBj" userLabel="serviceLink">
                                             <rect key="frame" x="175" y="183" width="64" height="14.333333333333343"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="14.33" id="ZVL-Vv-lmE"/>
+                                                <constraint firstAttribute="width" constant="64" id="pnv-24-IPc"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                             <nil key="highlightedColor"/>
@@ -906,19 +910,18 @@
                                     <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="9KF-k6-Nwt" secondAttribute="bottom" constant="22" id="1Wj-Lr-Ftt"/>
-                                        <constraint firstAttribute="trailing" secondItem="9KF-k6-Nwt" secondAttribute="trailing" constant="156" id="1j0-fP-l7q"/>
                                         <constraint firstItem="IPl-XH-cP8" firstAttribute="top" secondItem="5Ta-xE-8Uf" secondAttribute="bottom" constant="8" symbolic="YES" id="BEO-BK-TMY"/>
                                         <constraint firstItem="5Ta-xE-8Uf" firstAttribute="leading" secondItem="IPl-XH-cP8" secondAttribute="leading" id="DuA-YR-Bq8"/>
-                                        <constraint firstItem="9KF-k6-Nwt" firstAttribute="leading" secondItem="25j-5T-OBj" secondAttribute="trailing" constant="6" id="FwW-Xf-Crb"/>
                                         <constraint firstItem="c3S-N9-0Vs" firstAttribute="top" secondItem="Esm-SV-SxU" secondAttribute="top" constant="11" id="ICU-gu-SKE"/>
                                         <constraint firstItem="c3S-N9-0Vs" firstAttribute="centerX" secondItem="Esm-SV-SxU" secondAttribute="centerX" id="Jty-WG-3sI"/>
                                         <constraint firstItem="IPl-XH-cP8" firstAttribute="leading" secondItem="Esm-SV-SxU" secondAttribute="leadingMargin" constant="-6" id="Tbq-fG-K5y"/>
                                         <constraint firstItem="9KF-k6-Nwt" firstAttribute="top" secondItem="IPl-XH-cP8" secondAttribute="bottom" constant="16" id="VLR-o3-CS0"/>
                                         <constraint firstItem="IPl-XH-cP8" firstAttribute="bottom" secondItem="Esm-SV-SxU" secondAttribute="bottomMargin" constant="-50" id="Vct-o4-bUA"/>
                                         <constraint firstItem="5Ta-xE-8Uf" firstAttribute="top" secondItem="c3S-N9-0Vs" secondAttribute="bottom" constant="8" symbolic="YES" id="aVT-bm-FaP"/>
+                                        <constraint firstItem="25j-5T-OBj" firstAttribute="centerX" secondItem="Esm-SV-SxU" secondAttribute="centerX" id="gIk-06-UGW"/>
                                         <constraint firstItem="5Ta-xE-8Uf" firstAttribute="trailing" secondItem="IPl-XH-cP8" secondAttribute="trailing" id="hzL-6d-AFL"/>
-                                        <constraint firstItem="25j-5T-OBj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Esm-SV-SxU" secondAttribute="leading" constant="20" symbolic="YES" id="nef-cX-pMb"/>
                                         <constraint firstItem="IPl-XH-cP8" firstAttribute="trailing" secondItem="Esm-SV-SxU" secondAttribute="trailingMargin" constant="-6" id="rrq-8h-CrI"/>
+                                        <constraint firstItem="9KF-k6-Nwt" firstAttribute="leading" secondItem="25j-5T-OBj" secondAttribute="trailing" constant="6" id="twA-Fi-3OL"/>
                                         <constraint firstItem="9KF-k6-Nwt" firstAttribute="centerY" secondItem="25j-5T-OBj" secondAttribute="centerY" id="xaS-kG-6Hl"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -983,14 +986,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Disclosure" width="28" height="28"/>
-        <image name="Down" width="28" height="28"/>
+        <image name="Disclosure" width="14" height="14"/>
+        <image name="Down" width="14" height="14"/>
         <image name="Email-1" width="22" height="15"/>
-        <image name="Logo" width="151.5" height="144"/>
-        <image name="MoreOutline" width="46" height="46"/>
-        <image name="Screen Shot 2019-02-26 at 1.10.01 AM" width="89" height="89"/>
-        <image name="Up" width="28" height="28"/>
-        <image name="right" width="28" height="28"/>
+        <image name="Logo" width="101" height="96"/>
+        <image name="MoreOutline" width="23" height="23"/>
+        <image name="Screen Shot 2019-02-26 at 1.10.01 AM" width="59.333332061767578" height="59.333332061767578"/>
+        <image name="Up" width="14" height="14"/>
+        <image name="right" width="14" height="14"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ylL-du-tM6"/>

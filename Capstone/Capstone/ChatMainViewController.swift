@@ -9,6 +9,18 @@
 import UIKit
 import PusherChatkit
 
+
+var HandleRoomInstance : HandleRoom? = nil
+
+class HandleRoom : PCRoomDelegate {
+    
+    func onMultipartMessage(_ message: PCMultipartMessage) {
+        
+    }
+}
+
+//class CreateInstance
+
 class ChatMainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PCChatManagerDelegate {
     @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
@@ -18,11 +30,21 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     
     var ChatSubscribedRooms: [ChatMessage] = []
     var ChatUnsubscribedRooms: [ChatMessage] = []
-    var chat = Chat()
+    
+    static var rooms: [PCRoom : [PCMultipartMessage]] = [:]
+    static var chat = Chat()
     
     struct SegmentedControl {
         static let subscribed = 0
         static let unsubscribed = 1
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        ChatSubscribedRooms.removeAll()
+        ChatUnsubscribedRooms.removeAll()
+        initializeSubscibed()
+        initializeUnsubscibed()
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -34,12 +56,7 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Rooms"
         
-        if let _ = chat.Authenticate(username: "christian", delegate: self) {
-            initializeSubscibed()
-            initializeUnsubscibed()
-        }
-        
-        // Do any additional setup after loading the view.
+        let _ = ChatMainViewController.chat.Authenticate(username: "christian", delegate: self)
     }
     
     func getCustomImage(imageDisplayName: String?, imageView: UIImageView!){
@@ -63,7 +80,6 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        var cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell", for: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCellIdentifier", for: indexPath) as! ChatKitMessagesListCell
         switch segmentControl.selectedSegmentIndex {
         case SegmentedControl.subscribed:
@@ -86,6 +102,23 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
         self.tableView.reloadData()
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch segmentControl.selectedSegmentIndex {
+        case SegmentedControl.subscribed:
+            if (ChatMainViewController.chat.DeleteRoom(room: ChatSubscribedRooms[indexPath.row].room)) {
+                ChatSubscribedRooms.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        case SegmentedControl.unsubscribed:
+            if (ChatMainViewController.chat.DeleteRoom(room: ChatUnsubscribedRooms[indexPath.row].room)) {
+                ChatUnsubscribedRooms.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        default:
+            break
+        }
+
+    }
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -98,10 +131,9 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
                 if let cell = sender as? ChatKitMessagesListCell,
                     let indexPath = tableView.indexPath(for: cell),
                     let seguedToMVC = segue.destination as? ChatViewController {
-                    seguedToMVC.chat = chat
                     switch segmentControl.selectedSegmentIndex {
                     case SegmentedControl.subscribed:
-                        seguedToMVC.room = ChatUnsubscribedRooms[indexPath.row].room
+                        seguedToMVC.room = ChatSubscribedRooms[indexPath.row].room
                     case SegmentedControl.unsubscribed:
                         seguedToMVC.room = ChatUnsubscribedRooms[indexPath.row].room
                     default:
@@ -117,18 +149,19 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     
     func initializeSubscibed() {
         var first_message = ""
-        var name = ""
-        var date: Date = Date.init()
-        for room in chat.GetCurrentRooms() {
-            name = room.name
-            let msgs = chat.FetchMessages(room: room, limit: 1)
+        var date = Date()
+        for room in ChatMainViewController.chat.GetCurrentRooms() {
+            ChatMainViewController.chat.SubscribeToRoom(room: room, delegate: self, message_limit: 0)
+            ChatMainViewController.rooms.updateValue(<#T##value: [PCMultipartMessage]##[PCMultipartMessage]#>, forKey: <#T##PCRoom#>)
+            let msgs = ChatMainViewController.chat.FetchMessages(room: room, limit: 1)
             for msg in msgs {
-                first_message.append(msg.sender.displayName + ": ")
+                if (room.users.count > 2) {
+                    first_message.append(msg.sender.displayName + ": ")
+                }
                 date = msg.createdAtDate
                 for part in msg.parts {
                     switch part.payload {
                     case .inline(let p):
-                        print(p.content)
                         first_message.append(p.content)
                     case .url(_):
                         print("url")
@@ -137,22 +170,28 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
                     }
                 }
             }
-            ChatSubscribedRooms.append(ChatMessage(name: name, message: first_message, date: date, room: room))
+            if (msgs.count == 0) {
+                first_message = room.createdByUserID + " named the group " + room.name
+                date = room.createdAtDate
+            }
+            ChatSubscribedRooms.append(ChatMessage(name: room.name, message: first_message, date: date, room: room))
+            first_message = ""
         }
     }
     
     func initializeUnsubscibed() {
         var first_message = ""
-        var date: Date = Date.init()
-        for room in chat.GetJoinableRooms() {
-            let msgs = chat.FetchMessages(room: room, limit: 1)
+        var date = Date()
+        for room in ChatMainViewController.chat.GetJoinableRooms() {
+            let msgs = ChatMainViewController.chat.FetchMessages(room: room, limit: 1)
             for msg in msgs {
-                first_message.append(msg.sender.displayName + ": ")
+                if (room.users.count > 2) {
+                    first_message.append(msg.sender.displayName + ": ")
+                }
                 date = msg.createdAtDate
                 for part in msg.parts {
                     switch part.payload {
                     case .inline(let p):
-                        print(p.content)
                         first_message.append(p.content)
                     case .url(_):
                         print("url")
@@ -161,7 +200,12 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
                     }
                 }
             }
+            if (msgs.count == 0) {
+                first_message = room.createdByUserID + " named the group " + room.name
+                date = room.createdAtDate
+            }
             ChatUnsubscribedRooms.append(ChatMessage(name: room.name, message: first_message, date: date, room: room))
+            first_message = ""
         }
     }
 

@@ -99,6 +99,9 @@ class MailTableViewController: UITableViewController {
         cell.detailTextLabel?.text = MailTableViewController.mailFolders[indexPath.row].folderMessagesCount
         cell.imageView?.image = MailTableViewController.returnImageForFolderType(name: MailTableViewController.mailFolders[indexPath.row].folderName)
 
+//        if (indexPath.row == 3) {
+//            cell.separatorInset = UIEdgeInsets(top: 0, left: 75, bottom: 0, right: 0)
+//        }
         return cell
     }
     

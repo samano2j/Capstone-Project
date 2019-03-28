@@ -81,16 +81,19 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    var selected: Bool = false {
+        didSet {
+            DispatchQueue.main.async {
+                self.dismiss()
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print("SELECTED INDEX \(indexPath.row)")
-////        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-////        let newViewController = storyBoard.instantiateViewController(withIdentifier: "composeViewController") as! ComposeViewController
-////
-////        newViewController.selectedContact = contacts[indexPath.row]
-////        self.dismiss()
 //        tableView.deselectRow(at: indexPath, animated: true)
-//        //self.present(newViewController, animated: false, completion: nil)
-//    }
+//        selected = true
+    }
     
     /*
     // MARK: - Navigation

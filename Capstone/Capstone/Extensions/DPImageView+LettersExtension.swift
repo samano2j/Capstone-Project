@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SPStorkController
+import SafariServices
 
 extension UIImageView {
     
@@ -281,3 +282,31 @@ extension UINavigationItem {
     }
     
 }
+
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//extension URL {
+//    func load() {
+//        let webViewController = SFSafariViewController(url: self)
+//        if #available(iOS 10.0, *) {
+//            webViewController.preferredControlTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//            webViewController.preferredBarTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+//            webViewController.configuration.accessibilityNavigationStyle = .combined
+//        }
+//        present(webViewController, animated: true, completion: nil)
+//    }
+//}

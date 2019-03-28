@@ -193,9 +193,13 @@ final internal class SampleData {
     }
     
     func getAvatarFor(sender: Sender) -> Avatar {
-        let firstName = sender.displayName.components(separatedBy: " ").first
-        let lastName = sender.displayName.components(separatedBy: " ").last
-        let initials = "\(firstName?.first ?? "A")\(lastName?.first ?? "A")"
+//        let firstName = sender.displayName.components(separatedBy: " ").first
+//        let lastName = sender.displayName.components(separatedBy: " ").last
+//        let initials = "\(firstName?.first ?? "A")\(lastName?.first ?? "A")"
+        
+//        let firstName = sender.displayName.first
+//        let lastName = sender.displayName
+        let initials = sender.displayName.initials
         switch sender {
         case nathan:
             return Avatar(image: #imageLiteral(resourceName: "Dan-Leonard"), initials: initials)

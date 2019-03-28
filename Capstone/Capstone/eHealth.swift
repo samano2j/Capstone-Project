@@ -398,16 +398,9 @@ class eHealth {
         let sem = DispatchSemaphore(value: 0)
         
         req.HTTPGETJSONAPI(url: URL + "/common/broadcasts", token: jwt!) { (data, error) in
-            if (error == nil)
-            {
-                do
-                {   print(data)
-                    
-                } catch {
-                    print(error.localizedDescription)
-                }
-            } else {
+            guard error == nil else {
                 print("Error -> \(String(describing: error))")
+                return
             }
             
             sem.signal()
@@ -680,7 +673,7 @@ class eHealth {
             if (Message.attributes.read_at == nil)
             {
                 
-                var sentat = Message.attributes.sent_at == nil ? "" : (Message.attributes.sent_at)!
+                let sentat = Message.attributes.sent_at == nil ? "" : (Message.attributes.sent_at)!
                 
                 unread_messages.append(unread_message(folder_id: Message.attributes.folder_id, folder_name: Message.attributes.folder_name, subject: Message.attributes.subject, body: Message.attributes.body, sender_id: Message.attributes.sender_id, urgent: Message.attributes.urgent, sysmsg: Message.attributes.sysmsg, sent_at: sentat, msg_id: Message.id))
             }

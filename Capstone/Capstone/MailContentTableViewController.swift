@@ -13,6 +13,7 @@ import SPStorkController
 class MailContentTableViewController: UITableViewController {
     // MARK: - Variable Declarations
     var emails: [Email] = []
+    var tempEmails: [Email] = []
     var filteredMail: [Email] = []
     
     var defaultSwipeOptions = SwipeOptions()
@@ -39,27 +40,43 @@ class MailContentTableViewController: UITableViewController {
         self.segueToComposeViewController()
     }
     
+    var unreadClicked: Bool = false {
+        didSet {
+            ListUnreadMessagesOutlet.tintColor = (unreadClicked) ? #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1) : #colorLiteral(red: 0.03448298946, green: 0.426069051, blue: 0.975643456, alpha: 1)
+            if (unreadClicked == false) {
+                emails.removeAll(keepingCapacity: true)
+                emails = tempEmails
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     @IBOutlet var ListUnreadMessagesOutlet: UIBarButtonItem!
     @IBAction func ListUnreadMessages(_ sender: UIBarButtonItem) {
+        
         if (eMail.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true)
         {
-            Messages = eMail.GetMessages(folder_id: folderID)
-            if (Messages != nil) {
-                let listOfUnreadMessagesTypeUnread = eMail.GetUnreadMessages(Messages: Messages!)
-                var listOfUnreadMessages: [Email] = []
-                for msg in listOfUnreadMessagesTypeUnread {
-                    let senderProfile = eMail.GetSenderInformation(messages: Messages!, msg_id: msg.msg_id)
-                    let userProfile = eMail.GetProfile()
-                    
-                    let to = userProfile.first_name ?? "" + " " + userProfile.last_name!
-                    let from = senderProfile!.first_name ?? "" + " " + senderProfile!.last_name!
-                    
-                    let message = Email(from: from, fromID: String((senderProfile?.id)!), to: to, toID: (userProfile.id)!, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
-//                    let message = Email(from: from,  to: to, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
-                    listOfUnreadMessages.append(message)
+            unreadClicked = !unreadClicked
+            if (unreadClicked) {
+                Messages = eMail.GetMessages(folder_id: folderID)
+                if (Messages != nil) {
+                    let listOfUnreadMessagesTypeUnread = eMail.GetUnreadMessages(Messages: Messages!)
+                    var listOfUnreadMessages: [Email] = []
+                    for msg in listOfUnreadMessagesTypeUnread {
+                        let senderProfile = eMail.GetSenderInformation(messages: Messages!, msg_id: msg.msg_id)
+                        let userProfile = eMail.GetProfile()
+                        
+                        let to = userProfile.first_name ?? "" + " " + userProfile.last_name!
+                        let from = senderProfile!.first_name ?? "" + " " + senderProfile!.last_name!
+                        
+                        let message = Email(from: from, fromID: String((senderProfile?.id)!), to: to, toID: (userProfile.id)!, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
+                        //                    let message = Email(from: from,  to: to, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
+                        listOfUnreadMessages.append(message)
+                    }
+                    tempEmails = emails
+                    emails = listOfUnreadMessages
+                    tableView.reloadData()
                 }
-                emails = listOfUnreadMessages
-                tableView.reloadData()
             }
         }
     }
@@ -132,7 +149,7 @@ class MailContentTableViewController: UITableViewController {
         
         searchController.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
-        //searchController.dimsBackgroundDuringPresentation = true // The default is true. [was false]
+        searchController.dimsBackgroundDuringPresentation = true // The default is true. [was false]
         searchController.searchBar.delegate = self  // Monitor when the search button is tapped.
         
         /** Search presents a view controller by applying normal view controller presentation semantics.
@@ -524,7 +541,6 @@ extension MailContentTableViewController: SwipeTableViewCellDelegate {
             configure(action: flag, with: .flag)
             
             let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in
-                
                 if (self.eMail.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
                     if (self.eMail.DeleteMessage(folder_id: self.folderID, message_id: self.emails[indexPath.row].id)) {
                         self.emails.remove(at: indexPath.row)
