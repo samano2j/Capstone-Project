@@ -27,14 +27,14 @@ class Chat {
     
         
      
-        req.HTTPGETJSONAPI(url: Constants.idProvider + "/" + username + "/" + password, token: "") { (d, error) in
+        req.HTTPGETJSONAPI(url: Constants.idProvider + "/" + username + "/" + password, token: "")
+       { (d, error) in
             
             if (error == nil)
             {
-               
                 if ( d != "invalid credentials" )
                 {
-                    print(d)
+                  
                     id = d
                 }
             }
@@ -64,7 +64,7 @@ class Chat {
          let tokenProvider = PCTokenProvider(
             url: "http://108.174.164.127:8080/public/auth",
             requestInjector: { req -> PCTokenProviderRequest in
-                req.addQueryItems([URLQueryItem(name: "user_id", value: username),
+                req.addQueryItems([URLQueryItem(name: "username", value: username),
                                    URLQueryItem(name: "password", value: password)])
                 
                 return req
