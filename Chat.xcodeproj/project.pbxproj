@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B50A230922559C5A00FBA43C /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50A230822559C5A00FBA43C /* Request.swift */; };
 		B528E84D22484A4E00CB59FD /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528E84C22484A4E00CB59FD /* Chat.swift */; };
 		B528E85122484B8D00CB59FD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528E85022484B8D00CB59FD /* Constants.swift */; };
 		B52B261D2228814E002E3ECC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52B261C2228814E002E3ECC /* AppDelegate.swift */; };
@@ -40,6 +41,7 @@
 		55F5C3662C2DAE7BD20B5210 /* Pods-Chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chat.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chat/Pods-Chat.release.xcconfig"; sourceTree = "<group>"; };
 		79A00D36BD06C1026493D87C /* Pods-Chat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chat/Pods-Chat.debug.xcconfig"; sourceTree = "<group>"; };
 		B238B8C49F5E0AA95EB00D3E /* Pods_ChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B50A230822559C5A00FBA43C /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		B528E84C22484A4E00CB59FD /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		B528E85022484B8D00CB59FD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B52B26192228814E002E3ECC /* Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +139,7 @@
 				B52B262822288150002E3ECC /* Info.plist */,
 				B528E84C22484A4E00CB59FD /* Chat.swift */,
 				B528E85022484B8D00CB59FD /* Constants.swift */,
+				B50A230822559C5A00FBA43C /* Request.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 			files = (
 				B52B261F2228814E002E3ECC /* ViewController.swift in Sources */,
 				B528E84D22484A4E00CB59FD /* Chat.swift in Sources */,
+				B50A230922559C5A00FBA43C /* Request.swift in Sources */,
 				B52B261D2228814E002E3ECC /* AppDelegate.swift in Sources */,
 				B528E85122484B8D00CB59FD /* Constants.swift in Sources */,
 			);

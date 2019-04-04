@@ -16,15 +16,67 @@ class Chat {
     var currentUser: PCCurrentUser? = nil
     var currentSubscribedRooms : [PCRoom] = []
     
-    
-    func Authenticate(username : String, delegate : PCChatManagerDelegate) -> PCCurrentUser?
+    func GetUserId(username: String, password: String) -> String?
     {
+        let sem = DispatchSemaphore(value : 0)
+        let req = Request()
+        
+       
+        var id : String? = nil
+        
+    
+        
+     
+        req.HTTPGETJSONAPI(url: Constants.idProvider + "/" + username + "/" + password, token: "") { (d, error) in
+            
+            if (error == nil)
+            {
+               
+                if ( d != "invalid credentials" )
+                {
+                    print(d)
+                    id = d
+                }
+            }
+            
+            
+            sem.signal()
+        }
+        
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        return id
+    }
+    
+    func Authenticate(username : String, password: String, delegate : PCChatManagerDelegate) -> PCCurrentUser?
+    {
+        let user_id = GetUserId(username: username, password: password)
+        
+        
          let sem = DispatchSemaphore(value: 0)
         
+        if (user_id == nil)
+        {
+            return nil;
+        }
+        
+        
+         let tokenProvider = PCTokenProvider(
+            url: "http://108.174.164.127:8080/public/auth",
+            requestInjector: { req -> PCTokenProviderRequest in
+                req.addQueryItems([URLQueryItem(name: "user_id", value: username),
+                                   URLQueryItem(name: "password", value: password)])
+                
+                return req
+                
+            }
+            
+        )
+
         chatManager = ChatManager(
             instanceLocator: Constants.instanceLocator,
-            tokenProvider: PCTokenProvider(url: Constants.tokenProvider),
-            userID: username
+            tokenProvider: tokenProvider,//PCTokenProvider(url: Constants.tokenProvider),
+            userID: user_id!
         )
       
        
@@ -173,8 +225,12 @@ class Chat {
         {
             return success
         }
-        
-        (self.currentUser)!.subscribeToRoomMultipart(room: room, roomDelegate: delegate, messageLimit: message_limit) { (error) in
+        var new_limit = message_limit
+        if (new_limit > 100)
+        {
+            new_limit = 100
+        }
+        (self.currentUser)!.subscribeToRoomMultipart(room: room, roomDelegate: delegate, messageLimit: new_limit) { (error) in
             
             if (error == nil) {
                 success = true

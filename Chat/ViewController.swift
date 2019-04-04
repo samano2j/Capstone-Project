@@ -92,7 +92,7 @@ class ViewController: UIViewController {
 
          self.chatManagerDelegate = MyChatManagerDelegate()
         
-        currentUser = chat.Authenticate(username: "christian", delegate: (self.chatManagerDelegate)!)
+        currentUser = chat.Authenticate(username: "max", password: "1234", delegate: (self.chatManagerDelegate)!)
         
         /*chatManager = ChatManager(
             instanceLocator: "v1:us1:22f58ecc-7a16-4269-84a6-7d27e20eb88e",
@@ -246,16 +246,25 @@ extension ViewController: PCRoomDelegate {
             self.messagesTable.reloadData()
         }
     }
+    func onMultipartMessage(_ message: PCMultipartMessage) {
+        var p : [(room: PCRoom, msgs: [PCMultipartMessage])]
+        var d = [PCRoom: [PCMultipartMessage]]()
+        
+    
+        
+     
+        
+        
+        
+        
+    }
+    
     func onPresenceChanged(stateChange: PCPresenceStateChange, user: PCUser) {
         
         print("User \(user.displayName)'s presence changed to \(stateChange.current.rawValue)")
         
     }
-    
-    func onMultipartMessage(_ message: PCMultipartMessage) {
-        
-    }
-    
+
 
     func onUserStartedTyping(user: PCUser) {
         print("User \((user.name)!) started typing in room \((currentRoom?.name)!)")
