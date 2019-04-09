@@ -21,7 +21,7 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     let navBar = SPFakeBarView.init(style: .stork)
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
     
-    var selectedContact: contact? = nil
+//    var selectedContact: contact? = nil
     var composeDraft: Draft? = nil
     var reply_sender_id: Int? = nil
     var reply_message_id: String? = nil
@@ -56,9 +56,9 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         if (self.reply_message_id != nil && self.reply_sender_id != nil) {
             ToTextView.text = String(reply_sender_id!)
         }
-        if let con = selectedContact {
-            ToTextView.text = String(con.id) //con.first_name + " " + con.last_name
-        }
+//        if let con = selectedContact {
+//            ToTextView.text = String(con.id) //con.first_name + " " + con.last_name
+//        }
         if (draft) {
             guard let to = draftTo, let sub = draftSubject, let bod = draftBody else { return }
             self.ToTextView.text = to
@@ -81,9 +81,9 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         self.navBar.titleLabel.text = sender.text
     }
     
-    @IBAction func addContact(_ sender: UIButton) {
-        self.segueToContactViewController()
-    }
+//    @IBAction func addContact(_ sender: UIButton) {
+//        self.segueToContactViewController()
+//    }
     
     @objc func send() {
         guard let to = ToTextView.text, let subject = SubjectTextView.text, let body = BodyTextView.text, case let urgent = UrgentSwitch.isOn else { return }
@@ -138,12 +138,12 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         }
     }
     
-    public func segueToContactViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "contactsViewController") as? ContactsViewController
-        
-        self.presentAsStork(controller!, height: 500, complection: nil)
-    }
+//    public func segueToContactViewController() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = storyboard.instantiateViewController(withIdentifier: "contactsViewController") as? ContactsViewController
+//
+//        self.presentAsStork(controller!, height: 500, complection: nil)
+//    }
     
 }
 
