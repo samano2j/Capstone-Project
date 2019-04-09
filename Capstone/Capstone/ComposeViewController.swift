@@ -12,7 +12,7 @@ import SPStorkController
 
 class ComposeViewController: UIViewController, UITextFieldDelegate{
     
-    @IBOutlet weak var ToTextView: UITextField!
+    @IBOutlet var ToTextView: UITextField!
     @IBOutlet weak var SubjectTextView: UITextField!
     @IBOutlet weak var UrgentSwitch: UISwitch!
     @IBOutlet weak var BodyTextView: UITextView!
@@ -35,6 +35,8 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     var draftUrgent: String? = nil
     var draftBody: String? = nil
     var draft: Bool = false
+    var Folder: Folders!
+    static var contactID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +52,7 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("appeared")
         if (self.reply_message_id != nil && self.reply_sender_id != nil) {
             ToTextView.text = String(reply_sender_id!)
         }
@@ -62,7 +65,17 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
             self.SubjectTextView.text = sub
             self.BodyTextView.text = bod
         }
+        if let toID = ComposeViewController.contactID {
+            self.ToTextView.text = toID
+        }
     }
+    
+//    func viewWillAppear(Bool)
+//    func viewDidAppear(Bool)
+//    func viewWillDisappear(Bool)
+//    func viewDidDisappear(Bool)
+
+    
     
     @IBAction func SubjectTextViewChanged(_ sender: UITextField) {
         self.navBar.titleLabel.text = sender.text
@@ -74,7 +87,8 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     
     @objc func send() {
         guard let to = ToTextView.text, let subject = SubjectTextView.text, let body = BodyTextView.text, case let urgent = UrgentSwitch.isOn else { return }
-        let recpt_ids: [String] = [to]
+        let recpt = to.trim().components(separatedBy: ",")
+        let recpt_ids: [String] = recpt
         
         if (subject == "") {
             self.makeAlertController(title: noSubjectTitle, message: noSubjectMessage)
@@ -105,31 +119,30 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     }
     
     @objc func cancel() {
-        let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        controller.addAction(UIAlertAction(title: "Delete Draft", style: .destructive, handler: {(_) in self.dismiss()}))
-        controller.addAction(UIAlertAction(title: "Save Draft", style: .default, handler: {(_) in
-            guard let to = self.ToTextView.text, let subject = self.SubjectTextView.text, let body = self.BodyTextView.text, case let urgent = self.UrgentSwitch.isOn else { return }
-            let recpt_ids: [String] = [to]
-            if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-                self.ApiUrl.SaveDraft(recpt_ids: recpt_ids, body: body, subject: subject, reply_to_id: "", urgent: urgent)
-                self.dismiss()
-            }
-        }))
-        controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        self.present(controller, animated: true, completion: nil)
-        
+        if (ToTextView.text == "" && SubjectTextView.text == "" && BodyTextView.text == "") {
+            self.dismiss()
+        } else {
+            let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            controller.addAction(UIAlertAction(title: "Delete Draft", style: .destructive, handler: {(_) in self.dismiss()}))
+            controller.addAction(UIAlertAction(title: "Save Draft", style: .default, handler: {(_) in
+                guard let to = self.ToTextView.text, let subject = self.SubjectTextView.text, let body = self.BodyTextView.text, case let urgent = self.UrgentSwitch.isOn else { return }
+                let recpt = to.trim().components(separatedBy: ",")
+                let recpt_ids: [String] = recpt
+                if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
+                    self.ApiUrl.SaveDraft(recpt_ids: recpt_ids, body: body, subject: subject, reply_to_id: "", urgent: urgent)
+                    self.dismiss()
+                }
+            }))
+            controller.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(controller, animated: true, completion: nil)
+        }
     }
     
     public func segueToContactViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "contactsViewController") as? ContactsViewController
         
-        let modal = controller
-        let transitionDelegate = SPStorkTransitioningDelegate()
-        transitionDelegate.customHeight = 500
-        modal?.transitioningDelegate = transitionDelegate
-        modal?.modalPresentationStyle = .custom
-        self.present(modal!, animated: true, completion: nil)
+        self.presentAsStork(controller!, height: 500, complection: nil)
     }
     
 }

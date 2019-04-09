@@ -8,30 +8,19 @@
 
 import UIKit
 import PusherChatkit
-
-
-var HandleRoomInstance : HandleRoom? = nil
-
-class HandleRoom : PCRoomDelegate {
-    
-    func onMultipartMessage(_ message: PCMultipartMessage) {
-        
-    }
-}
-
-//class CreateInstance
+import SwipeCellKit
+import PusherChatkit
+import SparrowKit
+import SPStorkController
 
 class ChatMainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PCChatManagerDelegate {
     @IBOutlet weak var segmentControl: UISegmentedControl!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-//    var cars = ["BMW", "Range Rover", "Tesla", "Lamborghini", "Datsun", "Jeep", "Lada", "Spyker", "Roewe", "Audi", "Toyota", "Chrysler", "Ford", "McLaren Senna", "Aston Martin Vanquish", "Triumph Spitfire", "Volkswagen Beetle", "Studebaker Power Hawk", "Lamborghini Murciélago", "Plymouth Road Runner Superbird", "Studebaker Power Hawk", "Lamborghini Murciélago", "AMC Gremlin", "Plymouth Road Runner Superbird", "Bentley Mulsanne", "Ford Thunderbird", "Chervolet", "Lagonda", "Bentley", "Dodge", "Donkervoort", "Freightliner", "Hyundai", "General Motors", "Hindustan Motors", "Mitsubishi","Pierce-Arrow", "Prodrive", "Studebaker"]
-//    var friuts = ["Pear", "Apple", "Pineapple", "Oranges", "WaterMelon", "Cherry", "Strawberry", "Pomangranate", "Plum", "Rasberry", "Lemon", "Grapefruit", "Coconut", "Avocodo", "Nectarine", "Mango", "Kiwi", "Papaya", "Carambola(U.K) – starfruit (U.S)", "Blueberry","Pear", "Apricot", "Kiwano (horned melon)", "Pomelo", "White currant", "Eggplant", "Cucumber", "Tangerine", "Nance", "Fig", "Durian", "Elderberry", "Japanese plum", "Passionfruit", "Plantain", "Blackcurrant", "Dragonfruit (or Pitaya)", "Buddha's hand (fingered citron)", "Purple mangosteen", "White sapote"]
+    static var ChatSubscribedRooms: [ChatMessage] = []
+    static var ChatUnsubscribedRooms: [ChatMessage] = []
     
-    var ChatSubscribedRooms: [ChatMessage] = []
-    var ChatUnsubscribedRooms: [ChatMessage] = []
-    
-    static var rooms: [PCRoom : [PCMultipartMessage]] = [:]
     static var chat = Chat()
     
     struct SegmentedControl {
@@ -40,23 +29,46 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        ChatSubscribedRooms.removeAll()
-        ChatUnsubscribedRooms.removeAll()
-        initializeSubscibed()
-        initializeUnsubscibed()
-        tableView.reloadData()
+        self.segmentControl.selectedSegmentIndex = 0
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.tableFooterView = UIView()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        navigationItem.hidesSearchBarWhenScrolling = true
-        navigationController?.navigationBar.prefersLargeTitles = true
+        definesPresentationContext = true
+        
+        tableView.allowsSelection = true
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = "Rooms"
         
-        let _ = ChatMainViewController.chat.Authenticate(username: "christian", delegate: self)
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createRoom))
+        self.navigationItem.rightBarButtonItem = add
+        
+        if (ChatMainViewController.ChatSubscribedRooms.isEmpty && ChatMainViewController.ChatUnsubscribedRooms.isEmpty) {
+            spinner.startAnimating()
+        }
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            let _ = ChatMainViewController.chat.Authenticate(username: LoginViewController.username, password: LoginViewController.password, delegate: self!)
+//            ChatMainViewController.ChatSubscribedRooms.removeAll()
+//            ChatMainViewController.ChatUnsubscribedRooms.removeAll()
+            
+            let joined = self?.initialize(rooms: ChatMainViewController.chat.GetCurrentRooms())
+            let available = self?.initialize(rooms: ChatMainViewController.chat.GetJoinableRooms())
+            
+            DispatchQueue.main.async {
+                if (ChatMainViewController.ChatSubscribedRooms.isEmpty && ChatMainViewController.ChatUnsubscribedRooms.isEmpty) {
+                    ChatMainViewController.ChatSubscribedRooms = joined ?? []
+                    ChatMainViewController.ChatUnsubscribedRooms = available ?? []
+                }
+                self?.tableView.reloadData()
+                self?.spinner?.stopAnimating()
+            }
+        }
     }
     
     func getCustomImage(imageDisplayName: String?, imageView: UIImageView!){
@@ -67,12 +79,60 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    @objc
+    func createRoom() {
+//        segueToContactViewController()
+        let ac = UIAlertController(title: "Create Room", message: "Enter the name of the room", preferredStyle: .alert)
+        ac.addTextField()
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let submitAction = UIAlertAction(title: "Create", style: .default) { [unowned ac] _ in
+            guard let answer = ac.textFields![0].text else { return }
+            guard let room = ChatMainViewController.chat.createRoom(name: answer) else {
+                let ac = UIAlertController(title: "Error", message: "Sorry you cannot complete this action", preferredStyle: .alert)
+                self.present(ac, animated: true, completion: nil)
+                return
+            }
+            let preview = room.createdByUserID + " named the group " + room.name
+            ChatMainViewController.ChatSubscribedRooms.append(ChatMessage(name: room.name, message: preview, date: room.createdAtDate, room: room))
+            self.tableView.reloadData()
+        }
+
+        ac.addAction(submitAction)
+        ac.addAction(cancelAction)
+        present(ac, animated: true)
+    }
+    
+//    func createSwitch() -> UISwitch{
+//        let switchControl = UISwitch(frame: CGRect(x: 10, y: 20, width: 10, height: 10));
+//        switchControl.isOn = true
+//        switchControl.setOn(true, animated: false);
+//        switchControl.addTarget(self, action: #selector(switchValueDidChange), for: .valueChanged)
+//        return switchControl
+//    }
+//
+//    @objc func switchValueDidChange(sender: UISwitch!){
+//        print("Switch Value : \(sender.isOn))")
+//    }
+    
+//    public func segueToContactViewController() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = storyboard.instantiateViewController(withIdentifier: "createRoomViewController") as? CreateRoomViewController
+//
+//        let modal = controller
+//        let transitionDelegate = SPStorkTransitioningDelegate()
+//        transitionDelegate.customHeight = 450
+//        modal?.transitioningDelegate = transitionDelegate
+//        modal?.modalPresentationStyle = .custom
+//        self.present(modal!, animated: true, completion: nil)
+//    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch segmentControl.selectedSegmentIndex {
         case SegmentedControl.subscribed:
-            return ChatSubscribedRooms.count
+            return ChatMainViewController.ChatSubscribedRooms.count
         case SegmentedControl.unsubscribed:
-            return ChatUnsubscribedRooms.count
+            return ChatMainViewController.ChatUnsubscribedRooms.count
         default:
             break
         }
@@ -81,17 +141,18 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCellIdentifier", for: indexPath) as! ChatKitMessagesListCell
+        
         switch segmentControl.selectedSegmentIndex {
         case SegmentedControl.subscribed:
-            cell.senderName.text = ChatSubscribedRooms[indexPath.row].name
-            cell.resentMessage.text = ChatSubscribedRooms[indexPath.row].message
-            cell.messagesDate.text = ChatSubscribedRooms[indexPath.row].relativeChatDateString
-            getCustomImage(imageDisplayName: ChatSubscribedRooms[indexPath.row].name, imageView: cell.messageAvatar)
+            cell.senderName.text = ChatMainViewController.ChatSubscribedRooms[indexPath.row].name
+            cell.resentMessage.text = ChatMainViewController.ChatSubscribedRooms[indexPath.row].message
+            cell.messagesDate.text = ChatMainViewController.ChatSubscribedRooms[indexPath.row].relativeChatDateString
+            getCustomImage(imageDisplayName: ChatMainViewController.ChatSubscribedRooms[indexPath.row].name, imageView: cell.messageAvatar)
         case SegmentedControl.unsubscribed:
-            cell.senderName.text = ChatUnsubscribedRooms[indexPath.row].name
-            cell.resentMessage.text = ChatUnsubscribedRooms[indexPath.row].message
-            cell.messagesDate.text = ChatUnsubscribedRooms[indexPath.row].relativeChatDateString
-            getCustomImage(imageDisplayName: ChatUnsubscribedRooms[indexPath.row].name, imageView: cell.messageAvatar)
+            cell.senderName.text = ChatMainViewController.ChatUnsubscribedRooms[indexPath.row].name
+            cell.resentMessage.text = ChatMainViewController.ChatUnsubscribedRooms[indexPath.row].message
+            cell.messagesDate.text = ChatMainViewController.ChatUnsubscribedRooms[indexPath.row].relativeChatDateString
+            getCustomImage(imageDisplayName: ChatMainViewController.ChatUnsubscribedRooms[indexPath.row].name, imageView: cell.messageAvatar)
         default:
             break
         }
@@ -105,26 +166,66 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch segmentControl.selectedSegmentIndex {
         case SegmentedControl.subscribed:
-            if (ChatMainViewController.chat.DeleteRoom(room: ChatSubscribedRooms[indexPath.row].room)) {
-                ChatSubscribedRooms.remove(at: indexPath.row)
+            if (ChatMainViewController.chat.DeleteRoom(room: ChatMainViewController.ChatSubscribedRooms[indexPath.row].room)) {
+                ChatMainViewController.ChatSubscribedRooms.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
         case SegmentedControl.unsubscribed:
-            if (ChatMainViewController.chat.DeleteRoom(room: ChatUnsubscribedRooms[indexPath.row].room)) {
-                ChatUnsubscribedRooms.remove(at: indexPath.row)
+            if (ChatMainViewController.chat.DeleteRoom(room: ChatMainViewController.ChatUnsubscribedRooms[indexPath.row].room)) {
+                ChatMainViewController.ChatUnsubscribedRooms.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
         default:
             break
         }
-
     }
-    // MARK: - Navigation
+//    // MARK: - Navigation
+    func initialize(rooms: [PCRoom]) -> [ChatMessage] {
+        var first_message = ""
+        var date = Date()
+        var name = ""
+        var messages: [ChatMessage] = []
+        for room in rooms {
+            let msgs = ChatMainViewController.chat.FetchMessages(room: room, limit: 1)
+            for msg in msgs {
+                if (room.users.count > 2) {
+                    first_message.append(msg.sender.displayName + ": ")
+                }
+                let roo = room.users.count
+                print ("\(room.name) has \(roo)")
+                if (room.users.count == 2) {
+                    if var index = room.users.index(where: { $0.id == ChatMainViewController.chat.currentUser?.id}) {
+                        index = 1 - index
+                        name = room.users[index].displayName
+                    }
+                } else {
+                    name = room.name
+                }
+                date = msg.createdAtDate
+                
+                for part in msg.parts {
+                    switch part.payload {
+                    case .inline(let p):
+                        first_message.append(p.content)
+                    case .url(let p):
+                        first_message.append(p.url)
+                    case .attachment(_):
+                        first_message.append("\(msg.sender.displayName) sent an attachment")
+                    }
+                }
+            }
+            if (msgs.count == 0) {
+                first_message = room.createdByUserID + " named the group " + room.name
+                date = room.createdAtDate
+            }
+            messages.append(ChatMessage(name: room.name, message: first_message, date: date, room: room))
+            first_message = ""
+        }
+        return messages
+    }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
         if let identifier = segue.identifier {
             switch identifier {
             case "segueIdentifierForChat":
@@ -133,9 +234,13 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
                     let seguedToMVC = segue.destination as? ChatViewController {
                     switch segmentControl.selectedSegmentIndex {
                     case SegmentedControl.subscribed:
-                        seguedToMVC.room = ChatSubscribedRooms[indexPath.row].room
+                        seguedToMVC.room = ChatMainViewController.ChatSubscribedRooms[indexPath.row].room
+                        seguedToMVC.subscribed = 0
+                        seguedToMVC.index = indexPath.row
                     case SegmentedControl.unsubscribed:
-                        seguedToMVC.room = ChatUnsubscribedRooms[indexPath.row].room
+                        seguedToMVC.room = ChatMainViewController.ChatUnsubscribedRooms[indexPath.row].room
+                        seguedToMVC.subscribed = 1
+                        seguedToMVC.index = indexPath.row
                     default:
                         break
                     }
@@ -143,72 +248,15 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
             default: break
             }
         }
-
-    }
-
-    
-    func initializeSubscibed() {
-        var first_message = ""
-        var date = Date()
-        for room in ChatMainViewController.chat.GetCurrentRooms() {
-            ChatMainViewController.chat.SubscribeToRoom(room: room, delegate: self, message_limit: 0)
-            ChatMainViewController.rooms.updateValue(<#T##value: [PCMultipartMessage]##[PCMultipartMessage]#>, forKey: <#T##PCRoom#>)
-            let msgs = ChatMainViewController.chat.FetchMessages(room: room, limit: 1)
-            for msg in msgs {
-                if (room.users.count > 2) {
-                    first_message.append(msg.sender.displayName + ": ")
-                }
-                date = msg.createdAtDate
-                for part in msg.parts {
-                    switch part.payload {
-                    case .inline(let p):
-                        first_message.append(p.content)
-                    case .url(_):
-                        print("url")
-                    case .attachment(_):
-                        print("attachment")
-                    }
-                }
-            }
-            if (msgs.count == 0) {
-                first_message = room.createdByUserID + " named the group " + room.name
-                date = room.createdAtDate
-            }
-            ChatSubscribedRooms.append(ChatMessage(name: room.name, message: first_message, date: date, room: room))
-            first_message = ""
-        }
     }
     
-    func initializeUnsubscibed() {
-        var first_message = ""
-        var date = Date()
-        for room in ChatMainViewController.chat.GetJoinableRooms() {
-            let msgs = ChatMainViewController.chat.FetchMessages(room: room, limit: 1)
-            for msg in msgs {
-                if (room.users.count > 2) {
-                    first_message.append(msg.sender.displayName + ": ")
-                }
-                date = msg.createdAtDate
-                for part in msg.parts {
-                    switch part.payload {
-                    case .inline(let p):
-                        first_message.append(p.content)
-                    case .url(_):
-                        print("url")
-                    case .attachment(_):
-                        print("attachment")
-                    }
-                }
-            }
-            if (msgs.count == 0) {
-                first_message = room.createdByUserID + " named the group " + room.name
-                date = room.createdAtDate
-            }
-            ChatUnsubscribedRooms.append(ChatMessage(name: room.name, message: first_message, date: date, room: room))
-            first_message = ""
+    func onRemovedFromRoom(_ room: PCRoom) {
+        DispatchQueue.main.async {
+            guard let index = ChatMainViewController.ChatSubscribedRooms.index(where: { $0.name == room.name }) else { return }
+            ChatMainViewController.ChatSubscribedRooms.remove(at: index)
+            self.tableView.reloadData()
         }
     }
-
 }
 
 

@@ -10,7 +10,6 @@
 		402F838A10C2FDCF61057D93 /* Pods_Capstone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 562D8AADDCA4C4D98F1D70F4 /* Pods_Capstone.framework */; };
 		830D268222485AA700DB8F74 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830D268122485AA700DB8F74 /* Chat.swift */; };
 		830D268422485B8100DB8F74 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830D268322485B8100DB8F74 /* Constants.swift */; };
-		8317E64C222F48AD00AC5CC9 /* ChatListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */; };
 		83190981223C02DC00F6A176 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8319097D223C02DC00F6A176 /* ContactsViewController.swift */; };
 		83190986223C035700F6A176 /* UrgentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83190985223C035700F6A176 /* UrgentLabel.swift */; };
 		831DB57C220A5F7B00CE1BFC /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831DB57B220A5F7B00CE1BFC /* ComposeViewController.swift */; };
@@ -42,6 +41,7 @@
 		838E5199221FF9DA00DF9B74 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E5198221FF9D900DF9B74 /* ChatViewController.swift */; };
 		838E519B221FFC5500DF9B74 /* Settings+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E519A221FFC5500DF9B74 /* Settings+UserDefaults.swift */; };
 		838E519D222522F600DF9B74 /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838E519C222522F600DF9B74 /* HomeTableViewController.swift */; };
+		83D142A9224D51A800ACBA49 /* RoomDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D142A8224D51A800ACBA49 /* RoomDetailTableViewController.swift */; };
 		83F704672203E799006F06F6 /* MailDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F704662203E799006F06F6 /* MailDetailsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +51,6 @@
 		562D8AADDCA4C4D98F1D70F4 /* Pods_Capstone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Capstone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		830D268122485AA700DB8F74 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		830D268322485B8100DB8F74 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewController.swift; sourceTree = "<group>"; };
 		8319097C223C02DB00F6A176 /* Capstone.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Capstone.entitlements; sourceTree = "<group>"; };
 		8319097D223C02DC00F6A176 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		83190985223C035700F6A176 /* UrgentLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrgentLabel.swift; sourceTree = "<group>"; };
@@ -86,6 +85,7 @@
 		838E5198221FF9D900DF9B74 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		838E519A221FFC5500DF9B74 /* Settings+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings+UserDefaults.swift"; sourceTree = "<group>"; };
 		838E519C222522F600DF9B74 /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeTableViewController.swift; path = Capstone/HomeTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		83D142A8224D51A800ACBA49 /* RoomDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailTableViewController.swift; sourceTree = "<group>"; };
 		83F704662203E799006F06F6 /* MailDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailDetailsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +108,7 @@
 				3787C994E2F7A005094BD6C3 /* Pods-Capstone.release.xcconfig */,
 			);
 			name = Pods;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		60D5648AB045B5B6F386A922 /* Frameworks */ = {
@@ -123,7 +124,6 @@
 			children = (
 				83233D9121A3BE26008443C2 /* Capstone */,
 				83233D9021A3BE26008443C2 /* Products */,
-				4DA4B81D5B796A46B5F147E4 /* Pods */,
 				60D5648AB045B5B6F386A922 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -159,8 +159,8 @@
 				832AC29E2240263B00BAA805 /* ChatMainViewController.swift */,
 				838E5196221FF89300DF9B74 /* BasicExampleViewController.swift */,
 				838E5198221FF9D900DF9B74 /* ChatViewController.swift */,
-				8317E64B222F48AC00AC5CC9 /* ChatListTableViewController.swift */,
 				8319097D223C02DC00F6A176 /* ContactsViewController.swift */,
+				83D142A8224D51A800ACBA49 /* RoomDetailTableViewController.swift */,
 				838E5191221FF31700DF9B74 /* Models */,
 				838E518C221FEA1200DF9B74 /* Data Generation */,
 				8324BBDA220BCB0300C4B59A /* Extensions */,
@@ -177,6 +177,7 @@
 				83233D9621A3BE26008443C2 /* Main.storyboard */,
 				83233D9E21A3BE29008443C2 /* LaunchScreen.storyboard */,
 				83233D9C21A3BE29008443C2 /* Assets.xcassets */,
+				4DA4B81D5B796A46B5F147E4 /* Pods */,
 				83233D9921A3BE26008443C2 /* Capstone.xcdatamodeld */,
 			);
 			path = "Supporting Files ";
@@ -378,9 +379,9 @@
 				832AC29F2240263B00BAA805 /* ChatMainViewController.swift in Sources */,
 				8348125E21FA63E0009A988A /* Request.swift in Sources */,
 				83233D9B21A3BE26008443C2 /* Capstone.xcdatamodeld in Sources */,
-				8317E64C222F48AD00AC5CC9 /* ChatListTableViewController.swift in Sources */,
 				8348126221FA6400009A988A /* eHealth.swift in Sources */,
 				838E518E221FEA4500DF9B74 /* Lorem.swift in Sources */,
+				83D142A9224D51A800ACBA49 /* RoomDetailTableViewController.swift in Sources */,
 				8348125F21FA63E0009A988A /* Message.swift in Sources */,
 				83233DA921A3C064008443C2 /* MailTableViewController.swift in Sources */,
 				8324BBDE220D521100C4B59A /* Profile.swift in Sources */,
@@ -543,6 +544,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9292NHZANB;
 				INFOPLIST_FILE = Capstone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -565,6 +567,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9292NHZANB;
 				INFOPLIST_FILE = Capstone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

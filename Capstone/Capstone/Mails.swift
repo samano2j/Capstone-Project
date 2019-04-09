@@ -24,9 +24,9 @@ class Email: NSObject, NSCoding {
     /** These properties need @objc to make them key value compliant when filtering using NSPredicate,
      and so they are accessible and usable in Objective-C to interact with other frameworks.
      */
-    @objc let from: String
+    @objc var from: String
     @objc let fromID: String
-    @objc let to: String
+    @objc var to: String
     @objc let toID: String
     @objc let subject: String
     @objc let body: String

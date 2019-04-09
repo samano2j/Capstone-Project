@@ -47,11 +47,9 @@ final class BasicExampleViewController: ChatViewController {
 }
 
 // MARK: - MessagesDisplayDelegate
-
 extension BasicExampleViewController: MessagesDisplayDelegate {
     
     // MARK: - Text Messages
-    
     func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         return isFromCurrentSender(message: message) ? .darkText : .darkText
     }

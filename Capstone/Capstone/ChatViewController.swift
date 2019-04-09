@@ -46,9 +46,15 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     static var messageList: [MockMessage] = []
     var chat: Chat? = nil
     var room: PCRoom? = nil
+    var subscribed: Int?
+    var index: Int?
+    var roomTitle: String?
+//    var chatDelegate: PCRoomDelegate?
+    
     var chatManagerDelegate: PCChatManagerDelegate?
     var chatRoomDelegate: PCRoomDelegate?
     var typingUsers : [String] = []
+    var roomMessages: [PCMultipartMessage] = []
     
     let messageKitCurrentUser = Sender(id: (ChatMainViewController.chat.currentUser?.id)!, displayName: (ChatMainViewController.chat.currentUser?.name)!)
     
@@ -63,14 +69,23 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        self.chatDelegate = MyChatDelegate()
+        
         configureMessageCollectionView()
         configureMessageInputBar()
-
-//        self.chatManagerDelegate = MyChatManagerDelegate()
-//        self.chatRoomDelegate = MyChatRoomDelegate()
-        
+        ChatViewController.messageList.removeAll(keepingCapacity: true)
+        subscriptionChoice()
         loadFirstMessages()
-        self.navigationItem.setTitle("MessageKit", subtitle: "")
+        
+        switch subscribed {
+        case 0:
+            roomTitle = ChatMainViewController.ChatSubscribedRooms[index!].name
+        case 1:
+            roomTitle = ChatMainViewController.ChatUnsubscribedRooms[index!].name
+        default:
+            break
+        }
+        self.navigationItem.setTitle(roomTitle ?? "", subtitle: "")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -81,12 +96,30 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
         super.viewDidDisappear(animated)
     }
     
+    func subscriptionChoice() {
+        if (ChatMainViewController.chat.currentUser?.rooms.index(where: { $0.id == self.room!.id }) == nil) {
+                let ac = UIAlertController(title: "Join Room", message: "Do you want to join \(self.room!.name)?", preferredStyle: .alert)
+                let closure: (UIAlertAction) -> Void = { _ in
+                    let _ = ChatMainViewController.chat.SubscribeToRoom(room: self.room!, delegate: self, message_limit: 0)
+                    if let index = ChatMainViewController.ChatUnsubscribedRooms.index(where: { $0.name == self.room!.name }) {
+                        ChatMainViewController.ChatSubscribedRooms.append(ChatMainViewController.ChatUnsubscribedRooms[index])
+                        ChatMainViewController.ChatUnsubscribedRooms.remove(at: index)
+                    }
+                    self.navigationController?.popToViewController(self.navigationController!.viewControllers[1] as! ChatMainViewController, animated: true) }
+                let yes = UIAlertAction(title: "Yes", style: .default, handler: closure)
+                let no = UIAlertAction(title: "No", style: .cancel) { _ in _ = self.navigationController?.popToViewController(self.navigationController!.viewControllers[1] as! ChatMainViewController, animated: true) }
+                ac.addAction(yes)
+                ac.addAction(no)
+                self.present(ac, animated: true, completion: nil)
+            }
+    }
+    
     func loadFirstMessages() {
         DispatchQueue.global(qos: .userInitiated).async {
             let _ = ChatMainViewController.chat.SubscribeToRoom(room: self.room!, delegate: self, message_limit: 0)
-            let msgs = ChatMainViewController.chat.FetchMessages(room: self.room!, limit: 100)
+            self.roomMessages = ChatMainViewController.chat.FetchMessages(room: self.room!, limit: 20) //oldestMessageIDReceived
             var messages: [MockMessage] = []
-            for msg in msgs {
+            for msg in self.roomMessages {
                 let sender = Sender(id: msg.sender.id, displayName: msg.sender.displayName)
                 for part in msg.parts {
                     switch part.payload {
@@ -110,7 +143,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     @objc
     func loadMoreMessages() {
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
-            SampleData.shared.getMessages(count: 20) { messages in
+            self.getMessages(count: 20) { messages in
                 DispatchQueue.main.async {
                     ChatViewController.messageList.insert(contentsOf: messages, at: 0)
                     self.messagesCollectionView.reloadDataAndKeepOffset()
@@ -118,6 +151,30 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
                 }
             }
         }
+    }
+    
+    func getMessages(count: Int, completion: ([MockMessage]) -> Void) {
+        var messages: [MockMessage] = []
+        var oldestMessageIDReceived = ""
+        if let older = self.roomMessages.first {
+            oldestMessageIDReceived = String(older.id)
+        }
+        let msgs = ChatMainViewController.chat.FetchMessages(room: self.room!, initialID: oldestMessageIDReceived)
+        self.roomMessages.insert(contentsOf: msgs, at: 0)
+        for msg in msgs {
+            let sender = Sender(id: msg.sender.id, displayName: msg.sender.displayName)
+            for part in msg.parts {
+                switch part.payload {
+                case .inline(let p):
+                    messages.append(MockMessage(text: p.content, sender: sender, messageId: String(msg.id), date: msg.createdAtDate))
+                case .url(let url):
+                    messages.append(MockMessage(text: url.url, sender: sender, messageId: String(msg.id), date: msg.createdAtDate))
+                case .attachment(let attach):
+                    messages.append(MockMessage(custom: attach.customData, sender: sender, messageId: String(msg.id), date: msg.createdAtDate))
+                }
+            }
+        }
+        completion(messages)
     }
     
     func configureMessageCollectionView() {
@@ -189,31 +246,45 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         return nil
-//        let name = message.sender.displayName
-//        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1)])
     }
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         return nil
-//        let dateString = formatter.string(from: message.sentDate)
-//        return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
     // PCRoomDelegate
     func onMultipartMessage(_ message: PCMultipartMessage) {
         let sender = Sender(id: message.sender.id, displayName: message.sender.displayName)
+        var note = ""
+        if (message.room.users.count > 2) {
+            note.append(message.sender.displayName + ": ")
+        }
         
         for part in message.parts {
             switch part.payload {
             case .inline(let payload):
-                let receivedMessage = MockMessage(text: payload.content, sender: sender, messageId: String(message.id), date: message.createdAtDate)
-                insertMessage(receivedMessage)
+                let msg = MockMessage(text: payload.content, sender: sender, messageId: String(message.id), date: message.createdAtDate)
+                insertMessage(msg)
+                
+                note.append(payload.content)
+                let preview = ChatMessage(name: self.room!.name, message: note, date: message.createdAtDate, room: self.room!)
+                
+                let index = ChatMainViewController.ChatSubscribedRooms.index(where: { $0.name == self.room!.name })
+                ChatMainViewController.ChatSubscribedRooms[index!] = preview
+                
+                
                 print("Received message with text: \(payload.content) from \(message.sender.debugDescription)")
             case .url(let payload):
                 print("Received message with url: \(payload.url) of type \(payload.type) from \(message.sender.debugDescription)")
+                var img: UIImage? = nil
+                guard let url = URL(string: payload.url) else { return }
+                UIImage.loadFrom(url: url) { image in
+                    img = image!
+                }
+                let msg = MockMessage(image: img!, sender: sender, messageId: String(message.id), date: message.createdAtDate)
+                insertMessage(msg)
             case .attachment(let payload):
                 payload.url() { downloadUrl, error in
-                    // do something with the download url
                 }
             }
         }
@@ -228,7 +299,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
         
         DispatchQueue.main.async {
             if (ChatMainViewController.chat.currentUser?.id != user.id) {
-                self.navigationItem.setTitle("MessageKit", subtitle: appendedString)
+                self.navigationItem.setTitle(self.roomTitle ?? "", subtitle: appendedString)
             }
         }
     }
@@ -237,30 +308,47 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
         print("User \(user.displayName)) stopped typing in room \(self.room.debugDescription)")
         
         DispatchQueue.main.async {
-            self.navigationItem.setTitle("MessageKit", subtitle: "")
+            self.navigationItem.setTitle(self.roomTitle ?? "", subtitle: "")
         }
     }
     
     func onUserJoined(user: PCUser) {
         print("User \(user.displayName) just joined the room \(self.room.debugDescription)")
-        let appendedString = user.displayName + "just joined the room"
-        
+        let appendedString = user.displayName + " just joined the room"
+                
         DispatchQueue.main.async {
-            self.navigationItem.setTitle("MessageKit", subtitle: appendedString)
+            self.navigationItem.setTitle(self.roomTitle ?? "", subtitle: appendedString)
         }
     }
     
     func onUserLeft(user: PCUser) {
         print("User \(user.displayName) just left the room \(self.room.debugDescription)")
-        let appendedString = user.displayName + "just left the room"
+        let appendedString = user.displayName + " just left the room"
         
         DispatchQueue.main.async {
-            self.navigationItem.setTitle("MessageKit", subtitle: appendedString)
+            self.navigationItem.setTitle(self.roomTitle ?? "", subtitle: appendedString)
         }
     }
     
-//    func onPresenceChanged(stateChange: PCPresenceStateChange, user: PCUser) {
-//    }
+    func onPresenceChanged(stateChange: PCPresenceStateChange, user: PCUser) {
+        print("User \(user.displayName) just went \(self.room.debugDescription)")
+        
+        let appendedString = user.displayName + " is " + stateChange.current.rawValue
+        
+        DispatchQueue.main.async {
+            self.navigationItem.setTitle(self.roomTitle ?? "", subtitle: appendedString)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            if identifier == "showRoomDetails" {
+                if let seguedToMVC = segue.destination as? RoomDetailTableViewController {
+                    seguedToMVC.room = self.room!
+                }
+            }
+        }
+    }
 }
 
 // MARK: - MessageCellDelegate
@@ -341,15 +429,11 @@ extension ChatViewController: MessageInputBarDelegate {
             if let str = component as? String {
                 let _ = ChatMainViewController.chat.sendSimpleMessage(roomID: (self.room?.id)!, text: str)
             }
-//            else if let img = component as? UIImage {
-//                let message = MockMessage(image: img, sender: currentSender(), messageId: UUID().uuidString, date: Date())
-//                insertMessage(message)
-//            }
         }
         inputBar.inputTextView.text = String()
         messagesCollectionView.scrollToBottom(animated: true)
     }
-    
+        
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {
         ChatMainViewController.chat.currentUser?.typing(in: self.room!)  { (Error) in
             if (Error != nil) {
@@ -358,3 +442,30 @@ extension ChatViewController: MessageInputBarDelegate {
         }
     }
 }
+
+//class MyChatDelegate: PCRoomDelegate {}
+//
+//class Instance
+//{
+//    static let sem = DispatchSemaphore(value: 1)
+//    static var instance : PCRoomClass? = nil
+//
+//    static func GetInstance() {
+//        sem.wait(timeout: DispatchTime.distantFuture)
+//        if (instance == nil)
+//        {
+//            instance = PCRoomClass()
+//        }
+//        _ = sem.signal()
+//
+//        return instance
+//    }
+//}
+//
+//class PCRoomClass : PCRoomDelegate {
+//
+////    func onMultipartMessage(_ message: PCMultipartMessage)
+////    {
+//
+//    }
+//}

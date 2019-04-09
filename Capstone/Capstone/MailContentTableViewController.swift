@@ -15,20 +15,18 @@ class MailContentTableViewController: UITableViewController {
     var emails: [Email] = []
     var tempEmails: [Email] = []
     var filteredMail: [Email] = []
+    var count = 0
     
     var defaultSwipeOptions = SwipeOptions()
     var swipeRightEnabled = true
     var buttonDisplayMode: ButtonDisplayMode = .titleAndImage
     var buttonStyle: ButtonStyle = .circular
     
-    var titleStringViaSegue: String!
-    var folderID: String!
-    var singleMessage: Message.SingleMessage.result?
+    var Folder: Folders!
     
     var Messages : Message.result? = nil
     var eMail = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
-    var results : Folder.result? = nil
-    var messagesID: Message.SingleMessage.result? = nil
+    var userInfo: eHealth.profile_information!
     
     // MARK: - Types
     @IBOutlet var composeOutlet: UIBarButtonItem!
@@ -58,7 +56,7 @@ class MailContentTableViewController: UITableViewController {
         {
             unreadClicked = !unreadClicked
             if (unreadClicked) {
-                Messages = eMail.GetMessages(folder_id: folderID)
+                Messages = eMail.GetMessages(folder_id: Folder.folderID)
                 if (Messages != nil) {
                     let listOfUnreadMessagesTypeUnread = eMail.GetUnreadMessages(Messages: Messages!)
                     var listOfUnreadMessages: [Email] = []
@@ -70,7 +68,6 @@ class MailContentTableViewController: UITableViewController {
                         let from = senderProfile!.first_name ?? "" + " " + senderProfile!.last_name!
                         
                         let message = Email(from: from, fromID: String((senderProfile?.id)!), to: to, toID: (userProfile.id)!, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
-                        //                    let message = Email(from: from,  to: to, subject: msg.subject, body: msg.body, date: msg.sent_at.toDate(), unread: true, id: msg.msg_id)
                         listOfUnreadMessages.append(message)
                     }
                     tempEmails = emails
@@ -120,16 +117,9 @@ class MailContentTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(titleStringViaSegue)
-        print(folderID)
-        
         let edit = self.editButtonItem
         self.navigationItem.rightBarButtonItems = [edit]
         ///////////////////////////////////stuffs for search/////////////////////////////////////////////
-//        resultsTableController = MailResultTableViewController()
-//        resultsTableController.tableView.delegate = self
-        //tableView!.allowsMultipleSelection = true
-        
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.autocapitalizationType = .none
@@ -141,7 +131,7 @@ class MailContentTableViewController: UITableViewController {
             // Stop the search bar from always being visible
             navigationItem.hidesSearchBarWhenScrolling = true
             navigationController?.navigationBar.prefersLargeTitles = true
-            navigationItem.title = titleStringViaSegue
+            navigationItem.title = Folder.folderName
         } else {
             // For iOS 10 and earlier, place the search controller's search bar in the table view's header.
             tableView.tableHeaderView = searchController.searchBar
@@ -167,10 +157,19 @@ class MailContentTableViewController: UITableViewController {
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
+        tableView.tableFooterView = UIView()
         
         view.layoutMargins.left = 32
         
-//        resetData()
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.resetData()
+        }
+        
+        if (Folder.folderMessagesCount == "") {
+            self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+            self.tableView.backgroundView = createSelectedBackgroundViewForNoMails()
+        }
+        
         print("view did load!")
     }
     
@@ -187,6 +186,7 @@ class MailContentTableViewController: UITableViewController {
                 restoredState.wasFirstResponder = false
             }
         }
+        self.tableView.reloadData()
     }
 
     func searchBarIsEmpty() -> Bool {
@@ -243,6 +243,20 @@ class MailContentTableViewController: UITableViewController {
         }
     }
     
+    func createSelectedBackgroundViewForNoMails() -> UIView {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.2)
+        
+        let label = UILabel(frame: CGRect(x: self.tableView.bounds.width / 2 - 42, y: self.tableView.bounds.height / 2, width: 84, height: 30))
+        label.textColor = UIColor.darkGray
+        label.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 25)
+        label.alpha = 0.7
+        label.text = "No Mail"
+        view.addSubview(label)
+        
+        return view
+    }
+    
     // MARK: - Helpers
     func createSelectedBackgroundView() -> UIView {
         let view = UIView()
@@ -251,51 +265,57 @@ class MailContentTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        print("view will appear!")
-        emails.removeAll()
-        resetData()
+        super.viewWillAppear(animated)
     }
     
     func resetData() {
-//        emails = mockEmails
         if (eMail.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true )
         {
-            Messages = eMail.GetMessages(folder_id: folderID)
+            Messages = eMail.GetMessages(folder_id: Folder.folderID)
             if (Messages != nil) {
                 for msg in (Messages?.data)! {
-                    let userProfile = eMail.GetProfile()
+                    self.userInfo = eMail.GetProfile()
                     let senderProfile = eMail.GetSenderInformation(messages: Messages!, msg_id: msg.id)
                     
-                    guard let firstname = userProfile.first_name, let lastname = userProfile.last_name else { return }
-                    var to =  firstname + " " + lastname
-                    let from = senderProfile!.first_name! + " " + senderProfile!.last_name!
+                    let to = userInfo.first_name! + " " + userInfo.last_name!
+                    var toId = userInfo.id
+                    var from = senderProfile!.first_name! + " " + senderProfile!.last_name!
                     let sent = msg.attributes.sent_at
 
-                    let folders = eMail.GetFolders()
-                    if (folders != nil) {
-                        for temp in (folders?.data)! {
-                            if (temp.attributes.name == "Sent" && temp.id == folderID) {
-                                let toInfo = eMail.GetToInformation(messages: Messages!, msg_id: msg.id)
-                                var sendTo = ""
-                                for index in toInfo {
-                                    guard let firstname = index.first_name, let lastname = index.last_name else {return}
-                                    sendTo += firstname + " " + lastname + ", "
-                                }
-                                sendTo.removeLast(2)
-                                to = sendTo
-                            }
+                    if (Folder.folderName == "Sent") {
+                        let toInfo = eMail.GetToInformation(messages: Messages!, msg_id: msg.id)
+                        var sendTo = ""
+                        for index in toInfo {
+                            guard let firstname = index.first_name, let lastname = index.last_name else {return}
+                            sendTo += firstname + " " + lastname + ", "
                         }
+                        sendTo.removeLast(2)
+                        from = sendTo
+                        toId = String((toInfo.last?.id)!)
                     }
+                    
+                    if (Folder.folderName == "Drafts") {
+                        let toInfo = eMail.GetToInformation(messages: Messages!, msg_id: msg.id)
+                        var sendTo = ""
+                        for index in toInfo {
+                            guard let firstname = index.first_name, let lastname = index.last_name else {return}
+                            sendTo += firstname + " " + lastname + ", "
+                        }
+                        sendTo.removeLast(2)
+                        from = sendTo
+                        toId = String((toInfo.last?.id)!)
+                    }
+
                     let sentDate = sent != nil ? sent!.toDate() : Date()
-                    let message = Email(from: from, fromID: String((senderProfile?.id)!), to: to, toID: (userProfile.id)!, subject: msg.attributes.subject, body: msg.attributes.body, date: sentDate, unread: (msg.attributes.read_at == nil), id: msg.id)
-//                    let message = Email(from: from, to: to, subject: msg.attributes.subject, body: msg.attributes.body, date: sentDate, unread: (msg.attributes.read_at == nil), id: msg.id)
-                        emails.append(message)
+                    DispatchQueue.main.async {
+                        let message = Email(from: from, fromID: String((senderProfile?.id)!), to: to, toID: toId!, subject: msg.attributes.subject, body: msg.attributes.body, date: sentDate, unread: (msg.attributes.read_at == nil), id: msg.id)
+                        self.emails.append(message)
+                        self.tableView.reloadData()
+                    }
                 }
+                count = emails.count
             }
         }
-        
-        // emails.forEach { $0.unread = false }
-        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -313,25 +333,27 @@ class MailContentTableViewController: UITableViewController {
                         email = emails[indexPath.row]
                     }
                     
-                    let singleMessage = eMail.GetMessage(folder_id: folderID, message_id: email.id)
-                    let det = Details(from: email.from, to: email.to, subject: email.subject, date: email.date.toString(), body: singleMessage?.data.attributes.body ?? "", index: indexPath.row, emails: emails)
+                    let singleMessage = eMail.GetMessage(folder_id: Folder.folderID, message_id: email.id)
+                    
+                    let det = Details(from: email.from, to: email.to, subject: email.subject, date: email.date.toString(), body: singleMessage?.data.attributes.body ?? "", index: indexPath.row, emails: self.emails)
                     
                     seguedToMVC.details = det
-                    seguedToMVC.folderID = folderID
+                    seguedToMVC.folder = Folder
                     if let message = singleMessage {
                         seguedToMVC.singleMessage = message
                     }
                     
 
-                    if let _ = MailTableViewController.mailFolders.index(where: { $0.folderID == folderID && $0.folderName == "Drafts" }) {
+                    if let _ = MailTableViewController.mailFolders.index(where: { $0.folderID == Folder.folderID && $0.folderName == "Drafts" }) {
                         let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
                         
                         print("fromID: ", email.fromID, "and toID: ", email.toID)
                         controller?.draft = true
-                        controller?.draftTo = "14"
+                        controller?.draftTo = email.toID
                         controller?.draftSubject = det.subject
                         controller?.draftBody = det.body
+                        controller?.Folder = self.Folder
                         
                         let modal = controller
                         let transitionDelegate = SPStorkTransitioningDelegate()
@@ -377,7 +399,7 @@ class MailContentTableViewController: UITableViewController {
             // 2 The index of the items of the temporary array will be used to remove the items of the MailBoxes array and
             for item in items {
                 if let index = emails.index(of: item) {
-                    if (eMail.DeleteMessage(folder_id: folderID, message_id: item.id)) {
+                    if (eMail.DeleteMessage(folder_id: Folder.folderID, message_id: item.id)) {
                         emails.remove(at: index)
                     }
                 }
@@ -536,13 +558,10 @@ extension MailContentTableViewController: SwipeTableViewCellDelegate {
 //            return [read]
 //        } else
         if orientation == .right{
-            let flag = SwipeAction(style: .default, title: nil, handler: nil)
-            flag.hidesWhenSelected = true
-            configure(action: flag, with: .flag)
             
             let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in
                 if (self.eMail.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-                    if (self.eMail.DeleteMessage(folder_id: self.folderID, message_id: self.emails[indexPath.row].id)) {
+                    if (self.eMail.DeleteMessage(folder_id: self.Folder.folderID, message_id: self.emails[indexPath.row].id)) {
                         self.emails.remove(at: indexPath.row)
                     }
                 }
@@ -563,7 +582,7 @@ extension MailContentTableViewController: SwipeTableViewCellDelegate {
             }
             configure(action: more, with: .more)
             
-            swipeAction = [delete, flag, more]
+            swipeAction = [delete, more]
         }
         return swipeAction
     }

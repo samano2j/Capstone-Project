@@ -21,7 +21,7 @@ class IndicatorView: UIView {
 
 
 enum SwipeActionDescriptor {
-    case read, unread, more, flag, trash
+    case read, unread, more, flag, trash, subscribe, unsubscribe, leave, delete
     
     func title(forDisplayMode displayMode: ButtonDisplayMode) -> String? {
         guard displayMode != .imageOnly else { return nil }
@@ -32,6 +32,10 @@ enum SwipeActionDescriptor {
         case .more: return "More"
         case .flag: return "Flag"
         case .trash: return "Trash"
+        case .subscribe: return "Subscribe"
+        case .unsubscribe: return "Unsubscribe"
+        case .leave: return "Leave"
+        case .delete: return "Delete"
         }
     }
     
@@ -45,6 +49,10 @@ enum SwipeActionDescriptor {
         case .more: name = "More"
         case .flag: name = "Flag"
         case .trash: name = "Trash"
+        case .subscribe: name = "Subscribe"
+        case .unsubscribe: name = "Unsubscribe"
+        case .leave: name = "Leave"
+        case .delete: name = "Delete"
         }
         
         return UIImage(named: style == .backgroundColor ? name : name + "-circle")
@@ -56,6 +64,9 @@ enum SwipeActionDescriptor {
         case .more: return #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
         case .flag: return #colorLiteral(red: 1, green: 0.5803921569, blue: 0, alpha: 1)
         case .trash: return #colorLiteral(red: 1, green: 0.2352941176, blue: 0.1882352941, alpha: 1)
+        case .subscribe, .unsubscribe: return #colorLiteral(red: 0.7803494334, green: 0.7761332393, blue: 0.7967314124, alpha: 1)
+        case .leave: return #colorLiteral(red: 1, green: 0.5803921569, blue: 0, alpha: 1)
+        case .delete: return #colorLiteral(red: 1, green: 0.2352941176, blue: 0.1882352941, alpha: 1)
         }
     }
 }

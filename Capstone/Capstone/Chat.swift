@@ -14,16 +14,78 @@ class Chat {
     var currentUser: PCCurrentUser? = nil
     var currentSubscribedRooms : [PCRoom] = []
     
-    
-    func Authenticate(username : String, delegate : PCChatManagerDelegate) -> PCCurrentUser?
+    func GetUserId(username: String, password: String) -> String?
     {
+        let sem = DispatchSemaphore(value : 0)
+        let req = Request()
+        
+        
+        var id : String? = nil
+        
+        
+        
+        
+        req.HTTPGETJSONAPI(url: Constants.idProvider + "/" + username + "/" + password, token: "")
+        { (d, error) in
+            
+            if (error == nil)
+            {
+                if ( d != "invalid credentials" )
+                {
+                    
+                    id = d
+                }
+            }
+            
+            
+            sem.signal()
+        }
+        
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        return id
+    }
+    
+    func Authenticate(username : String, password: String, delegate : PCChatManagerDelegate) -> PCCurrentUser?
+    {
+        let user_id = GetUserId(username: username, password: password)
+        
+        
         let sem = DispatchSemaphore(value: 0)
+        
+        if (user_id == nil)
+        {
+            return nil;
+        }
+        
+        
+        let tokenProvider = PCTokenProvider(
+            url: "http://108.174.164.127:8080/public/auth",
+            requestInjector: { req -> PCTokenProviderRequest in
+                req.addQueryItems([URLQueryItem(name: "username", value: username),
+                                   URLQueryItem(name: "password", value: password)])
+                
+                return req
+                
+        }
+            
+        )
+        
+        ChatManager.registerForRemoteNotifications()
+        
+        if (AppDelegate.publicDeviceToken != nil)
+        {
+            ChatManager.registerDeviceToken(AppDelegate.publicDeviceToken!)
+            
+        }
         
         chatManager = ChatManager(
             instanceLocator: Constants.instanceLocator,
-            tokenProvider: PCTokenProvider(url: Constants.tokenProvider),
-            userID: username
+            tokenProvider: tokenProvider,//PCTokenProvider(url: Constants.tokenProvider),
+            userID: user_id!
         )
+        
+        
         
         if (chatManager == nil)
         {
@@ -34,17 +96,50 @@ class Chat {
             if (error == nil)
             {
                 self.currentUser = user
-                self.currentUser?.enablePushNotifications()
-                print("Connected!!")
+                self.currentUser!.enablePushNotifications()
             }
-            
-            
             
             sem.signal()
         }
         
         _ = sem.wait(timeout: DispatchTime.distantFuture)
         
+        return self.currentUser
+    }
+
+    func Authenticate(username : String, delegate : PCChatManagerDelegate) -> PCCurrentUser?
+    {
+        let sem = DispatchSemaphore(value: 0)
+        
+        chatManager = ChatManager(
+            instanceLocator: Constants.instanceLocator,
+            tokenProvider: PCTokenProvider(url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/22f58ecc-7a16-4269-84a6-7d27e20eb88e/token"),
+            userID: username
+        )
+        
+        if (chatManager == nil) {
+            return nil
+        }
+        
+        chatManager!.connect(delegate: delegate) { (user, error) in
+            if (error == nil) {
+                self.currentUser = user
+                self.currentUser?.enablePushNotifications()
+                
+//                ChatManager.registerForRemoteNotifications()
+                
+//                if (AppDelegate.publicDeviceToken != nil)
+//                {
+//                    ChatManager.registerDeviceToken(AppDelegate.publicDeviceToken!)
+//                }
+                
+                print("Connected!!")
+            }
+  
+            sem.signal()
+        }
+        
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
         return self.currentUser
     }
     
@@ -80,7 +175,6 @@ class Chat {
         if let index = currentSubscribedRooms.index(of: room) {
             currentSubscribedRooms.remove(at: index)
         }
-        
         room.unsubscribe()
     }
     
@@ -141,12 +235,12 @@ class Chat {
         return success
     }
     
-    func createRoom(name: String) -> Bool {
+    func createRoom(name: String) -> PCRoom? {
         let sem = DispatchSemaphore(value: 0)
-        var sucess = false
+        var pcroom: PCRoom? = nil
         
         if (self.currentUser == nil) {
-            return sucess
+            return nil
         }
         
         (self.currentUser)!.createRoom(name: name) { room, error in
@@ -154,21 +248,21 @@ class Chat {
                 print("Error creating room: \(String(describing: error?.localizedDescription))")
                 return
             }
+            pcroom = room
             print("Created public room called \(String(describing: room?.name))")
-            sucess = true
             sem.signal()
         }
         
         _ = sem.wait(timeout: DispatchTime.distantFuture)
-        return sucess
+        return pcroom
     }
     
-    func createRoom(name: String, isPrivate: Bool) -> Bool {
+    func createRoom(name: String, isPrivate: Bool) -> PCRoom? {
         let sem = DispatchSemaphore(value: 0)
-        var sucess = false
+        var pcroom: PCRoom? = nil
         
         if (self.currentUser == nil) {
-            return sucess
+            return nil
         }
         
         (self.currentUser)!.createRoom(name: name, isPrivate: isPrivate) { room, error in
@@ -177,20 +271,20 @@ class Chat {
                 return
             }
             print("Created public room called \(String(describing: room?.name))")
-            sucess = true
+            pcroom = room
             sem.signal()
         }
         
         _ = sem.wait(timeout: DispatchTime.distantFuture)
-        return sucess
+        return pcroom
     }
     
-    func createRoom(name: String, yourListOfUserIDs: [String]) -> Bool {
+    func createRoom(name: String, yourListOfUserIDs: [String]) -> PCRoom? {
         let sem = DispatchSemaphore(value: 0)
-        var sucess = false
+        var pcroom: PCRoom? = nil
         
         if (self.currentUser == nil) {
-            return sucess
+            return nil
         }
         
         (self.currentUser)!.createRoom(name: name, addUserIDs: yourListOfUserIDs) { room, error in
@@ -198,13 +292,13 @@ class Chat {
                 print("Error creating room: \(String(describing: error?.localizedDescription))")
                 return
             }
+            pcroom = room!
             print("Created public room called \(String(describing: room?.name))")
-            sucess = true
             sem.signal()
         }
         
         _ = sem.wait(timeout: DispatchTime.distantFuture)
-        return sucess
+        return pcroom
     }
 
     func sendSimpleMessage(roomID: String, text: String) -> Bool {
@@ -241,6 +335,22 @@ class Chat {
         return messages
     }
     
+    func FetchMessages(room : PCRoom, initialID : String?) -> [PCMultipartMessage] {
+        var msgs : [PCMultipartMessage] = []
+        let sem = DispatchSemaphore(value: 0)
+        (self.currentUser)!.fetchMultipartMessages(room, initialID: initialID) { messages, err in
+            guard err == nil else {
+                print("Error fetching messages from \(String(describing: room.name)): \(err!.localizedDescription)")
+                return
+            }
+            msgs = (err == nil) ? messages! : []
+            sem.signal()
+        }
+        _ = sem.wait(timeout: DispatchTime.distantFuture)
+        
+        return msgs
+    }
+    
     func AddUser(anotherUser : PCUser, room : PCRoom) -> Bool {
         let sem = DispatchSemaphore(value: 0)
         var sucess = false
@@ -264,13 +374,13 @@ class Chat {
         var sucess = false
         
         (self.currentUser)!.addUser(id: anotherUserID, to: room_id) { error in
-            guard error == nil else {
+            if error != nil {
                 print("Error adding user to \(String(describing: room_id)): \(String(describing: error?.localizedDescription))")
-                return
+            } else {
+                print("Added user \(anotherUserID) from room ID: \(String(describing: room_id))")
+                sucess = true
+                sem.signal()
             }
-            print("Added user \(anotherUserID) from room ID: \(String(describing: room_id))")
-            sucess = true
-            sem.signal()
         }
         
         _ = sem.wait(timeout: DispatchTime.distantFuture)

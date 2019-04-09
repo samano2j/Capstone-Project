@@ -32,7 +32,7 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         tableView.contentInset.top = self.navBar.height
         tableView.scrollIndicatorInsets.top = self.navBar.height
-        
+                
         initializeCells()
     }
     
@@ -61,7 +61,6 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     // MARK: - Table view data source
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -89,10 +88,10 @@ class ContactsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("SELECTED INDEX \(indexPath.row)")
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        selected = true
+        ComposeViewController.contactID = String(contacts[indexPath.row].id)
+        self.dismiss()
     }
     
     /*

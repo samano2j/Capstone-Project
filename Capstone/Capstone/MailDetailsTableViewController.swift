@@ -18,6 +18,7 @@ class MailDetailsTableViewController: UITableViewController {
     var indexPath: Int = 4
     var ApiUrl = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
     var folderID = ""
+    var folder: Folders!
     var DetMailBoxes = [String: String]()
     var results : Folder.result? = nil
     // Outlets
@@ -43,7 +44,7 @@ class MailDetailsTableViewController: UITableViewController {
                     DetMailBoxes.updateValue(mail.id, forKey: mail.attributes.name)
                 }
                 for temp in DetMailBoxes {
-                    let action = UIAlertAction(title: temp.key, style: .default, handler: {(_) in let _ = self.ApiUrl.MoveMessages(from_folder: self.folderID, to_folder: temp.value, message_ids: [self.emailService[self.indexPath].id])
+                    let action = UIAlertAction(title: temp.key, style: .default, handler: {(_) in let _ = self.ApiUrl.MoveMessages(from_folder: self.folder.folderID, to_folder: temp.value, message_ids: [self.emailService[self.indexPath].id])
                         if (self.indexPath >= 0 && self.indexPath < self.emailService.count - 1) {
                             self.indexPath = self.indexPath + 1
                             self.moveToNextMailDetails()
@@ -63,7 +64,7 @@ class MailDetailsTableViewController: UITableViewController {
     
     @IBAction func pressedDelete(_ sender: UIBarButtonItem) {
         if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-            if (self.ApiUrl.DeleteMessage(folder_id: folderID, message_id: emailService[indexPath].id)) {
+            if (self.ApiUrl.DeleteMessage(folder_id: folder.folderID, message_id: emailService[indexPath].id)) {
                 indexPath = indexPath + 1
                 moveToNextMailDetails()
             }
@@ -86,9 +87,14 @@ class MailDetailsTableViewController: UITableViewController {
     
     func moveToNextMailDetails() {
         if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-            let singleMessage = self.ApiUrl.GetMessage(folder_id: folderID, message_id: emailService[indexPath].id)
+            let singleMessage = self.ApiUrl.GetMessage(folder_id: folder.folderID, message_id: emailService[indexPath].id)
             if (indexPath >= 0 && indexPath < emailService.count) {
-                configureView(from: emailService[indexPath].from, to: emailService[indexPath].to, subject: emailService[indexPath].subject, date: emailService[indexPath].date.toString(), body: singleMessage?.data.attributes.body ?? "", index: indexPath)
+                if (folder.folderName == "Sent") {
+                    configureView(from: emailService[indexPath].to, to: emailService[indexPath].from, subject: emailService[indexPath].subject, date: emailService[indexPath].date.toString(), body: singleMessage?.data.attributes.body ?? "", index: indexPath)
+                } else {
+                    configureView(from: emailService[indexPath].from, to: emailService[indexPath].to, subject: emailService[indexPath].subject, date: emailService[indexPath].date.toString(), body: singleMessage?.data.attributes.body ?? "", index: indexPath)
+                }
+                
                 getCustomImage(imageDisplayName: fromLabel.text, imageView: imageView)
             }
         }
@@ -98,7 +104,7 @@ class MailDetailsTableViewController: UITableViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
         if (self.ApiUrl.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true) {
-            if let singleMessage = self.ApiUrl.GetMessage(folder_id: folderID, message_id: emailService[indexPath].id) {
+            if let singleMessage = self.ApiUrl.GetMessage(folder_id: folder.folderID, message_id: emailService[indexPath].id) {
                 let senderInfo = self.ApiUrl.GetSenderInformation(Message: singleMessage)
                 controller?.reply_sender_id = senderInfo?.id
                 controller?.reply_message_id = emailService[indexPath].id
@@ -116,9 +122,14 @@ class MailDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         emailService = details.emails
-        configureView(from: details.from, to: details.to, subject: details.subject, date: details.date, body: details.body, index: details.index)
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        if (folder.folderName == "Sent") {
+            configureView(from: details.to, to: details.from, subject: details.subject, date: details.date, body: details.body, index: details.index)
+        } else {
+            configureView(from: details.from, to: details.to, subject: details.subject, date: details.date, body: details.body, index: details.index)
+        }
+        
         getCustomImage(imageDisplayName: fromLabel.text, imageView: imageView)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -133,7 +144,6 @@ class MailDetailsTableViewController: UITableViewController {
         dateLabel.text = date
         bodyLabel.text = body
         indexPath = index
-        print(body)
     }
     
     func getCustomImage(imageDisplayName: String?, imageView: UIImageView!){
@@ -154,27 +164,6 @@ class MailDetailsTableViewController: UITableViewController {
         } else if (indexPath.section == 0 && indexPath.row == 0){
             return (fromLabel.text?.heightWithConstrainedWidth(width: tableView.frame.width, font: UIFont.systemFont(ofSize: 15)))! + (toLabel.text?.heightWithConstrainedWidth(width: tableView.frame.width, font: UIFont.systemFont(ofSize: 15)))! + 40
         } else { return 0 }
-        
-//        var height: CGFloat = 0
-//        if (indexPath.section == 0 && indexPath.row == 2) {
-//            let maxLabelSize = CGSize(width: bodyLabel.frame.width, height: .greatestFiniteMagnitude)
-//            let actualLabelSize = bodyLabel.text!.boundingRect(with: maxLabelSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: bodyLabel.font], context: nil).height
-//
-//            let labelHeight = actualLabelSize
-//            height = labelHeight + 50
-////            bodyCell.separatorInset = UIEdgeInsets(top: 0, left: bodyCell.bounds.size.width, bottom: 0, right: 0)
-//        }
-//        else if (indexPath.section == 0 && indexPath.row == 1) {
-//            let maxLabelSize = CGSize(width: subjectLabel.frame.width, height: CGFloat.greatestFiniteMagnitude)
-//            let actualLabelSize = subjectLabel.text!.boundingRect(with: maxLabelSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: subjectLabel.font], context: nil).height
-//            let dateActualLabelSize = dateLabel.text!.boundingRect(with: maxLabelSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: dateLabel.font], context: nil).height
-//            let labelHeight = actualLabelSize
-//            height = labelHeight + dateActualLabelSize + 20
-//        }
-//        else {
-//            height = 67.0
-//        }
-//        return height
     }
 }
 

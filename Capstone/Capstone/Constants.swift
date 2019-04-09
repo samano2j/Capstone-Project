@@ -10,7 +10,7 @@ import Foundation
 
 
 class Constants {
-    
     public static let instanceLocator = "v1:us1:22f58ecc-7a16-4269-84a6-7d27e20eb88e"
-    public static let tokenProvider = "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/22f58ecc-7a16-4269-84a6-7d27e20eb88e/token"
+    public static let tokenProvider = "http://108.174.164.127:8080/public/auth"
+    public static let idProvider = "http://108.174.164.127:8080/public/id"
 }

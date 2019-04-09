@@ -23,7 +23,7 @@ import UIKit
 
 public extension UIView {
     
-    public var viewController: UIViewController? {
+    var viewController: UIViewController? {
         get {
             if let nextResponder = self.next as? UIViewController { return nextResponder }
             else if let nextResponder = self.next as? UIView { return nextResponder.viewController }
@@ -34,7 +34,7 @@ public extension UIView {
 
 public extension UIView {
     
-    public var safeArea: UIEdgeInsets {
+    var safeArea: UIEdgeInsets {
         if #available(iOS 11.0, *) {
             return self.safeAreaInsets
         } else{
@@ -42,11 +42,11 @@ public extension UIView {
         }
     }
     
-    public func setBounds(_ view: UIView, withWidthFactor widthFactor: CGFloat = 1, maxWidth: CGFloat? = nil, withHeightFactor heightFactor: CGFloat = 1, maxHeight: CGFloat? = nil, withCentering: Bool = false) {
+    func setBounds(_ view: UIView, withWidthFactor widthFactor: CGFloat = 1, maxWidth: CGFloat? = nil, withHeightFactor heightFactor: CGFloat = 1, maxHeight: CGFloat? = nil, withCentering: Bool = false) {
         self.setBounds(view.bounds, withWidthFactor: widthFactor, maxWidth: maxWidth, withHeightFactor: heightFactor, maxHeight: maxHeight, withCentering: withCentering)
     }
     
-    public func setBounds(_ bounds: CGRect, withWidthFactor widthFactor: CGFloat = 1, maxWidth: CGFloat? = nil, withHeightFactor heightFactor: CGFloat = 1, maxHeight: CGFloat? = nil, withCentering: Bool = false) {
+    func setBounds(_ bounds: CGRect, withWidthFactor widthFactor: CGFloat = 1, maxWidth: CGFloat? = nil, withHeightFactor heightFactor: CGFloat = 1, maxHeight: CGFloat? = nil, withCentering: Bool = false) {
         
         var width = bounds.width * widthFactor
         if maxWidth != nil { width.setIfMore(when: maxWidth!) }
@@ -62,7 +62,7 @@ public extension UIView {
         }
     }
     
-    public func setSuperviewBounds(customWidth: CGFloat? = nil, customHeight: CGFloat? = nil) {
+    func setSuperviewBounds(customWidth: CGFloat? = nil, customHeight: CGFloat? = nil) {
         if self.superview == nil { return }
         self.frame = CGRect.init(origin: CGPoint.zero, size: self.superview!.frame.size)
         if customWidth != nil {
@@ -73,7 +73,7 @@ public extension UIView {
         }
     }
     
-    public func resize(width: CGFloat) {
+    func resize(width: CGFloat) {
         let relativeFactor = self.frame.width / self.frame.height
         if relativeFactor.isNaN { return }
         self.frame = CGRect.init(
@@ -84,7 +84,7 @@ public extension UIView {
         )
     }
     
-    public func resize(height: CGFloat) {
+    func resize(height: CGFloat) {
         let relativeFactor = self.frame.width / self.frame.height
         if relativeFactor.isNaN { return }
         self.frame = CGRect.init(
@@ -95,27 +95,27 @@ public extension UIView {
         )
     }
     
-    public func setYCenter() {
+    func setYCenter() {
         self.center.y = (self.superview?.frame.height ?? 0) / 2
     }
     
-    public func setXCenter() {
+    func setXCenter() {
         self.center.x = (self.superview?.frame.width ?? 0) / 2
     }
     
-    public func setToCenter() {
+    func setToCenter() {
         self.center = CGPoint.init(x: ((self.superview?.frame.width) ?? 0) / 2, y: ((self.superview?.frame.height) ?? 0) / 2)
     }
 }
 
 public extension UIView {
     
-    public func setParalax(amountFactor: CGFloat) {
+    func setParalax(amountFactor: CGFloat) {
         let amount = self.frame.minSide * amountFactor
         self.setParalax(amount: amount)
     }
     
-    public func setParalax(amount: CGFloat) {
+    func setParalax(amount: CGFloat) {
         self.motionEffects.removeAll()
         let horizontal = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
         horizontal.minimumRelativeValue = -amount
@@ -133,7 +133,7 @@ public extension UIView {
 
 public extension UIView {
     
-    public func addGrade(alpha: CGFloat, color: UIColor = UIColor.black) -> UIView {
+    func addGrade(alpha: CGFloat, color: UIColor = UIColor.black) -> UIView {
         let gradeView = UIView.init()
         gradeView.alpha = 0
         self.addSubview(gradeView)

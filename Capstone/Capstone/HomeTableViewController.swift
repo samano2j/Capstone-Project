@@ -8,21 +8,22 @@
 
 import UIKit
 import SafariServices
+import PusherChatkit
 
 class HomeTableViewController: UITableViewController {
+    var folders: [Folders]!
+    let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
+    
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -112,6 +113,31 @@ class HomeTableViewController: UITableViewController {
         }
         present(webViewController, animated: true, completion: nil)
     }
+    
+    func fetchFolders() {
+        if (email.Auth(User: LoginViewController.username, Password: LoginViewController.password) == true ) {
+            let results = email.GetFolders()
+            if (results != nil) {
+                for mail in (results?.data)! {
+                    let mailBoxCount = (mail.attributes.message_count == 0) ? "" : String(mail.attributes.message_count)
+                    let folder = Folders(folderName: mail.attributes.name, folderMessagesCount: mailBoxCount, folderID: mail.id)
+                    MailTableViewController.mailFolders.append(folder)
+                }
+            }
+        }
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let identifier = segue.identifier {
+//            switch identifier {
+//            case "segueToFoldersIdentifier":
+//                if let seguedToMVC = segue.destination as? MailTableViewController {
+//                    seguedToMVC.
+//                }
+//            default: break
+//            }
+//        }
+//    }
 }
 
 

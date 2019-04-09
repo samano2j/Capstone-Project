@@ -17,6 +17,7 @@ class MailTableViewController: UITableViewController {
     
     let email = eHealth(url: "http://otu-capstone.cs.uregina.ca:3000")
     var results : Folder.result? = nil
+    var folders: [Folders]!
     static var mailFolders = [Folders]()
 
     override func viewDidLoad() {
@@ -34,7 +35,7 @@ class MailTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.allowsMultipleSelectionDuringEditing = true
         
-        initializeTableViewDataSource()
+//        initializeTableViewDataSource()
     }
     
     func initializeTableViewDataSource() {
@@ -170,8 +171,7 @@ class MailTableViewController: UITableViewController {
                 if let cell = sender as? UITableViewCell,
                     let indexPath = tableView.indexPath(for: cell),
                     let seguedToMVC = segue.destination as? MailContentTableViewController {
-                    seguedToMVC.titleStringViaSegue = MailTableViewController.mailFolders[indexPath.row].folderName
-                    seguedToMVC.folderID = MailTableViewController.mailFolders[indexPath.row].folderID
+                    seguedToMVC.Folder = MailTableViewController.mailFolders[indexPath.row]
                 }
             default: break
             }
