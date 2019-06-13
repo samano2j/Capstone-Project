@@ -185,7 +185,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lsD-WZ-eQI" customClass="LoginButton" customModule="Capstone" customModuleProvider="target">
+                            <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lsD-WZ-eQI" customClass="LoginButton" customModule="Capstone" customModuleProvider="target">
                                 <rect key="frame" x="127" y="620" width="160" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="0I2-ab-qHC"/>
@@ -196,7 +196,7 @@
                                     <action selector="tappedLoginButton:" destination="6Cn-mP-x0d" eventType="touchUpInside" id="UnH-Hc-1vE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccp-6O-2cQ" customClass="CancelButton" customModule="Capstone" customModuleProvider="target">
+                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccp-6O-2cQ" customClass="CancelButton" customModule="Capstone" customModuleProvider="target">
                                 <rect key="frame" x="127" y="669" width="160" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="9qi-sS-jlQ"/>
@@ -934,7 +934,7 @@
                                     <action selector="SubjectTextViewChanged:" destination="Ad8-7F-muX" eventType="editingChanged" id="3z0-MC-hOQ"/>
                                 </connections>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8b6-JA-XRg">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1013" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8b6-JA-XRg">
                                 <rect key="frame" x="20" y="206" width="374" height="270"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

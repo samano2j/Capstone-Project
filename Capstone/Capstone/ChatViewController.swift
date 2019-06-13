@@ -49,7 +49,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     var subscribed: Int?
     var index: Int?
     var roomTitle: String?
-//    var chatDelegate: PCRoomDelegate?
     
     var chatManagerDelegate: PCChatManagerDelegate?
     var chatRoomDelegate: PCRoomDelegate?
@@ -68,11 +67,9 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.chatDelegate = MyChatDelegate()
-        
         configureMessageCollectionView()
         configureMessageInputBar()
+        
         ChatViewController.messageList.removeAll(keepingCapacity: true)
         subscriptionChoice()
         loadFirstMessages()
@@ -142,7 +139,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     
     @objc
     func loadMoreMessages() {
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.global(qos: .userInitiated).async {
             self.getMessages(count: 20) { messages in
                 DispatchQueue.main.async {
                     ChatViewController.messageList.insert(contentsOf: messages, at: 0)
@@ -178,7 +175,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
     }
     
     func configureMessageCollectionView() {
-        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messageCellDelegate = self
         
@@ -269,9 +265,9 @@ class ChatViewController: MessagesViewController, MessagesDataSource, PCRoomDele
                 note.append(payload.content)
                 let preview = ChatMessage(name: self.room!.name, message: note, date: message.createdAtDate, room: self.room!)
                 
-                let index = ChatMainViewController.ChatSubscribedRooms.index(where: { $0.name == self.room!.name })
-                ChatMainViewController.ChatSubscribedRooms[index!] = preview
-                
+                if let index = ChatMainViewController.ChatSubscribedRooms.index(where: { $0.room.id == self.room!.id }) {
+                    ChatMainViewController.ChatSubscribedRooms[index] = preview
+                }
                 
                 print("Received message with text: \(payload.content) from \(message.sender.debugDescription)")
             case .url(let payload):
@@ -442,30 +438,3 @@ extension ChatViewController: MessageInputBarDelegate {
         }
     }
 }
-
-//class MyChatDelegate: PCRoomDelegate {}
-//
-//class Instance
-//{
-//    static let sem = DispatchSemaphore(value: 1)
-//    static var instance : PCRoomClass? = nil
-//
-//    static func GetInstance() {
-//        sem.wait(timeout: DispatchTime.distantFuture)
-//        if (instance == nil)
-//        {
-//            instance = PCRoomClass()
-//        }
-//        _ = sem.signal()
-//
-//        return instance
-//    }
-//}
-//
-//class PCRoomClass : PCRoomDelegate {
-//
-////    func onMultipartMessage(_ message: PCMultipartMessage)
-////    {
-//
-//    }
-//}

@@ -20,9 +20,7 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     
     let navBar = SPFakeBarView.init(style: .stork)
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
-    
-//    var selectedContact: contact? = nil
-    var composeDraft: Draft? = nil
+ 
     var reply_sender_id: Int? = nil
     var reply_message_id: String? = nil
     var noSubjectTitle = "Empty Subject"
@@ -38,6 +36,11 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
     var Folder: Folders!
     static var contactID: String?
     
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationCapturesStatusBarAppearance = true
@@ -49,16 +52,13 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         self.navBar.rightButton.addTarget(self, action: #selector(self.send), for: .touchUpInside)
 
         self.view.addSubview(self.navBar)
+//        self.BodyTextView.viewWithTag(1013)!.setDeepShadow()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("appeared")
         if (self.reply_message_id != nil && self.reply_sender_id != nil) {
             ToTextView.text = String(reply_sender_id!)
         }
-//        if let con = selectedContact {
-//            ToTextView.text = String(con.id) //con.first_name + " " + con.last_name
-//        }
         if (draft) {
             guard let to = draftTo, let sub = draftSubject, let bod = draftBody else { return }
             self.ToTextView.text = to
@@ -69,11 +69,6 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
             self.ToTextView.text = toID
         }
     }
-    
-//    func viewWillAppear(Bool)
-//    func viewDidAppear(Bool)
-//    func viewWillDisappear(Bool)
-//    func viewDidDisappear(Bool)
 
     
     
@@ -81,9 +76,6 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
         self.navBar.titleLabel.text = sender.text
     }
     
-//    @IBAction func addContact(_ sender: UIButton) {
-//        self.segueToContactViewController()
-//    }
     
     @objc func send() {
         guard let to = ToTextView.text, let subject = SubjectTextView.text, let body = BodyTextView.text, case let urgent = UrgentSwitch.isOn else { return }
@@ -137,29 +129,4 @@ class ComposeViewController: UIViewController, UITextFieldDelegate{
             self.present(controller, animated: true, completion: nil)
         }
     }
-    
-//    public func segueToContactViewController() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let controller = storyboard.instantiateViewController(withIdentifier: "contactsViewController") as? ContactsViewController
-//
-//        self.presentAsStork(controller!, height: 500, complection: nil)
-//    }
-    
 }
-
-
-struct Draft {
-    let recpt_ids: [String]
-    let body: String
-    let subject: String
-    let reply_to_id: String
-    let urgent: Bool
-    
-    init(recpt_ids: [String], body: String, subject: String, reply_to_id: String, urgent: Bool) {
-        self.recpt_ids = recpt_ids
-        self.body = body
-        self.subject = subject
-        self.reply_to_id = reply_to_id
-        self.urgent = urgent
-    }
-};

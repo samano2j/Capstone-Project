@@ -534,29 +534,8 @@ extension MailContentTableViewController: UISearchResultsUpdating {
 
 extension MailContentTableViewController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-//        let email = emails[indexPath.row]
-        
         var swipeAction: [SwipeAction]? = nil
         
-//        if orientation == .left {
-//            guard swipeRightEnabled else { return nil }
-//
-//            let read = SwipeAction(style: .default, title: nil) { action, indexPath in
-//                let toggleUnreadState = !email.unread
-//                email.unread = toggleUnreadState
-//
-//                let cell = tableView.cellForRow(at: indexPath) as! MailCell
-//                cell.setUnread(toggleUnreadState, animated: true)
-//            }
-//
-//            read.hidesWhenSelected = true
-//            read.accessibilityLabel = email.unread ? "Mark as Read" : "Mark as Unread"
-//
-//            let descriptor: SwipeActionDescriptor = email.unread ? .read : .unread
-//            configure(action: read, with: descriptor)
-//
-//            return [read]
-//        } else
         if orientation == .right{
             
             let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in
@@ -568,21 +547,21 @@ extension MailContentTableViewController: SwipeTableViewCellDelegate {
             }
             configure(action: delete, with: .trash)
             
-            let cell = tableView.cellForRow(at: indexPath) as! MailCell
-            let closure: (UIAlertAction) -> Void = { _ in cell.hideSwipe(animated: true) }
-            let more = SwipeAction(style: .default, title: nil) { action, indexPath in
-                let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                controller.addAction(UIAlertAction(title: "Reply", style: .default, handler: closure))
-                controller.addAction(UIAlertAction(title: "Forward", style: .default, handler: closure))
-                controller.addAction(UIAlertAction(title: "Mark...", style: .default, handler: closure))
-                controller.addAction(UIAlertAction(title: "Notify Me...", style: .default, handler: closure))
-                controller.addAction(UIAlertAction(title: "Move Message...", style: .default, handler: closure))
-                controller.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: closure))
-                self.present(controller, animated: true, completion: nil)
-            }
-            configure(action: more, with: .more)
+//            let cell = tableView.cellForRow(at: indexPath) as! MailCell
+//            let closure: (UIAlertAction) -> Void = { _ in cell.hideSwipe(animated: true) }
+//            let more = SwipeAction(style: .default, title: nil) { action, indexPath in
+//                let controller = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//                controller.addAction(UIAlertAction(title: "Reply", style: .default, handler: closure))
+//                controller.addAction(UIAlertAction(title: "Forward", style: .default, handler: closure))
+//                controller.addAction(UIAlertAction(title: "Mark...", style: .default, handler: closure))
+//                controller.addAction(UIAlertAction(title: "Notify Me...", style: .default, handler: closure))
+//                controller.addAction(UIAlertAction(title: "Move Message...", style: .default, handler: closure))
+//                controller.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: closure))
+//                self.present(controller, animated: true, completion: nil)
+//            }
+//            configure(action: more, with: .more)
             
-            swipeAction = [delete, more]
+            swipeAction = [delete]
         }
         return swipeAction
     }

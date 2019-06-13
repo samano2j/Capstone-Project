@@ -251,11 +251,12 @@ extension UITableViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "composeViewController") as? ComposeViewController
         
-        let modal = controller
-        let transitionDelegate = SPStorkTransitioningDelegate()
-        modal?.transitioningDelegate = transitionDelegate
-        modal?.modalPresentationStyle = .custom
-        self.present(modal!, animated: true, completion: nil)
+        presentAsStork(controller!, height: nil)
+//        let modal = controller
+//        let transitionDelegate = SPStorkTransitioningDelegate()
+//        modal?.transitioningDelegate = transitionDelegate
+//        modal?.modalPresentationStyle = .custom
+//        self.present(modal!, animated: true, completion: nil)
     }
 }
 
@@ -298,21 +299,7 @@ extension UIImageView {
     }
 }
 
-//
-//extension URL {
-//    func load() {
-//        let webViewController = SFSafariViewController(url: self)
-//        if #available(iOS 10.0, *) {
-//            webViewController.preferredControlTintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//            webViewController.preferredBarTintColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-//            webViewController.configuration.accessibilityNavigationStyle = .combined
-//        }
-//        present(webViewController, animated: true, completion: nil)
-//    }
-//}
-
 extension UIImage {
-    
     public static func loadFrom(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
         DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url) {

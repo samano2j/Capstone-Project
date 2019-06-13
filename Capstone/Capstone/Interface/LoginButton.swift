@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SparrowKit
 
 var kLoginButtonBackgroundColor = UIColor(displayP3Red: 31/255, green: 75/255, blue: 164/255, alpha: 1)
 let kLoginButtonTintColor = UIColor.white
@@ -21,7 +22,8 @@ class LoginButton: UIButton {
 
     private func configureUI() {
         self.backgroundColor = kLoginButtonBackgroundColor
-        self.layer.cornerRadius = kLoginButtonCornerRadius
+//        self.layer.cornerRadius = kLoginButtonCornerRadius
+        self.viewWithTag(101)!.addCornerRadiusAnimation(to: kLoginButtonCornerRadius, duration: 1.3)
         self.tintColor = kLoginButtonTintColor
         self.titleLabel?.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 14)
     }

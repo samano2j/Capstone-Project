@@ -43,7 +43,6 @@ final class BasicExampleViewController: ChatViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
     }
-    
 }
 
 // MARK: - MessagesDisplayDelegate

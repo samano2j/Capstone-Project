@@ -53,10 +53,8 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
             spinner.startAnimating()
         }
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            let _ = ChatMainViewController.chat.Authenticate(username: LoginViewController.username, password: LoginViewController.password, delegate: self!)
-//            ChatMainViewController.ChatSubscribedRooms.removeAll()
-//            ChatMainViewController.ChatUnsubscribedRooms.removeAll()
-            
+            let _ = ChatMainViewController.chat.Authenticate(username: "christian", delegate: self!)
+//            let _ = ChatMainViewController.chat.Authenticate(username: LoginViewController.username, password: LoginViewController.password, delegate: self!)
             let joined = self?.initialize(rooms: ChatMainViewController.chat.GetCurrentRooms())
             let available = self?.initialize(rooms: ChatMainViewController.chat.GetJoinableRooms())
             
@@ -81,7 +79,6 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     
     @objc
     func createRoom() {
-//        segueToContactViewController()
         let ac = UIAlertController(title: "Create Room", message: "Enter the name of the room", preferredStyle: .alert)
         ac.addTextField()
 
@@ -102,30 +99,6 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
         ac.addAction(cancelAction)
         present(ac, animated: true)
     }
-    
-//    func createSwitch() -> UISwitch{
-//        let switchControl = UISwitch(frame: CGRect(x: 10, y: 20, width: 10, height: 10));
-//        switchControl.isOn = true
-//        switchControl.setOn(true, animated: false);
-//        switchControl.addTarget(self, action: #selector(switchValueDidChange), for: .valueChanged)
-//        return switchControl
-//    }
-//
-//    @objc func switchValueDidChange(sender: UISwitch!){
-//        print("Switch Value : \(sender.isOn))")
-//    }
-    
-//    public func segueToContactViewController() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let controller = storyboard.instantiateViewController(withIdentifier: "createRoomViewController") as? CreateRoomViewController
-//
-//        let modal = controller
-//        let transitionDelegate = SPStorkTransitioningDelegate()
-//        transitionDelegate.customHeight = 450
-//        modal?.transitioningDelegate = transitionDelegate
-//        modal?.modalPresentationStyle = .custom
-//        self.present(modal!, animated: true, completion: nil)
-//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch segmentControl.selectedSegmentIndex {
@@ -183,23 +156,12 @@ class ChatMainViewController: UIViewController, UITableViewDelegate, UITableView
     func initialize(rooms: [PCRoom]) -> [ChatMessage] {
         var first_message = ""
         var date = Date()
-        var name = ""
         var messages: [ChatMessage] = []
         for room in rooms {
             let msgs = ChatMainViewController.chat.FetchMessages(room: room, limit: 1)
             for msg in msgs {
                 if (room.users.count > 2) {
                     first_message.append(msg.sender.displayName + ": ")
-                }
-                let roo = room.users.count
-                print ("\(room.name) has \(roo)")
-                if (room.users.count == 2) {
-                    if var index = room.users.index(where: { $0.id == ChatMainViewController.chat.currentUser?.id}) {
-                        index = 1 - index
-                        name = room.users[index].displayName
-                    }
-                } else {
-                    name = room.name
                 }
                 date = msg.createdAtDate
                 
