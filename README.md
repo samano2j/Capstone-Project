@@ -3,6 +3,8 @@
 ## TheraComm
 TheraComm is an iOS-based mobile application that incorporates the core features of an email system and a chat system. ​Thus, allowing the patient to not only communicate with the therapist without having to meet up face-to-face, but also have the communication in real time.
 
+![](push notification.gif)
+
 ## Project Scope
 The scope of the project is to create an iOS-based application which will include the core features of an email system and a chat system. The following are the requirements for this project.
 
